@@ -1,0 +1,108 @@
+[gd_scene load_steps=9 format=3 uid="uid://dop7gjifv7ktv"]
+
+[ext_resource type="Script" uid="uid://p77psgtorq2d" path="res://Scripts/player_controlls.gd" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://lq3gk3n21iqu" path="res://Assets/MC_tmp.png" id="1_v0iea"]
+[ext_resource type="Texture2D" uid="uid://bh4f8y3pgnjuh" path="res://Assets/MC_tmp_dash.png" id="2_6t5aa"]
+[ext_resource type="Texture2D" uid="uid://6gjnvr5u5ytk" path="res://Assets/MC_tmp_heavy_attack.png" id="3_fkybt"]
+[ext_resource type="Texture2D" uid="uid://hhipx4n1s0b0" path="res://Assets/MC_tmp_light attack.png" id="4_vgqql"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fkybt"]
+size = Vector2(7.619051, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vgqql"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_6t5aa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_6t5aa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_6t5aa")
+}],
+"loop": false,
+"name": &"dash",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_fkybt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_fkybt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_fkybt")
+}],
+"loop": false,
+"name": &"heavy_atk",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v0iea")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_vgqql")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_vgqql")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_vgqql")
+}],
+"loop": false,
+"name": &"light_atk",
+"speed": 12.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fkybt"]
+polygon = PackedVector2Array(-91.5, -240, -104.5, -240, -110.3, -234, -111.9, -234, -116.5, -220.3, -116.5, -211.6, -109.1, -192.1, -114.5, -198.9, -114.5, -200.3, -116.8, -201.3, -128.5, -192, -128.5, -183.6, -123.5, -172.7, -123.5, -170.3, -115.5, -160.3, -115.5, -158.1, -109.4, -153, -117.3, -153, -121.5, -148.8, -121.5, -138.3, -115.5, -130.4, -115.5, -128.2, -105.5, -118.2, -105.5, -117, -110.2, -113, -113.1, -113, -111.5, -107, -111.5, -103.2, -95.5, -87.2, -95.5, -85.600006, -94, -85.100006, -96, -84, -99.5, -84, -93.5, -69.7, -93.5, -67.100006, -86.5, -61.100006, -86.5, -59.5, -81.399994, -58, -82.600006, -56, -83.7, -56, -84.8, -53.800003, -77.5, -44.399994, -77.5, -42.699997, -66.5, -37.800003, -66.5, -33.899994, -63.5, -31.899994, -63.5, -30.600006, -52.5, -26.600006, -52.5, -24.600006, -47.5, -25.5, -47.5, -21.800003, -39.5, -17.800003, -39.5, -15.800003, -24.300003, -17, -22.699997, -17, -21.5, -14.5, -21.5, -12.399994, -10.199997, -9.899994, -18.100006, -4, -20.399994, -4, -39.300003, 16, -40.600006, 16, -52.600006, 34, -53.699997, 34, -69.7, 66, -70.899994, 66, -89.5, 116.600006, -89.5, 119.5, -101.5, 143.5, -101.5, 146.29999, -124.5, 182.4, -124.5, 184.20001, -145.5, 206.20001, -145.5, 206.79999, -156.5, 213.9, -156.5, 214.6, -177.9, 223, -192, 223, -201.9, 216, -205.1, 207, -205.5, 199.5, -199.5, 189.6, -199.5, 188.20001, -192.5, 185.29999, -182.8, 185, -172.5, 189.29999, -172.5, 192.20001, -164.5, 188.20001, -164.5, 184, -174.5, 176, -174.5, 174.6, -188.2, 170, -194.9, 170, -205.9, 174, -208.3, 174, -222.4, 187, -223.6, 187, -224.5, 188.29999, -224.5, 221.9, -212.5, 234.79999, -212.5, 236.4, -202.6, 240, -157.5, 240, -154, 238, -151.8, 238, -121.8, 212, -120.5, 212, -88.600006, 166, -77.5, 177.79999, -77.5, 179.20001, -66.5, 185.20001, -66.5, 186.4, -55.800003, 190, -42, 190, -30, 184, -27.699997, 184, -20.699997, 177, -19.300003, 177, -13.199997, 166, -11.600006, 166, -10.5, 145.1, -10.5, 140.1, -25.699997, 126, -30.300003, 126, -33.5, 129.20001, -33.5, 131.79999, -28.300003, 137, -26.300003, 145.4, -30.5, 156.6, -30.5, 158, -38.5, 164, -46.5, 166.4, -46.5, 167, -55, 167, -62, 163, -63.5, 163, -73.5, 150, -76.899994, 136, -74.5, 123.20001, -74.5, 120.600006, -63.5, 105.70001, -63.5, 104, -47.5, 91, -47.5, 90.100006, -26.5, 78.20001, -26.5, 77.399994, 66.899994, 42, 70, 42, 95, 28, 97.29999, 28, 107.20001, 19, 109.399994, 19, 123.399994, 2, 124.899994, 2, 130.9, -16, 132.5, -16, 132.5, -40.300003, 125.399994, -64.600006, 127.5, -67.3, 140.9, -74, 143.20001, -74, 154.9, -83.7, 223.29999, -71, 224.5, -71, 224.5, -79.8, 160.9, -103, 160.20001, -103, 159.5, -106.399994, 159.5, -110.600006, 154.5, -117.7, 154.5, -119.9, 142.5, -130, 142.5, -131.5, 132.5, -134.5, 132.5, -136, 111, -136, 92, -126, 89.5, -126, 77.5, -109, 75.79999, -109, 71.899994, -86.899994, 62.5, -95, 62.5, -96.399994, 9.899994, -117, 8.199997, -117, -29.800003, -145, -31.699997, -145, -59.699997, -174, -60.5, -174, -76.5, -196, -77.3, -196, -88.3, -217, -89, -217, -92, -228, -91.5, -237.9)
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["Player"]]
+script = ExtResource("1_cvnsp")
+
+[node name="Body_collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7.000001)
+scale = Vector2(0.8400009, 0.71999973)
+shape = SubResource("RectangleShape2D_fkybt")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-4.000001, -3)
+scale = Vector2(0.07628062, 0.076280616)
+texture = ExtResource("1_v0iea")
+
+[node name="TMP_sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-4, -4)
+scale = Vector2(0.079998225, 0.07999976)
+sprite_frames = SubResource("SpriteFrames_vgqql")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="dmg_zone" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="H_atk_collider" type="CollisionPolygon2D" parent="dmg_zone"]
+position = Vector2(0, -7)
+polygon = PackedVector2Array(0, 7, 8, -5, 14, -7, 22, 0, 15, 7)
+
+[node name="L_atk_collider" type="CollisionPolygon2D" parent="dmg_zone"]
+position = Vector2(0, -7)
+polygon = PackedVector2Array(8, -5, 14, -3, 19, 1, 0, 7)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+position = Vector2(-4.000001, -3)
+scale = Vector2(0.07628062, 0.076280616)
+occluder = SubResource("OccluderPolygon2D_fkybt")
+
+[connection signal="animation_finished" from="TMP_sprite" to="." method="player_animation_finished"]

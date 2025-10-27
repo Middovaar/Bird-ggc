@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfgaa72nwukfb"]
+
+[ext_resource type="Script" uid="uid://b8ykj5t0oxhjx" path="res://Scripts/enemy_2.gd" id="1_527ua"]
+[ext_resource type="Texture2D" uid="uid://i1tjcv5bkvf8" path="res://Assets/enemy_2.png" id="1_t3d2o"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_527ua"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_t3d2o")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_527ua"]
+radius = 5.0990195
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_48bj6"]
+radius = 5.0
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_527ua")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.02050781, 0.02050781)
+sprite_frames = SubResource("SpriteFrames_527ua")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_527ua")
+
+[node name="Timer" type="Timer" parent="." groups=["Enemy"]]
+autostart = true
+
+[node name="hitbox" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("CircleShape2D_48bj6")
+debug_color = Color(0.9977496, 0, 0.16920552, 0.41960785)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
