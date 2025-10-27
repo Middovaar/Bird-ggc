@@ -3,3 +3,5 @@
 [node name="GameHead" type="Node2D"]
 
 [node name="Container" type="Node" parent="."]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
