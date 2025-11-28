@@ -1,0 +1,97 @@
+[gd_scene load_steps=7 format=3 uid="uid://dp3faxroxnp21"]
+
+[ext_resource type="Texture2D" uid="uid://bhi18nrtnofs6" path="res://Assets/tiles_1.png" id="1_p71tf"]
+[ext_resource type="Script" uid="uid://3yvn871nywu3" path="res://Scenes/Areas/klo_test_fight.gd" id="1_pxfay"]
+[ext_resource type="PackedScene" uid="uid://dop7gjifv7ktv" path="res://Scenes/player.tscn" id="2_pxfay"]
+[ext_resource type="PackedScene" uid="uid://c24onqsqw758w" path="res://Scenes/Klo.tscn" id="4_pxfay"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2s02b"]
+texture = ExtResource("1_p71tf")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:0/0 = 0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:0/0 = 0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:1/0 = 0
+3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:1/0 = 0
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:1/0 = 0
+5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:2/0 = 0
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:2/0 = 0
+3:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:3/0 = 0
+0:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:3/0 = 0
+1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:3/0 = 0
+2:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:3/0 = 0
+3:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+0:7/0 = 0
+0:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:7/0 = 0
+1:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:7/0 = 0
+2:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:7/0 = 0
+3:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_716ga"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_2s02b")
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_pxfay")
+
+[node name="terrain" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_716ga")
+format = 2
+layer_0/tile_data = PackedInt32Array(65532, 0, 3, 65533, 65536, 3, 65534, 65536, 3, 65535, 65536, 3, 0, 65536, 3, 1, 65536, 3, 2, 65536, 3, 3, 65536, 3, 4, 65536, 3, 5, 65536, 3, 6, 65536, 3, 7, 65536, 3, 8, 65536, 3, 9, 65536, 3, 10, 65536, 3, 11, 65536, 3, 12, 65536, 3, 13, 65536, 3, 14, 65536, 3, 15, 65536, 3, 16, 65536, 3, 17, 65536, 3, 18, 65536, 3, 19, 65536, 3, 20, 65536, 3, 21, 65536, 3, 22, 65536, 3, 23, 65536, 3, 24, 65536, 3, 25, 65536, 3, 26, 65536, 3, 27, 65536, 3, 28, 65536, 3, 29, 65536, 3, 30, 65536, 3, 31, 65536, 3, 32, 65536, 3, 33, 65536, 3, 34, 65536, 3, 35, 65536, 3, 36, 65536, 3, 37, 65536, 3, 38, 65536, 3, 39, 65536, 3, 40, 65536, 3, 41, 65536, 3, 42, 65536, 3, 43, 65536, 3, 44, 131072, 3, -65495, 196608, 6, -131031, 196608, 5, -65514, 196608, 6, -131050, 196608, 5, -196586, 196608, 5, -262122, 196608, 5, -327658, 196608, 5, -196567, 196608, 4, -393194, 196608, 4)
+
+[node name="player" parent="." instance=ExtResource("2_pxfay")]
+position = Vector2(504, -1)
+
+[node name="klo" parent="." instance=ExtResource("4_pxfay")]
+position = Vector2(664, -49)
+
+[node name="klo_patrol_1" type="Marker2D" parent="."]
+position = Vector2(664, -48)
+
+[node name="klo_patrol_2" type="Marker2D" parent="."]
+position = Vector2(360, -97)

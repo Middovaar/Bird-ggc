@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://c24onqsqw758w"]
+
+[ext_resource type="Script" uid="uid://cnunslwqqo7eq" path="res://Scenes/klo.gd" id="1_7hea7"]
+[ext_resource type="Texture2D" uid="uid://i1tjcv5bkvf8" path="res://Assets/enemy_2.png" id="1_t3d2o"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_527ua"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_t3d2o")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7hea7"]
+radius = 82.0975
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5yl35"]
+radius = 37.01351
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_48bj6"]
+radius = 5.0
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_7hea7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0.24999952, -4.7500005)
+scale = Vector2(0.02050781, 0.02050781)
+sprite_frames = SubResource("SpriteFrames_527ua")
+animation = &"idle"
+
+[node name="Timer" type="Timer" parent="." groups=["Enemy"]]
+autostart = true
+
+[node name="alert" type="Area2D" parent="."]
+position = Vector2(0.24999952, -4.7500005)
+
+[node name="alert_range" type="CollisionShape2D" parent="alert"]
+position = Vector2(-0.24999952, -0.24999952)
+shape = SubResource("CircleShape2D_7hea7")
+
+[node name="engage" type="Area2D" parent="."]
+
+[node name="engage_range" type="CollisionShape2D" parent="engage"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_5yl35")
+debug_color = Color(0.73731077, 0.2243891, 0.99999994, 0.41960785)
+
+[node name="hitbox" type="Area2D" parent="."]
+position = Vector2(0.24999952, -4.7500005)
+collision_layer = 3
+collision_mask = 3
+
+[node name="hurtbox" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("CircleShape2D_48bj6")
+debug_color = Color(0.9977496, 0, 0.16920552, 0.41960785)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="alert" to="." method="_on_alert_area_entered"]
+[connection signal="area_exited" from="alert" to="." method="_on_alert_area_exited"]
+[connection signal="area_entered" from="engage" to="." method="_on_engage_area_entered"]
+[connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]

@@ -25,7 +25,7 @@ var atk_charge_goal = 0.7
 var atk_charge_now = 0
 
 func _ready():
-	Global.player_body = self
+	Global.player_body = $hurtbox
 	Global.player_dmg_zone = $dmg_zone
 	$TMP_sprite.animation = "idle"
 	H_atk_collider.set_disabled(true)
