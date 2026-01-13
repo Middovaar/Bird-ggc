@@ -12,13 +12,8 @@ config_version=5
 
 config/name="Birdgame"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-config/icon="res://Art/icon.svg"
+config/icon="res://GFX/Icons/icon.svg"
 
 [dotnet]
 
 project/assembly_name="Birdgame"
-
-[rendering]
-
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
