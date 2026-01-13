@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 var chasing: bool
 var dir: Vector2
-var player: CharacterBody2D
+var player: Area2D
 
 func _ready():
 	chasing = false
