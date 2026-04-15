@@ -33,6 +33,45 @@ extends CharacterBody2D
 ## [br] [br]
 ## [b]Base Value[/b] = [code]-400.0px/Δt[/code]
 @export_range(-600.0, -100.0, 5.0, "or_less", "prefer_slider", "suffix:px/Δt") var JumpSpeed:float = -400.0
+
+## Movement Speed Decay Factor
+## [br] [br]
+## Controls the speed at which movement decays over time if the Player were to release all buttons.
+## Measured in Δ𝑽/Δt, essentially the decay of velocity over every second. You could also consider it to be
+## the square root of acceleration. Lower values indicate slower deceleration. Higher indicates faster.
+## At infinity, deceleration is instant. At 0, no deceleration happens.
+## [br] [br]
+## [b]Base Value[/b] = [code]4.0 Δ𝑽/Δt[/code]
+@export_range(0.0, 8.0, 0.1, "or_greater", "prefer_slider", "suffix:Δ𝑽/Δt") var MovSpeedDecayFactor:float = 4.0
+## Trailing Movement Speed Decay Factor
+## [br] [br]
+## Controls the slower decay of stored movement speed.
+## Normally, when a player swaps directions in quick succession - the game uses this value to protect
+## the hitherto attained velocity, thus circumventing having to use [param func EaseInOut]. This makes
+## quick movement changes snappier at speed; but maintains the previous feel for slower more methodical
+## movement. At 0, no decay happens. At invinity, decay is total
+## [br] [br]
+## [b]Base Value[/b] = [code]-0.15 Δ𝑽/Δt[/code]
+@export_range(-1.0, 0.0, 0.01, "or_less", "prefer_slider", "suffix:Δ𝑽/Δt") var TrailingMovSpeedDecay:float = -0.15
+## Trailing Movement Speed Decay Limit
+## [br] [br]
+## Controls when the game should trail the decay the movement,
+## Normally, stored velocity is decayed using [param MovSpeedDecayFactor]; only to decay slower once the decay
+## reaches a velocity threshold. Beyond this threshold, the value decays much more slowly, to create a snappier feel
+## @experimental: Playing around with this value close to the accepted limits can create some unintended effects
+## [br] [br]
+## [b]Base Value[/b] = [code]50% of BaseMovSpeed[/code]
+@export_range(0.0, 100, 1.0, "or_less", "prefer_slider", "suffix:%BaseMovSpeed") var TrailingMovSpdDecayLimit:float = 50
+## No Input Trailing Movement Speed Decay
+## [br] [br]
+## Controls how fast the game should decay your speed if you release all buttons. No Input.
+## This is currently set as lower than the normal ammount. [code]100%[/code] means that the slowdown is the same as the normal
+## decay rate. [code]0%[/code] is the same as no slowdown. When the player releases all buttons, the player model will slide endlessly.
+## @deprecated: This might cause some game-breaking glitches at [code]0%[/code] due to division errors.
+## [br] [br]
+## [b]Base Value[/b] = [code]37.5%[/code]
+@export_range(0.0, 100, 0.5, "or_less", "prefer_slider", "suffix:%MovSpdDecay") var NoInputModSpdDecay:float = 37.5
+
 ## Is the Player able to Dash?
 ## [br] [br]
 ## This controls if the player is allowed to dash. If this is not active, pressing the Dash Button does [b]NOTHING[/b]!
@@ -76,6 +115,21 @@ extends CharacterBody2D
 ## [br] [br]
 ## [b]Base Value[/b] = [code]Yes[/code] but not to [code]Enviromental Hazards[/code]
 @export_enum("No:0", "Yes -Enviromental Hazards:1", "Yes:2", "Yes +Jump Speed:3") var DashIFrames:int = 1
+@export_subgroup("Player Movement")
+## Is the Player able to Sneak?
+## [br] [br]
+## This controls if the player is allowed to sneak. Sneaking happens when players push [param Left] and [param Right] at the same time!
+## [br] [br]
+## [b]Base Value[/b] = [code]true[/code]
+@export var PlayerMaySneak:bool = true
+@export_subgroup("Player Movement/Sneaking")
+## Sneaking Speed
+## [br] [br]
+## Controls how fast sneaking is. A value of [code]0.0[/code] means the Player will immediately stop when sneaking.
+## [br] [br]
+## [b]Base Value[/b] = [code]70%[/code]
+@export_range(0.0, 100.0, 0.5, "prefer_slider", "suffix:%") var SneakingSpeed:float = 70.0
+
 #endregion
 #region Player Damage
 @export_subgroup("Player Damage")
@@ -132,7 +186,7 @@ extends CharacterBody2D
 
 ## Normal Movement
 var TimeSpentAccelerating:Vector2 = Vector2(0, 0) # For how long have the player been accelerating? X = Left, Y = Right
-var CurrentVelocity:Vector2 = Vector2(0, 0)
+var RawVelocity:Vector2 = Vector2(0, 0)
 var AcceleratingDirection:Vector2 = Vector2(0, 0)
 var prevInput:int
 var ChangeDirectionCharger:float = 1.0
@@ -160,10 +214,10 @@ func _physics_process(delta):
 		self.velocity += get_gravity() * delta #Self will be pulled down if in air
 	#endregion
 	
+	#region Movement
 	
 	#region Movement Left-Right
-	
-	
+	## Not the prettiest shit, but who tf cares
 	if Input.is_action_pressed("Left") and not Input.is_action_pressed("Right"):
 		AcceleratingDirection = Vector2(1, 0)
 	elif Input.is_action_pressed("Right") and not Input.is_action_pressed("Left"):
@@ -172,47 +226,79 @@ func _physics_process(delta):
 		AcceleratingDirection = Vector2(1, 1)
 	else:
 		AcceleratingDirection = Vector2(0, 0)
+	#endregion
 	
+	#region Movement Jump
+	## You press jump - you jump, simple as.
 	if Input.is_action_just_pressed("Jump"):
-		velocity.y = JumpSpeed
+		if self.is_on_floor(): #...but you have to be on the floor of course
+			velocity.y = JumpSpeed
+		elif DashResetsJump == 1 and IsDashing: #... or you are dashing, and may do so through dash I-frame jump resets
+			velocity.y = JumpSpeed
+		#elif DashResetsJump == 2 and IsDashing: #This should ONLY be turned on if we enable powerups
+			#velocity.y = JumpSpeed
+		else: #... else, you may not jump.
+			pass
 	
+	#endregion
 	
+	#region Walking Acceleration Calculator
+	## When the player presses, say [Left], this will calculate for how long the player has pressed that key
+	## up to the TimeToReachMaxSpeed variable, row 28. Based on this, one can calculate how far one is up
+	## the track towards max speed. so 0 = 0 speed, and when this is equal to TimeToReachMaxSpeed, then
+	## speed would be equal to the maximum player speed.
 	if AcceleratingDirection == Vector2(1, 0) and TimeSpentAccelerating.x < TimeToReachMaxSpeed: # Player presses the Left Button
 		TimeSpentAccelerating.x += 1 * delta #Counts seconds held.
 	if AcceleratingDirection == Vector2(0, 1) and TimeSpentAccelerating.y < TimeToReachMaxSpeed: # Player presses the Right Button
 		TimeSpentAccelerating.y += 1 * delta #Counts seconds held.
+	#endregion
 	
+	#endregion
 	
+	#region Deacceleration Calculator
+	## This code exists to handle deacceleration, both when no key is held, only one is, or both are.
+	## There are formulated in a Vector2, where X represents the [Left] key, and Y represents the [Right]
+	## key.
+	##
+	## The logic behind this is to create a snappy feel when shuffling around rather than have to constantly be
+	## eased in and out if you happen to accidentally release a movement key.
 	match AcceleratingDirection:
-		Vector2(0, 0):
+		Vector2(0, 0): # No key is held, everything decreases fast.
 			if TimeSpentAccelerating.x > 0.0:
-				TimeSpentAccelerating.x -= 1.5 * delta
+				TimeSpentAccelerating.x -= (MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta
 			if TimeSpentAccelerating.y > 0.0:
-				TimeSpentAccelerating.y -= 1.5 * delta
-		Vector2(1, 0):
-			if TimeSpentAccelerating.y > 0.5:
-				TimeSpentAccelerating.y -= 4 * delta
-			if TimeSpentAccelerating.y <= 0.5 and TimeSpentAccelerating.y > 0.0:
-				TimeSpentAccelerating.y -= 0.15 * delta
-		Vector2(0, 1):
-			if TimeSpentAccelerating.x > 0.5:
-				TimeSpentAccelerating.x -= 4 * delta
-			if TimeSpentAccelerating.x <= 0.5 and TimeSpentAccelerating.x > 0.0:
-				TimeSpentAccelerating.x -= 0.15 * delta
-		Vector2(1, 1):
-			TimeSpentAccelerating = Vector2 (0.8, 0.8)
+				TimeSpentAccelerating.y -= (MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta
+		Vector2(1, 0): # [Left] is held, only [Right] decays fast, but then more slowly.
+			if TimeSpentAccelerating.y > TrailingMovSpdDecayLimit*0.01:
+				TimeSpentAccelerating.y -= MovSpeedDecayFactor * delta
+			if TimeSpentAccelerating.y <= TrailingMovSpdDecayLimit*0.01 and TimeSpentAccelerating.y > 0.0:
+				TimeSpentAccelerating.y += TrailingMovSpeedDecay * delta
+		Vector2(0, 1): # [Right] is held, only [Left] decays fast, but then more slowly.
+			if TimeSpentAccelerating.x > TrailingMovSpdDecayLimit*0.01:
+				TimeSpentAccelerating.x -= MovSpeedDecayFactor * delta
+			if TimeSpentAccelerating.x <= TrailingMovSpdDecayLimit*0.01 and TimeSpentAccelerating.x > 0.0:
+				TimeSpentAccelerating.x += TrailingMovSpeedDecay * delta
+		Vector2(1, 1): # [Left]+[Right] is held, decay to 0.7, and hold there (don't cancel movement).
+					   # This is technically equivalent to sneaking and is called such.
+					   # Can be disabled in the profiler.
+			if PlayerMaySneak:
+				TimeSpentAccelerating = Vector2 (SneakingSpeed, SneakingSpeed)
+			else:
+				if TimeSpentAccelerating.x > 0.0:
+					TimeSpentAccelerating.x -= (MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta * delta
+				if TimeSpentAccelerating.y > 0.0:
+					TimeSpentAccelerating.y -= (MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta * delta
 			
-			#if TimeSpentAccelerating.y > 0.0:
-				#TimeSpentAccelerating.y -= 8 * delta
-			#if TimeSpentAccelerating.x > 0.0:
-				#TimeSpentAccelerating.x -= 8 * delta
+	#endregion
 	
-	
-	CurrentVelocity = VelocityCalculator(TimeSpentAccelerating)
+	## Get the Raw Velocity of the player through parsing it through Velocity Calculator
+	RawVelocity = VelocityCalculator(TimeSpentAccelerating)
 	
 	
 	print(velocity.x)
-	velocity.x = PlayerVelocityDresser(CurrentVelocity, delta) * ((2 * IsDashing) + 1)
+	
+	## Assignment of Velocity
+	velocity.x = PlayerVelocityDresser(RawVelocity, delta) * ((2 * IsDashing) + 1)
 	## Moves the body based on the internal velocity vector (Vector2D)
 	move_and_slide()
 
@@ -231,9 +317,12 @@ func PlayAnimation(AnimationType):
 	
 
 
-## Tools DO NOT TOUCH
 
-
+## Using the velocity gathered from previous calculations, use the velocity and the delta to
+## assign appropriate animations, flip the player sprite, and create the slidey deceleration effect 
+## when swapping directions
+## 
+## Move the graphical parts to a separate fuction somewhere, please? This should ONLY dress the velocity
 func PlayerVelocityDresser(velo, del):
 	match AcceleratingDirection:
 		Vector2(0, 0):
@@ -266,16 +355,19 @@ func PlayerVelocityDresser(velo, del):
 			if prevInput == 0 and ChangeDirectionCharger >= 0.0:
 				ChangeDirectionCharger -= 0.1 * del
 				return (-velo.x + (velo.y * 0.5))*ChangeDirectionCharger
-	
-	
 
+
+##### Tools - DO NOT TOUCH #####
+
+## Converts the time spent holding down a key, into character velocity
 func VelocityCalculator(Acceleration:Vector2):
 	var rawInput = (Acceleration / TimeToReachMaxSpeed)
 	var ProcessedInput = Vector2(EaseInOut(rawInput.x), EaseInOut(rawInput.y)) * BaseMovSpeed
 	
 	return ProcessedInput
 
-func EaseInOut(val:float) -> float:
+## Ease I-O function that controls the acceleration of the player etc.
+func EaseInOut(val:float) -> float: 
 	# Normalize the input to the domain of the function
 	var x = clamp(val, 0.0, 1.0)
 	if x < 0.5:
