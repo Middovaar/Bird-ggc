@@ -195,7 +195,7 @@ var ChangeDirectionCharger:float = 1.0
 var IsDashing:int = 0
 var DashTimer:float = 0.0
 
-const JUMP_VELOCITY = -400.0
+const JUMP_VELOCITY = -300.0
 
 func _ready():
 	#region Data that will be pulled from the Main goes here
