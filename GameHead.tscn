@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://bsvionff2ufqt"]
 
 [ext_resource type="Script" uid="uid://b8hlar4prias1" path="res://Main.gd" id="1_6o3g0"]
-[ext_resource type="Texture2D" uid="uid://bu7bsmiedfuf7" path="res://GFX/Db_tile_mvp.png" id="2_6dhba"]
+[ext_resource type="Texture2D" uid="uid://bu7bsmiedfuf7" path="res://GFX/OLDDb_tile_mvp.png" id="2_6dhba"]
 [ext_resource type="Script" uid="uid://d3hfdoeqfv6y" path="res://camera.gd" id="3_c63qg"]
 [ext_resource type="Script" uid="uid://bijtienw8gt37" path="res://Character.gd" id="4_nlm5j"]
 [ext_resource type="Texture2D" uid="uid://dgxnr6e86pi0b" path="res://GFX/Sprites/Saffron/SaffronStanding.png" id="5_45hdg"]
