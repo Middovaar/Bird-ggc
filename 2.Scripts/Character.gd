@@ -10,6 +10,12 @@ extends CharacterBody2D
 ## [br] [br]
 ## [b]Base Value[/b] = [code]100 HP[/code]
 @export_range(1, 250, 1, "or_greater", "suffix:HP") var MaxHP:int = 100
+## Current HP
+## [br] [br]
+## Current HP of the Player
+## [br] [br]
+## [b]Base Value[/b] = [code]100 HP[/code]
+@export_range(1, 250, 1, "or_greater", "suffix:HP") var CurrentHP:int = 100
 
 #region Player Movement
 ## Base player parameters used by the game to determine what is "normal" for the player
@@ -32,7 +38,7 @@ extends CharacterBody2D
 ## Does not determine the strength of the dash.
 ## [br] [br]
 ## [b]Base Value[/b] = [code]-400.0px/Δt[/code]
-@export_range(-600.0, -100.0, 5.0, "or_less", "prefer_slider", "suffix:px/Δt") var JumpSpeed:float = -400.0
+@export_range(-900.0, -100.0, 5.0, "or_less", "prefer_slider", "suffix:px/Δt") var JumpSpeed:float = -500.0
 
 ## Movement Speed Decay Factor
 ## [br] [br]
@@ -169,10 +175,31 @@ extends CharacterBody2D
 @export_group("Player Damage/Damage Overrides") 
 @export_range(0, 50, 1, "or_greater", "suffix:dmg") var LightAttackDamage:int = 1
 @export_range(0, 50, 1, "or_greater", "suffix:dmg") var HeavyAttackDamage:int = 2
-@export_range(0, 50, 1, "or_greater", "suffix:dmg") var DashAttackDamage:int = 0
+@export_range(0, 50, 1, "or_greater", "suffix:dmg") var DashAttackDamageBonus:int = 0
 @export_range(0, 50, 1, "or_greater", "suffix:dmg") var JumpAttackDamage:int = 0
 @export_range(0, 50, 1, "or_greater", "suffix:dmg") var JumpDashAttackDamage:int = 0
 @export_range(0, 50, 1, "or_greater", "suffix:dmg") var SpecialAttackDamage:int = 0
+
+@export_group("Player Damage/Attack Speed") 
+## Light Attack Speed
+## 
+## Controls how fast the the player may dish out attacks. Essentially, it's a time gate that doesn't allow attacks
+## with a smaller separation than this, measured in seconds.
+## [br]
+## Setting this value to [code]0.0[/code] means you can spam this attack
+## [br] [br]
+## [b]Base Value[/b] = [code]0.3 sec[/code]
+@export_range(0, 2.0, 0.02, "or_greater", "prefer_slider", "suffix:sec") var LightAttackSpeed:float = 0.3
+## Heavy Attack Speed
+## 
+## Controls how fast the the player may dish out heavy attacks. Essentially, it's a time gate that doesn't allow attacks
+## with a smaller separation than this, measured in seconds.
+## [br]
+## Setting this value to [code]0.0[/code] means you can spam this attack
+## [br] [br]
+## [b]Base Value[/b] = [code]0.6 sec[/code]
+@export_range(0, 2.0, 0.02, "or_greater", "prefer_slider", "suffix:sec") var HeavyAttackSpeed:float = 0.6
+
 #endregion
 
 
@@ -195,7 +222,14 @@ var ChangeDirectionCharger:float = 1.0
 var IsDashing:int = 0
 var DashTimer:float = 0.0
 
-const JUMP_VELOCITY = -300.0
+##Attacks
+signal Attacking(Victim, AtkType, Damage)
+
+var LightAtkHitting:Area2D
+var HeavyAtkHitting:Area2D
+var AtkGateKeeper:bool
+
+
 
 func _ready():
 	#region Data that will be pulled from the Main goes here
@@ -253,6 +287,16 @@ func _physics_process(delta):
 		TimeSpentAccelerating.y += 1 * delta #Counts seconds held.
 	#endregion
 	
+	#region Dashing
+	if IsDashing and DashTimer < DashTime:
+		DashTimer +=  delta
+	if IsDashing and DashTimer >= DashTime:
+		IsDashing = 0
+	if IsDashing == 0  and DashTimer > 0.0:
+		DashTimer -= 1 * delta # 1 is Dash Recharge Rate
+		
+	#endregion
+	
 	#endregion
 	
 	#region Deacceleration Calculator
@@ -294,21 +338,41 @@ func _physics_process(delta):
 	## Get the Raw Velocity of the player through parsing it through Velocity Calculator
 	RawVelocity = VelocityCalculator(TimeSpentAccelerating)
 	
-	
-	print(velocity.x)
-	
 	## Assignment of Velocity
-	velocity.x = PlayerVelocityDresser(RawVelocity, delta) * ((2 * IsDashing) + 1)
+	if IsDashing == 0 and DashTimer <= 0.0:
+		velocity.x = PlayerVelocityDresser(RawVelocity, delta)
+	if IsDashing == 0 and DashTimer > 0.0:
+		velocity.x = lerpf(velocity.x, PlayerVelocityDresser(RawVelocity, delta) * (abs(DashStrength * DashTimer) + 1), 0.1)
+	if IsDashing == 1:
+		velocity.x = PlayerVelocityDresser(RawVelocity, delta) * (abs(DashStrength) + 1)
+	
+	
 	## Moves the body based on the internal velocity vector (Vector2D)
 	move_and_slide()
 
 
 
 func _input(event):
-	if Input.is_action_just_pressed("Dash"):
+	if Input.is_action_just_pressed("Dash") and IsDashing == 0 and DashTimer <= 0.0:
 		IsDashing = 1
+	
 	if Input.is_action_just_released("Dash"):
 		IsDashing = 0
+	
+	if Input.is_action_just_pressed("LightAtk") and AtkGateKeeper != true:
+		LightAttack()
+	if Input.is_action_just_pressed("HeavyAtk") and AtkGateKeeper != true:
+		HeavyAttack()
+	
+	
+	if Input.is_action_just_pressed("selfHurt"):
+		CurrentHP = CurrentHP-10
+		if CurrentHP < 0:
+			CurrentHP = 0
+	if Input.is_action_just_pressed("selfHeal"):
+		CurrentHP = CurrentHP+10
+		if CurrentHP > MaxHP:
+			CurrentHP = MaxHP
 
 
 func PlayAnimation(AnimationType):
@@ -331,6 +395,8 @@ func PlayerVelocityDresser(velo, del):
 			return (velo.y - velo.x)
 		Vector2(1, 0):
 			%Anim.scale.x = 0.06
+			%LightAtk.scale.x = 1.0
+			%HeavyAtk.scale.x = 1.0
 			if is_on_floor():
 				PlayAnimation("walking")
 			else:
@@ -340,6 +406,8 @@ func PlayerVelocityDresser(velo, del):
 			return (-velo.x + (velo.y * 0.5))
 		Vector2(0, 1):
 			%Anim.scale.x = -0.06
+			%LightAtk.scale.x = -1.0
+			%HeavyAtk.scale.x = -1.0
 			if is_on_floor():
 				PlayAnimation("walking")
 			else:
@@ -361,9 +429,10 @@ func PlayerVelocityDresser(velo, del):
 
 ## Converts the time spent holding down a key, into character velocity
 func VelocityCalculator(Acceleration:Vector2):
-	var rawInput = (Acceleration / TimeToReachMaxSpeed)
-	var ProcessedInput = Vector2(EaseInOut(rawInput.x), EaseInOut(rawInput.y)) * BaseMovSpeed
+	var rawInput = Vector2(clamp(Acceleration.x / TimeToReachMaxSpeed, 0.0, 1.0), clamp(Acceleration.y / TimeToReachMaxSpeed, 0.0, 1.0))
 	
+	
+	var ProcessedInput = Vector2(EaseInOut(rawInput.x), EaseInOut(rawInput.y)) * BaseMovSpeed
 	return ProcessedInput
 
 ## Ease I-O function that controls the acceleration of the player etc.
@@ -374,3 +443,38 @@ func EaseInOut(val:float) -> float:
 		return 2.0 * x * x
 	else:
 		return 1.0 - pow(-2.0 * x + 2.0, 2.0) / 2.0
+
+
+func LightAttack() -> void:
+	%HeavyIndicator.visible = true
+	AtkGateKeeper = true
+	if is_on_floor():
+		emit_signal("Attacking", LightAtkHitting, "Light", LightAttackDamage)
+	else:
+		emit_signal("Attacking", LightAtkHitting, "Light", JumpAttackDamage)
+	
+	await get_tree().create_timer(LightAttackSpeed).timeout
+	%HeavyIndicator.visible = false
+	AtkGateKeeper = false
+
+func HeavyAttack() -> void:
+	var DashBonus = DashAttackDamageBonus if IsDashing else 0 
+	
+	%LightIndicator.visible = true
+	AtkGateKeeper = true
+	if is_on_floor():
+		emit_signal("Attacking", HeavyAtkHitting, "Light", HeavyAttackDamage+DashBonus)
+	else:
+		emit_signal("Attacking", HeavyAtkHitting, "Light", JumpAttackDamage+DashBonus)
+	
+	await get_tree().create_timer(HeavyAttackSpeed).timeout
+	%LightIndicator.visible = false
+	AtkGateKeeper = false
+	
+
+
+func _on_light_atk_area_entered(area):
+	LightAtkHitting = area
+
+func _on_heavy_atk_area_entered(area):
+	HeavyAtkHitting = area
