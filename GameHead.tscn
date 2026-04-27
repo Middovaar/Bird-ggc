@@ -756,7 +756,7 @@ collision_visibility_mode = 1
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1692497270]
 script = ExtResource("3_c63qg")
-CamPositionSpeed = 0.2
+CamPositionSpeed = 1.0
 CamLowZoomSpeed = 0.0
 CamHighZoomSpeed = 0.0
 
@@ -771,8 +771,11 @@ unique_name_in_owner = true
 platform_floor_layers = 15
 platform_wall_layers = 15
 script = ExtResource("4_nlm5j")
-BaseMovSpeed = 350.0
-JumpSpeed = -665.0
+BaseMovSpeed = 500.0
+TimeToReachMaxSpeed = 0.3
+JumpSpeed = -900.0
+MovSpeedDecayFactor = 10.0
+DashDecay = 0.5
 DashAttackDamageBonus = 2
 JumpAttackDamage = 1
 

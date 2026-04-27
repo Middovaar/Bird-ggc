@@ -60,15 +60,17 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	position.y = lerpf(position.y, %Player.position.y, CamPositionSpeed/10)
-	position.x = lerpf(position.x, %Player.position.x + %Player.velocity.x*0.3, CamPositionSpeed*0.5)
-																			#L this should be a special
+	#position.x = lerpf(position.x, %Player.position.x + %Player.velocity.x*0.3, CamPositionSpeed*0.5)
+	position.x = lerpf(position.x, %Player.position.x, CamPositionSpeed*0.5)
+										#L this should be a special
 	
-	if %Player.AcceleratingDirection == Vector2(1,1) or %Player.AcceleratingDirection == Vector2(0,0) and %Player.IsDashing == 0:
-		position = lerp(position, %Player.position, CamPositionSpeed)
-		zoom = lerp(zoom, MiniZoomStrength, CamLowZoomSpeed*0.01)
-	else:
-		if %Player.IsDashing == 1:
-			zoom = lerp(zoom, MaxiZoomStrength, CamHighZoomSpeed*0.001)
-		else:
-			zoom = lerp(zoom, NormalZoomStrength, (CamHighZoomSpeed*6)*0.001)
-	
+	#if %Player.AcceleratingDirection == Vector2(1,1) or %Player.AcceleratingDirection == Vector2(0,0) and %Player.IsDashing == 0:
+		#position = lerp(position, %Player.position, CamPositionSpeed)
+		#zoom = lerp(zoom, MiniZoomStrength, CamLowZoomSpeed*0.01)
+	#else:
+		#if %Player.IsDashing == 1:
+			#zoom = lerp(zoom, MaxiZoomStrength, CamHighZoomSpeed*0.001)
+		#else:
+			#zoom = lerp(zoom, NormalZoomStrength, (CamHighZoomSpeed*6)*0.001)
+	##
+	#pass
