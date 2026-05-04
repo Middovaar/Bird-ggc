@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b6knjrht1aofe"
+path="res://.godot/imported/player_attack_light.mp3-62b9dd3d28d7e4e750569e0b2c65b7c6.mp3str"
+
+[deps]
+
+source_file="res://SOUND/SFX/Player SFX/player_attack_light.mp3"
+dest_files=["res://.godot/imported/player_attack_light.mp3-62b9dd3d28d7e4e750569e0b2c65b7c6.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
