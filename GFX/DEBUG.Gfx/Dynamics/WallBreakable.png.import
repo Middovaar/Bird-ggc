@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bo653228c51tl"
-path="res://.godot/imported/v2preview.png-dfd146bb873961a548a816fab3be5800.ctex"
+uid="uid://co3ka6mjv3yo3"
+path="res://.godot/imported/WallBreakable.png-568b9a6abab213aaf63c047f149195a1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://GFX/PlayerHealthBar/Preview/v2preview.png"
-dest_files=["res://.godot/imported/v2preview.png-dfd146bb873961a548a816fab3be5800.ctex"]
+source_file="res://GFX/DEBUG.Gfx/Dynamics/WallBreakable.png"
+dest_files=["res://.godot/imported/WallBreakable.png-568b9a6abab213aaf63c047f149195a1.ctex"]
 
 [params]
 

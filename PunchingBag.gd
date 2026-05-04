@@ -5,6 +5,7 @@ const Display:String = "Damage: "
 var vibrate 
 
 @export var Iwannabetheguy:bool
+@export_enum("Enemy", "Boss", "Wall") var Type:String
 var Walkingleft:bool = false
 
 # Called when the node enters the scene tree for the first time.
@@ -27,7 +28,7 @@ func _process(delta):
 
 
 func _on_player_attacking(Victim, AtkType, Damage):
-	if self == Victim:
+	if self == Victim and Type == "Enemy":
 		print(Victim)
 		match AtkType:
 			"Light":
@@ -40,6 +41,8 @@ func _on_player_attacking(Victim, AtkType, Damage):
 		
 		$DamageDisplay.text = Display+str(DamageTaken)
 	
+	if self == Victim and Type == "Wall":
+		pass
 
 func Walkies():
 	$DegugKloePunchingBag.set_flip_h(true)

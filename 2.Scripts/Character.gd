@@ -478,3 +478,11 @@ func _on_light_atk_area_entered(area):
 
 func _on_heavy_atk_area_entered(area):
 	HeavyAtkHitting = area
+
+
+func _on_light_atk_area_exited(area):
+	LightAtkHitting = null
+
+
+func _on_heavy_atk_area_exited(area):
+	HeavyAtkHitting = null
