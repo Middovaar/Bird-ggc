@@ -76,8 +76,12 @@ func _on_player_attacking(Victim, AtkType, Damage):
 		match AtkType:
 			"Light":
 				BossHP = clampi(BossHP-Damage, 0, 1000)
+				if randi()%20 < 7:
+					%Player.CurrentHP -= 5
 			"Heavy":
 				BossHP = clampi(BossHP-Damage, 0, 1000)
+				if randi()%20 < 7:
+					%Player.CurrentHP -= 5
 		vibrate = true
 		await get_tree().create_timer(0.2).timeout
 		vibrate = false
