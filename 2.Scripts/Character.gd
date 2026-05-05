@@ -134,7 +134,7 @@ extends CharacterBody2D
 ## Controls how fast sneaking is. A value of [code]0.0[/code] means the Player will immediately stop when sneaking.
 ## [br] [br]
 ## [b]Base Value[/b] = [code]70%[/code]
-@export_range(0.0, 100.0, 0.5, "prefer_slider", "suffix:%") var SneakingSpeed:float = 70.0
+@export_range(0.0, 100.0, 0.5, "prefer_slider", "suffix:%") var SneakingSpeed:float = 15.0
 
 #endregion
 #region Player Damage
@@ -202,8 +202,6 @@ extends CharacterBody2D
 
 #endregion
 
-
-
 #endregion
 
 #endregion
@@ -225,8 +223,8 @@ var DashTimer:float = 0.0
 ##Attacks
 signal Attacking(Victim, AtkType, Damage)
 
-var LightAtkHitting:Area2D
-var HeavyAtkHitting:Area2D
+var LightAtkHitting
+var HeavyAtkHitting
 var AtkGateKeeper:bool
 
 
@@ -309,29 +307,30 @@ func _physics_process(delta):
 	match AcceleratingDirection:
 		Vector2(0, 0): # No key is held, everything decreases fast.
 			if TimeSpentAccelerating.x > 0.0:
-				TimeSpentAccelerating.x -= (MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta
+				TimeSpentAccelerating.x -= max((MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta, 0.0)
 			if TimeSpentAccelerating.y > 0.0:
-				TimeSpentAccelerating.y -= (MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta
+				TimeSpentAccelerating.y -= max((MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta, 0.0)
 		Vector2(1, 0): # [Left] is held, only [Right] decays fast, but then more slowly.
 			if TimeSpentAccelerating.y > TrailingMovSpdDecayLimit*0.01:
-				TimeSpentAccelerating.y -= MovSpeedDecayFactor * delta
+				TimeSpentAccelerating.y -= max(MovSpeedDecayFactor * delta, 0.0)
 			if TimeSpentAccelerating.y <= TrailingMovSpdDecayLimit*0.01 and TimeSpentAccelerating.y > 0.0:
-				TimeSpentAccelerating.y += TrailingMovSpeedDecay * delta
+				TimeSpentAccelerating.y = 0.0
+			
+			
 		Vector2(0, 1): # [Right] is held, only [Left] decays fast, but then more slowly.
 			if TimeSpentAccelerating.x > TrailingMovSpdDecayLimit*0.01:
-				TimeSpentAccelerating.x -= MovSpeedDecayFactor * delta
+				TimeSpentAccelerating.x -= max(MovSpeedDecayFactor * delta, 0.0)
 			if TimeSpentAccelerating.x <= TrailingMovSpdDecayLimit*0.01 and TimeSpentAccelerating.x > 0.0:
-				TimeSpentAccelerating.x += TrailingMovSpeedDecay * delta
-		Vector2(1, 1): # [Left]+[Right] is held, decay to 0.7, and hold there (don't cancel movement).
+				TimeSpentAccelerating.x = 0.0
+		Vector2(1, 1): # [Left]+[Right] is held, decay to 0.15, and hold there (don't cancel movement).
 					   # This is technically equivalent to sneaking and is called such.
 					   # Can be disabled in the profiler.
 			if PlayerMaySneak:
-				TimeSpentAccelerating = Vector2 (SneakingSpeed, SneakingSpeed)
+				TimeSpentAccelerating.x = SneakingSpeed*0.01
+				TimeSpentAccelerating.y = SneakingSpeed*0.01
+				print(TimeSpentAccelerating)
 			else:
-				if TimeSpentAccelerating.x > 0.0:
-					TimeSpentAccelerating.x -= (MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta * delta
-				if TimeSpentAccelerating.y > 0.0:
-					TimeSpentAccelerating.y -= (MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta * delta
+				pass
 			
 	#endregion
 	
@@ -346,6 +345,8 @@ func _physics_process(delta):
 	if IsDashing == 1:
 		velocity.x = PlayerVelocityDresser(RawVelocity, delta) * (abs(DashStrength) + 1)
 	
+	
+	#print(TimeSpentAccelerating, AcceleratingDirection)
 	
 	## Moves the body based on the internal velocity vector (Vector2D)
 	move_and_slide()
@@ -450,6 +451,7 @@ func LightAttack() -> void:
 	AtkGateKeeper = true
 	if is_on_floor():
 		emit_signal("Attacking", LightAtkHitting, "Light", LightAttackDamage)
+		print(LightAtkHitting)
 	else:
 		emit_signal("Attacking", LightAtkHitting, "Light", JumpAttackDamage)
 	
@@ -479,10 +481,8 @@ func _on_light_atk_area_entered(area):
 func _on_heavy_atk_area_entered(area):
 	HeavyAtkHitting = area
 
-
 func _on_light_atk_area_exited(area):
-	LightAtkHitting = null
-
+	LightAtkHitting = area
 
 func _on_heavy_atk_area_exited(area):
-	HeavyAtkHitting = null
+	HeavyAtkHitting = area
