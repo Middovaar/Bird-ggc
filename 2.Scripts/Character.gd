@@ -227,7 +227,14 @@ var LightAtkHitting
 var HeavyAtkHitting
 var AtkGateKeeper:bool
 
+##Animations
+var AnimationtoPlay:String
 
+##Position Resetter
+var PositionAtGameStart
+
+## Sound Manager
+signal Soundtobeplayed(SFX)
 
 func _ready():
 	#region Data that will be pulled from the Main goes here
@@ -235,11 +242,15 @@ func _ready():
 	
 	#endregion
 	
+	AnimationtoPlay = "idle"
+	PositionAtGameStart = position
+	
 	pass
 
 
 
 func _physics_process(delta):
+	print(AnimationtoPlay)
 	#region Gravity
 	## Makes sure that the player charact is affected by gravity
 	if not is_on_floor():
@@ -252,12 +263,33 @@ func _physics_process(delta):
 	## Not the prettiest shit, but who tf cares
 	if Input.is_action_pressed("Left") and not Input.is_action_pressed("Right"):
 		AcceleratingDirection = Vector2(1, 0)
+		if is_on_floor() and Input.is_action_just_pressed("Left") and velocity.x <= 1.0:
+			AnimationtoPlay = "startwalk"
+			PlayAnimation(AnimationtoPlay)
+		if is_on_floor() and Input.is_action_just_pressed("Right") and velocity.x > 1.0:
+			AnimationtoPlay = "walk"
+			PlayAnimation(AnimationtoPlay)
 	elif Input.is_action_pressed("Right") and not Input.is_action_pressed("Left"):
 		AcceleratingDirection = Vector2(0, 1)
+		if is_on_floor() and Input.is_action_just_pressed("Right") and velocity.x <= 1.0:
+			AnimationtoPlay = "startwalk"
+			PlayAnimation(AnimationtoPlay)
+		if is_on_floor() and Input.is_action_just_pressed("Right") and velocity.x > 1.0:
+			AnimationtoPlay = "walk"
+			PlayAnimation(AnimationtoPlay)
 	elif Input.is_action_pressed("Right") and Input.is_action_pressed("Left"):
 		AcceleratingDirection = Vector2(1, 1)
+		if is_on_floor() and PlayerMaySneak:
+			AnimationtoPlay = "sneak"
+			PlayAnimation(AnimationtoPlay)
 	else:
 		AcceleratingDirection = Vector2(0, 0)
+		if is_on_floor() and velocity.x > 0.0: 
+			AnimationtoPlay = "stopwalk"
+			PlayAnimation(AnimationtoPlay)
+		if is_on_floor() and velocity.x < 0.0:
+			AnimationtoPlay = "idle"
+			PlayAnimation(AnimationtoPlay)
 	#endregion
 	
 	#region Movement Jump
@@ -265,12 +297,20 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("Jump"):
 		if self.is_on_floor(): #...but you have to be on the floor of course
 			velocity.y = JumpSpeed
+			if %Anim.animation != "startjump" or "jump":
+				AnimationtoPlay = "startjump"
+				PlayAnimation(AnimationtoPlay)
+		
 		elif DashResetsJump == 1 and IsDashing: #... or you are dashing, and may do so through dash I-frame jump resets
 			velocity.y = JumpSpeed
 		#elif DashResetsJump == 2 and IsDashing: #This should ONLY be turned on if we enable powerups
 			#velocity.y = JumpSpeed
 		else: #... else, you may not jump.
 			pass
+	if Input.is_action_just_released("Jump"):
+		AnimationtoPlay = "stopjump"
+		PlayAnimation(AnimationtoPlay)
+	
 	
 	#endregion
 	
@@ -290,6 +330,12 @@ func _physics_process(delta):
 		DashTimer +=  delta
 	if IsDashing and DashTimer >= DashTime:
 		IsDashing = 0
+		if is_on_floor():
+			AnimationtoPlay = "walk"
+			PlayAnimation(AnimationtoPlay)
+		else:
+			AnimationtoPlay = "jump"
+			PlayAnimation(AnimationtoPlay)
 	if IsDashing == 0  and DashTimer > 0.0:
 		DashTimer -= 1 * delta # 1 is Dash Recharge Rate
 		
@@ -328,7 +374,7 @@ func _physics_process(delta):
 			if PlayerMaySneak:
 				TimeSpentAccelerating.x = SneakingSpeed*0.01
 				TimeSpentAccelerating.y = SneakingSpeed*0.01
-				print(TimeSpentAccelerating)
+				
 			else:
 				pass
 			
@@ -356,15 +402,40 @@ func _physics_process(delta):
 func _input(event):
 	if Input.is_action_just_pressed("Dash") and IsDashing == 0 and DashTimer <= 0.0:
 		IsDashing = 1
+		if is_on_floor():
+			AnimationtoPlay = "grounddash"
+			PlayAnimation(AnimationtoPlay)
+		else:
+			AnimationtoPlay = "jumpdash"
+			PlayAnimation(AnimationtoPlay)
 	
 	if Input.is_action_just_released("Dash"):
 		IsDashing = 0
+		if is_on_floor():
+			AnimationtoPlay = "walk"
+			PlayAnimation(AnimationtoPlay)
+		else:
+			AnimationtoPlay = "jump"
+			PlayAnimation(AnimationtoPlay)
+		
 	
 	if Input.is_action_just_pressed("LightAtk") and AtkGateKeeper != true:
 		LightAttack()
+		if is_on_floor():
+			AnimationtoPlay = "lightatk"
+			PlayAnimation(AnimationtoPlay)
+		else:
+			AnimationtoPlay = "lightatk"
+			PlayAnimation(AnimationtoPlay)
+	
 	if Input.is_action_just_pressed("HeavyAtk") and AtkGateKeeper != true:
 		HeavyAttack()
-	
+		if is_on_floor():
+			AnimationtoPlay = "heavyatk"
+			PlayAnimation(AnimationtoPlay)
+		else:
+			AnimationtoPlay = "heavyatk"
+			PlayAnimation(AnimationtoPlay)
 	
 	if Input.is_action_just_pressed("selfHurt"):
 		CurrentHP = CurrentHP-10
@@ -376,11 +447,6 @@ func _input(event):
 			CurrentHP = MaxHP
 
 
-func PlayAnimation(AnimationType):
-	%Anim.animation = AnimationType
-	%Anim.play(AnimationType)
-	
-
 
 
 ## Using the velocity gathered from previous calculations, use the velocity and the delta to
@@ -391,17 +457,12 @@ func PlayAnimation(AnimationType):
 func PlayerVelocityDresser(velo, del):
 	match AcceleratingDirection:
 		Vector2(0, 0):
-			PlayAnimation("idle")
 			ChangeDirectionCharger = 1.0
 			return (velo.y - velo.x)
 		Vector2(1, 0):
 			%Anim.scale.x = 0.06
 			%LightAtk.scale.x = 1.0
 			%HeavyAtk.scale.x = 1.0
-			if is_on_floor():
-				PlayAnimation("walking")
-			else:
-				PlayAnimation("idle")
 			prevInput = 0
 			ChangeDirectionCharger = 1.0
 			return (-velo.x + (velo.y * 0.5))
@@ -409,22 +470,16 @@ func PlayerVelocityDresser(velo, del):
 			%Anim.scale.x = -0.06
 			%LightAtk.scale.x = -1.0
 			%HeavyAtk.scale.x = -1.0
-			if is_on_floor():
-				PlayAnimation("walking")
-			else:
-				PlayAnimation("idle")
 			prevInput = 1
 			ChangeDirectionCharger = 1.0
 			return velo.y -(velo.x*0.5) 
 		Vector2(1, 1):
-			PlayAnimation("idle")
 			if prevInput == 1 and ChangeDirectionCharger >= 0.0:
 				ChangeDirectionCharger -= 0.1 * del
 				return (velo.y -(velo.x*0.5))*ChangeDirectionCharger
 			if prevInput == 0 and ChangeDirectionCharger >= 0.0:
 				ChangeDirectionCharger -= 0.1 * del
 				return (-velo.x + (velo.y * 0.5))*ChangeDirectionCharger
-
 
 ##### Tools - DO NOT TOUCH #####
 
@@ -445,13 +500,14 @@ func EaseInOut(val:float) -> float:
 	else:
 		return 1.0 - pow(-2.0 * x + 2.0, 2.0) / 2.0
 
+### Attacks
 
 func LightAttack() -> void:
 	%HeavyIndicator.visible = true
 	AtkGateKeeper = true
 	if is_on_floor():
 		emit_signal("Attacking", LightAtkHitting, "Light", LightAttackDamage)
-		print(LightAtkHitting)
+		
 	else:
 		emit_signal("Attacking", LightAtkHitting, "Light", JumpAttackDamage)
 	
@@ -472,8 +528,6 @@ func HeavyAttack() -> void:
 	await get_tree().create_timer(HeavyAttackSpeed).timeout
 	%LightIndicator.visible = false
 	AtkGateKeeper = false
-	
-
 
 func _on_light_atk_area_entered(area):
 	LightAtkHitting = area
@@ -486,3 +540,76 @@ func _on_light_atk_area_exited(area):
 
 func _on_heavy_atk_area_exited(area):
 	HeavyAtkHitting = area
+
+func IsHurt():
+	AnimationtoPlay = "hurt"
+	PlayAnimation("hurt")
+	for n in 3:
+		%Anim.self_modulate = Color.TRANSPARENT
+		await get_tree().create_timer(0.15).timeout
+		%Anim.self_modulate = Color.WHITE
+		await get_tree().create_timer(0.15).timeout
+	
+
+
+### Animation Controller
+
+func PlayAnimation(Animationchange) -> void:
+	%Anim.play(AnimationtoPlay)
+	emit_signal("Soundtobeplayed", AnimationtoPlay)
+	
+	
+
+func _on_nonloopable_animFinished():
+	match %Anim.animation:
+		"startwalk":
+			PlayAnimation("walk")
+			AnimationtoPlay = "walk"
+		"startjump":
+			PlayAnimation("jump")
+			AnimationtoPlay = "jump"
+			
+		"grounddash":
+			PlayAnimation("grounddashsustain")
+			AnimationtoPlay = "grounddashsustain"
+		"jumpdash":
+			PlayAnimation("jumpdashsustain")
+			AnimationtoPlay = "jumpdashsustain"
+			
+		"stopwalk":
+			PlayAnimation("idle")
+			AnimationtoPlay = "idle"
+		"stopjump":
+			if velocity.x == 0:
+				PlayAnimation("idle")
+				AnimationtoPlay = "idle"
+			if velocity.x != 0 and AcceleratingDirection.x == AcceleratingDirection.y:
+				PlayAnimation("sneak")
+				AnimationtoPlay = "sneak"
+			if velocity.x != 0 and AcceleratingDirection.x != AcceleratingDirection.y:
+				PlayAnimation("walk")
+				AnimationtoPlay = "walk"
+			
+		"hurt":
+			if AcceleratingDirection.x == AcceleratingDirection.y and AcceleratingDirection.x + AcceleratingDirection.y == 0:
+				PlayAnimation("idle")
+				AnimationtoPlay = "idle"
+			if AcceleratingDirection.x == AcceleratingDirection.y and AcceleratingDirection.x + AcceleratingDirection.y != 0:
+				if PlayerMaySneak:
+					PlayAnimation("sneak")
+					AnimationtoPlay = "sneak"
+				else:
+					PlayAnimation("walk")
+					AnimationtoPlay = "walk"
+			if AcceleratingDirection.x != AcceleratingDirection.y:
+				PlayAnimation("walk")
+				AnimationtoPlay = "walk"
+			
+			
+			
+			
+			
+
+
+func _on_out_of_bounds_body_entered(body):
+	position = PositionAtGameStart
