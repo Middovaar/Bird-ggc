@@ -59,9 +59,10 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	position.y = lerpf(position.y, %Player.position.y, CamPositionSpeed/10)
+	pass
+	#position.y = lerpf(position.y, %Player.position.y, CamPositionSpeed/10)
 	#position.x = lerpf(position.x, %Player.position.x + %Player.velocity.x*0.3, CamPositionSpeed*0.5)
-	position.x = lerpf(position.x, %Player.position.x, CamPositionSpeed*0.5)
+	#position.x = lerpf(position.x, %Player.position.x, CamPositionSpeed*0.5)
 										#L this should be a special
 	
 	#if %Player.AcceleratingDirection == Vector2(1,1) or %Player.AcceleratingDirection == Vector2(0,0) and %Player.IsDashing == 0:
