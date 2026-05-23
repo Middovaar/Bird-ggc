@@ -250,7 +250,7 @@ func _ready():
 
 
 func _physics_process(delta):
-	print(AnimationtoPlay)
+	#print(AnimationtoPlay)
 	#region Gravity
 	## Makes sure that the player charact is affected by gravity
 	if not is_on_floor():
