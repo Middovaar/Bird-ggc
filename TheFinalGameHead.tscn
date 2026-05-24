@@ -2259,6 +2259,7 @@ shape = SubResource("RectangleShape2D_nu33a")
 [connection signal="body_entered" from="Klo/DiveCollider/AreaDiveCollider" to="Klo" method="_on_dive_collider_body_entered"]
 [connection signal="area_entered" from="Klo/DiveCollider/GroundAttack" to="Klo" method="_on_ground_attack_area_entered"]
 [connection signal="body_entered" from="Klo/DiveCollider/GroundAttack" to="Klo" method="_on_ground_attack_body_entered"]
+[connection signal="Attacking" from="Player" to="Klo" method="_on_player_attacking"]
 [connection signal="Attacking" from="Player" to="Wall" method="_on_player_attacking"]
 [connection signal="Attacking" from="Player" to="Wall2" method="_on_player_attacking"]
 [connection signal="Attacking" from="Player" to="Wall3" method="_on_player_attacking"]

@@ -329,7 +329,6 @@ func _physics_process(delta):
 				#velocity.y = JumpSpeed
 			else: #... else, you may not jump.
 				pass
-		if Input.is_action_just_released("Jump"):
 			AnimationtoPlay = "stopjump"
 			PlayAnimation(AnimationtoPlay)
 	

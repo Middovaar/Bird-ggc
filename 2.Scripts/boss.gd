@@ -433,3 +433,8 @@ func _on_area_dive_collider_body_entered(body):
 
 func _on_dive_collider_body_entered(body):
 	pass # Replace with function body.
+
+
+func _on_player_attacking(Victim, AtkType, Damage):
+	if Victim == self and CurrentHP >= 0:
+		CurrentHP -= Damage

@@ -18,6 +18,7 @@ var MayCloseEarly = false
 var FadeInNamePlate = false
 var WhatDialogueAreWeAt:String
 var BossActive:bool
+var DontHandoverTwice:bool = true
 
 signal DialogueHandover(WhatDialogue)
 
@@ -69,6 +70,7 @@ func RenderText(DialogueUUID):
 		DialogueClear()
 		RenderText(DialogueUUID)
 	else:
+		
 		emit_signal("FinishedDialogueBlock", DialogueUUID)
 		DialogueClear()
 
@@ -163,6 +165,7 @@ func _on_player_boss_dialogue_initializer(History):
 				RenderText(DialoguetoDialogueUUIDTranslator("KloeStart"))
 				WhatDialogueAreWeAt = "KloeStart"
 				FadeInNamePlate = true
+				DontHandoverTwice = false
 				
 			_:
 				RenderText(DialoguetoDialogueUUIDTranslator("KloeStart"))
@@ -181,7 +184,10 @@ func DialoguetoDialogueUUIDTranslator(DialogueDesc:String) -> int:
 	return TranslatedDialogueUUID
 
 func InitializeDialogueHandover(DialogueFlag):
-	emit_signal("DialogueHandover", DialogueFlag)
+	if DontHandoverTwice == false:
+		emit_signal("DialogueHandover", DialogueFlag)
+	else:
+		pass
 
 func _on_player_bossfightis_open():
 	BossActive = true
