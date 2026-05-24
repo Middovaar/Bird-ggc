@@ -207,7 +207,13 @@ extends CharacterBody2D
 #endregion
 
 
-
+## Talking with the Boss
+var BossPosition:Vector2
+var BossTalkingTime:bool
+var CameraDisplacementfromBoss
+signal  BossDialogueInitializer(History)
+var BossOpen:bool = false
+signal BossfightisOpen()
 
 ## Normal Movement
 var TimeSpentAccelerating:Vector2 = Vector2(0, 0) # For how long have the player been accelerating? X = Left, Y = Right
@@ -251,6 +257,17 @@ func _ready():
 	pass
 
 
+func _process(delta):
+	if BossTalkingTime:
+		#CameraDisplacementfromBoss = self.position+$Camera.position
+		$Camera.position = lerp($Camera.position, Vector2(2700, -620), 0.06)
+		$Camera/PlayerHp/HPBar.modulate = lerp($Camera/PlayerHp/HPBar.modulate, Color.TRANSPARENT, 0.04)
+	else:
+		$Camera.position = lerp($Camera.position, Vector2(0, 0), 0.06)
+		$Camera/PlayerHp/HPBar.modulate = lerp($Camera/PlayerHp/HPBar.modulate, Color.WHITE, 0.04)
+	
+	if BossOpen:
+		emit_signal("BossfightisOpen")
 
 func _physics_process(delta):
 	#print(AnimationtoPlay)
@@ -403,7 +420,6 @@ func _physics_process(delta):
 	move_and_slide()
 
 
-
 func _input(event):
 	if not FreezeEverything:
 		if Input.is_action_just_pressed("Dash") and IsDashing == 0 and DashTimer <= 0.0:
@@ -451,8 +467,6 @@ func _input(event):
 			CurrentHP = CurrentHP+10
 			if CurrentHP > MaxHP:
 				CurrentHP = MaxHP
-
-
 
 
 ## Using the velocity gathered from previous calculations, use the velocity and the delta to
@@ -557,14 +571,12 @@ func IsHurt():
 		await get_tree().create_timer(0.15).timeout
 	
 
-
 ### Animation Controller
 
 func PlayAnimation(Animationchange) -> void:
 	$Anim.play(AnimationtoPlay)
 	emit_signal("Soundtobeplayed", AnimationtoPlay)
 	
-
 func _on_nonloopable_animFinished():
 	match $Anim.animation:
 		"startwalk":
@@ -613,7 +625,6 @@ func _on_nonloopable_animFinished():
 func _on_out_of_bounds_body_entered(body):
 	position = PositionAtGameStart
 
-
 func _on_out_of_bounds(body):
 	FreezeEverything = true
 	await get_tree().create_timer(0.5).timeout
@@ -621,3 +632,41 @@ func _on_out_of_bounds(body):
 	PlayAnimation("idle")
 	AnimationtoPlay = "idle"
 	$Sounds.queue_free()
+
+
+func _on_enter_boss_arena(body):
+	BossPosition = %Klo.position
+	FreezeEverything = true
+	PlayAnimation("idle")
+	AcceleratingDirection = Vector2.ZERO
+	AnimationtoPlay = "idle"
+	$Sounds.volume_db = -30
+	BossTalkingTime = true
+	emit_signal("BossDialogueInitializer", "KloeStart") # Second argument should really be a dict or maybe an array detailing what you have done.
+
+
+func _on_player_hp_dialogue_handover(WhatDialogue):
+	match WhatDialogue:
+		"KloeStart":
+			position.x += 450
+			PlayAnimation("idle")
+			AcceleratingDirection = Vector2.ZERO
+			AnimationtoPlay = "idle"
+			$Sounds.volume_db = -10
+			BossOpen = true
+			BossTalkingTime = false
+			FreezeEverything = false
+
+
+func _on_klo_hit(Hittype, Damage):
+	match Hittype:
+		"Normal":
+			if CurrentHP > 0:
+				CurrentHP -= Damage
+			else:
+				die()
+			
+
+
+func die():
+	get_tree().quit(0)

@@ -1,5 +1,19 @@
 extends CharacterBody2D
 
+
+## Max HP
+## [br] [br]
+## Max HP of the Boss
+## [br] [br]
+## [b]Base Value[/b] = [code]100 HP[/code]
+@export_range(1, 250, 1, "or_greater", "suffix:HP") var MaxHP:int = 144
+## Current HP
+## [br] [br]
+## Current HP of the Player
+## [br] [br]
+## [b]Base Value[/b] = [code]100 HP[/code]
+@export_range(1, 250, 1, "or_greater", "suffix:HP") var CurrentHP:int = 144
+
 @export_subgroup("")
 @export var Player:Node
 @export var Anim:Node
@@ -79,10 +93,11 @@ var PlayerBossDistanceDiscrepancy:Vector2
 
 signal AnimationChanger(EmittingAnimation)
 signal SuperflyCamera(yn)
-signal Hit(Hittype, Damage)
+signal Hit(Hittype:String, Damage:int)
 
 
 func _ready():
+	
 	Anim.play("idle")
 
 func KloeReactionTime():
@@ -140,12 +155,10 @@ func KloeBrain():
 func ShouldIStoneToss() -> bool:
 	return false
 
-
-
 func _physics_process(delta):
 	#region Gravity
 	### Gravity Handler
-	if not is_on_floor():
+	if not is_on_floor() and MayStartThinking:
 		velocity += get_gravity() * delta * Flyingfactor
 	#endregion
 	
@@ -399,8 +412,13 @@ func _on_anim_finished():
 func _on_ground_attack_body_entered(body):
 	if body == Player and self.is_on_floor() and IsDashing == false:
 		Animationassigner("NormalAtk")
+		emit_signal("Hit", "Normal", 5)
 
 
 func _on_super_flytimer_timeout():
 	if Superfly and IsNotLookingForThrowable:
 		CancelSuperfly()
+
+
+func _on_player_bossfightis_open():
+	MayStartThinking = true
