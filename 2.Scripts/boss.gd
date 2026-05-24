@@ -177,7 +177,7 @@ func _physics_process(delta):
 	if not Superfly:
 		velocity.x = CalculateSpeed(NormalizedSpeed)+DashSpeed
 	else:
-		velocity.x = CalculateSpeed(NormalizedSpeed)+DashSpeed+SuperFlySpeed
+		velocity.x = SuperFlySpeed*Direction
 	# decay the DashSpeed
 	if DashSpeed > 0:
 		DashSpeed -= 5
@@ -209,10 +209,8 @@ func _physics_process(delta):
 	
 	#region Superfly Diving to hit Player
 	if Superfly and DetectedPlayerinDiveZone:
-		if abs(PlayerBossDistanceDiscrepancy.x) > 50 and abs(PlayerBossDistanceDiscrepancy.y) > 30 and Diving == false:
-			Dive("atk")
-		else: CancelSuperfly()
-			
+		Dive("atk")
+		
 	#endregion
 	
 	# Get the input direction and handle the movement/deceleration.
@@ -269,8 +267,8 @@ func Dive(mode):
 	Diving == true
 	match mode:
 		"atk":
-			position = lerp(self.position, Player.get_position(), 0.04)
-			Engine.time_scale = 0.4
+			position = lerp(self.position, Player.get_position(), 0.08)
+			Engine.time_scale = 0.3
 			Animationassigner("Dive")
 			await get_tree().create_timer(0.5).timeout
 			emit_signal("Hit", "Dive", 10)
@@ -279,9 +277,11 @@ func Dive(mode):
 			Animationassigner("Airstrike")
 			CancelSuperfly()
 			
-		"recharge":
-			pass
-		
+		"cancel":
+			Flyingfactor = 1.0
+			Animationassigner("Airstrike")
+			await $Klonim.animation_finished
+			CancelSuperfly()
 		
 		_:pass
 
@@ -343,12 +343,15 @@ func SuperflyMovementButtonPresser():
 		"right":
 			Direction = 1
 			InputKeyPushedDown = 99
+			SuperFlySpeed = BaseMovSpeed*2
 		"left":
 			Direction = -1
 			InputKeyPushedDown = 99
+			SuperFlySpeed = BaseMovSpeed*2
 		_:
 			Direction = 1
 			InputKeyPushedDown = 99
+			SuperFlySpeed = BaseMovSpeed*2
 
 func CancelSuperfly():
 	Diving = false
@@ -368,7 +371,7 @@ func EaseInOut(val:float) -> float:
 		
 
 func _on_area_2d_area_entered(area):
-	if area == %LightAtk and Superfly:
+	if area == %Player and Superfly:
 		DetectedPlayerinDiveZone = true
 	else:
 		DetectedPlayerinDiveZone = false
@@ -417,8 +420,16 @@ func _on_ground_attack_body_entered(body):
 
 func _on_super_flytimer_timeout():
 	if Superfly and IsNotLookingForThrowable:
-		CancelSuperfly()
+		Dive("cancel")
 
 
 func _on_player_bossfightis_open():
 	MayStartThinking = true
+
+func _on_area_dive_collider_body_entered(body):
+	if Superfly and IsNotLookingForThrowable:
+		Dive("atk")
+
+
+func _on_dive_collider_body_entered(body):
+	pass # Replace with function body.

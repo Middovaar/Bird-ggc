@@ -665,7 +665,11 @@ func _on_klo_hit(Hittype, Damage):
 				CurrentHP -= Damage
 			else:
 				die()
-			
+		"Dive":
+			if CurrentHP > 0:
+				CurrentHP -= Damage
+			else:
+				die()
 
 
 func die():
