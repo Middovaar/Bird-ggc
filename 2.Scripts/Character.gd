@@ -523,7 +523,7 @@ func EaseInOut(val:float) -> float:
 ### Attacks
 
 func LightAttack() -> void:
-	%HeavyIndicator.visible = true
+	#%HeavyIndicator.visible = true
 	AtkGateKeeper = true
 	if is_on_floor():
 		emit_signal("Attacking", LightAtkHitting, "Light", LightAttackDamage)
@@ -532,13 +532,13 @@ func LightAttack() -> void:
 		emit_signal("Attacking", LightAtkHitting, "Light", JumpAttackDamage)
 	
 	await get_tree().create_timer(LightAttackSpeed).timeout
-	%HeavyIndicator.visible = false
+	#%HeavyIndicator.visible = false
 	AtkGateKeeper = false
 
 func HeavyAttack() -> void:
 	var DashBonus = DashAttackDamageBonus if IsDashing else 0 
 	
-	%LightIndicator.visible = true
+	#%LightIndicator.visible = true
 	AtkGateKeeper = true
 	if is_on_floor():
 		emit_signal("Attacking", HeavyAtkHitting, "Light", HeavyAttackDamage+DashBonus)
@@ -546,7 +546,7 @@ func HeavyAttack() -> void:
 		emit_signal("Attacking", HeavyAtkHitting, "Light", JumpAttackDamage+DashBonus)
 	
 	await get_tree().create_timer(HeavyAttackSpeed).timeout
-	%LightIndicator.visible = false
+	#%LightIndicator.visible = false
 	AtkGateKeeper = false
 
 func _on_light_atk_area_entered(area):
