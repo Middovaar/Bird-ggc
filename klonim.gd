@@ -1,7 +1,6 @@
 extends AnimatedSprite2D
 
-
-func _on_klo_animation_changer(EmittingAnimation):
+func _on_klo_animation(EmittingAnimation):
 	match EmittingAnimation:
 		"idle":
 			play("idle")
@@ -13,3 +12,5 @@ func _on_klo_animation_changer(EmittingAnimation):
 			play("flystart")
 		"dashend":
 			play("dashend")
+		_:
+			pass

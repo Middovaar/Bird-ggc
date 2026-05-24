@@ -52,6 +52,8 @@ extends Camera2D
 #endregion
 #endregion
 
+var SuperflyModeOn:bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -59,8 +61,18 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
-	#position.y = lerpf(position.y, %Player.position.y, CamPositionSpeed/10)
+	if SuperflyModeOn:
+		zoom = lerp(zoom, MaxiZoomStrength, CamHighZoomSpeed*0.001)
+	else:
+		zoom = lerp(zoom, NormalZoomStrength, CamHighZoomSpeed*0.001)
+
+
+func _on_klo_superfly_camera(yn):
+	SuperflyModeOn = yn
+	print("hey")
+
+
+	#position.y = lerpf(position.y, %Pdddddddddddddddddddddddddddddddddddddddddddddlayer.position.y, CamPositionSpeed/10)
 	#position.x = lerpf(position.x, %Player.position.x + %Player.velocity.x*0.3, CamPositionSpeed*0.5)
 	#position.x = lerpf(position.x, %Player.position.x, CamPositionSpeed*0.5)
 										#L this should be a special
@@ -75,3 +87,4 @@ func _process(delta):
 			#zoom = lerp(zoom, NormalZoomStrength, (CamHighZoomSpeed*6)*0.001)
 	##
 	#pass
+	
