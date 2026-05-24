@@ -268,6 +268,7 @@ func _process(delta):
 	
 	if BossOpen:
 		emit_signal("BossfightisOpen")
+		BossOpen = false
 
 func _physics_process(delta):
 	#print(AnimationtoPlay)
@@ -638,23 +639,25 @@ func _on_enter_boss_arena(body):
 	FreezeEverything = true
 	PlayAnimation("idle")
 	AcceleratingDirection = Vector2.ZERO
+	velocity = Vector2.ZERO
 	AnimationtoPlay = "idle"
 	$Sounds.volume_db = -30
 	BossTalkingTime = true
 	emit_signal("BossDialogueInitializer", "KloeStart") # Second argument should really be a dict or maybe an array detailing what you have done.
+	%EnterBossArenaArea.queue_free()
 
-
-func _on_player_hp_dialogue_handover(WhatDialogue):
-	match WhatDialogue:
-		"KloeStart":
-			position.x += 450
-			PlayAnimation("idle")
-			AcceleratingDirection = Vector2.ZERO
-			AnimationtoPlay = "idle"
-			$Sounds.volume_db = -10
-			BossOpen = true
-			BossTalkingTime = false
-			FreezeEverything = false
+func _on_player_hp_dialogue_handover(WhatDialogue, theboolean):
+	if theboolean == false:
+		match WhatDialogue:
+			"KloeStart":
+				position.x += 450
+				PlayAnimation("idle")
+				AcceleratingDirection = Vector2.ZERO
+				AnimationtoPlay = "idle"
+				$Sounds.volume_db = -10
+				BossOpen = true
+				BossTalkingTime = false
+				FreezeEverything = false
 
 
 func _on_klo_hit(Hittype, Damage):

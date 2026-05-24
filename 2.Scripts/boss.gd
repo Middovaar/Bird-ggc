@@ -272,7 +272,6 @@ func Dive(mode):
 			Animationassigner("Dive")
 			await get_tree().create_timer(0.5).timeout
 			emit_signal("Hit", "Dive", 10)
-			print("Dive Hit!")
 			Engine.time_scale = 1.0
 			Animationassigner("Airstrike")
 			CancelSuperfly()

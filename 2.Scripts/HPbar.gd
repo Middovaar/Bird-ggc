@@ -20,7 +20,7 @@ var WhatDialogueAreWeAt:String
 var BossActive:bool
 var DontHandoverTwice:bool = true
 
-signal DialogueHandover(WhatDialogue)
+signal DialogueHandover(WhatDialogue, HandoverBool)
 
 const ZeroHPDisplacement:float = 250.0
 const ZeroBossHPDisplacement:float = 280.0
@@ -54,8 +54,10 @@ func RenderText(DialogueUUID):
 		ReadyText = DialogueSwitchBoard(DialogueUUID+TextCompounder-1)
 	else:
 		FadeInNamePlate = false
-		InitializeDialogueHandover(WhatDialogueAreWeAt)
-		
+		if DontHandoverTwice == false:
+			InitializeDialogueHandover(WhatDialogueAreWeAt)
+			DontHandoverTwice = true
+
 # Recursively renders out each text segment in the Readied Text until empty
 	for TextSegmentCounter in ReadyText.size():
 		TextIsAnimated = true
@@ -185,7 +187,8 @@ func DialoguetoDialogueUUIDTranslator(DialogueDesc:String) -> int:
 
 func InitializeDialogueHandover(DialogueFlag):
 	if DontHandoverTwice == false:
-		emit_signal("DialogueHandover", DialogueFlag)
+		emit_signal("DialogueHandover", DialogueFlag, DontHandoverTwice)
+		DontHandoverTwice = true
 	else:
 		pass
 

@@ -62,16 +62,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if SuperflyModeOn:
-		zoom = lerp(zoom, MaxiZoomStrength, CamHighZoomSpeed*0.001)
+		self.zoom = lerp(zoom, MaxiZoomStrength, CamHighZoomSpeed*0.01)
 	else:
-		zoom = lerp(zoom, NormalZoomStrength, CamHighZoomSpeed*0.001)
+		self.zoom = lerp(zoom, NormalZoomStrength, CamHighZoomSpeed*0.01)
 
 
 func _on_klo_superfly_camera(yn):
 	SuperflyModeOn = yn
-	print("hey")
-
-
+	print(yn)
 	#position.y = lerpf(position.y, %Pdddddddddddddddddddddddddddddddddddddddddddddlayer.position.y, CamPositionSpeed/10)
 	#position.x = lerpf(position.x, %Player.position.x + %Player.velocity.x*0.3, CamPositionSpeed*0.5)
 	#position.x = lerpf(position.x, %Player.position.x, CamPositionSpeed*0.5)
