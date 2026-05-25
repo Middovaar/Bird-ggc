@@ -450,6 +450,11 @@ func _input(event):
 				AnimationtoPlay = "lightatk"
 				PlayAnimation(AnimationtoPlay)
 		
+		if Input.is_action_just_pressed("Quit"):
+			get_tree().quit(0)
+			
+			
+		
 		if Input.is_action_just_pressed("HeavyAtk") and AtkGateKeeper != true:
 			HeavyAttack()
 			if is_on_floor():

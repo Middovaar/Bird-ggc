@@ -16,6 +16,7 @@ var Jump:bool = false
 var Jumpheight:float = 0.0
 
 var origoposition:Vector2
+signal isdonedefeated()
 
 @export_range(1, 40, 1, "or_greater", "suffix:HP") var WallHP:int = 4
 
@@ -97,9 +98,14 @@ func _on_player_attacking(Victim, AtkType, Damage):
 		vibrate = true
 		await get_tree().create_timer(0.2).timeout
 		vibrate = false
-		if CurrentHP == 0:
-			self.queue_free()
-
+		if CurrentHP <= 0:
+			#self.queue_free()
+			emit_signal("isdonedefeated")
+			await get_tree().create_timer(1.0).timeout
+			$CollisionShape2D.queue_free()
+			$Sprite.queue_free()
+			$DamageDisplay.queue_free()
+			queue_free()
 
 func Walkies():
 	$Sprite.set_flip_h(true)
@@ -113,3 +119,7 @@ func Walkies():
 		Jumpheight = 40.0
 	Jump = false
 	Walkies()
+
+
+func _on_player_hp_dummythicc():
+	self.queue_free()

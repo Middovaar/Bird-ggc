@@ -10,6 +10,7 @@ extends Control
 var Dialogue: Dictionary = {} 
 
 ## Other Dialogue Handler Variables and fascilitators
+@export var Klo:Node
 var DisplayedText = ""
 var TextIsAnimated = false
 var TextCompounder:int = 0
@@ -18,6 +19,10 @@ var MayCloseEarly = false
 var FadeInNamePlate = false
 var WhatDialogueAreWeAt:String
 var BossActive:bool
+
+signal dummythicc()
+var dummydone:bool = true
+
 var DontHandoverTwice:bool = true
 
 signal DialogueHandover(WhatDialogue, HandoverBool)
@@ -136,7 +141,16 @@ func _process(delta):
 	#This is the white-ish mask that appears when hurt
 	%HPLingMask.offset.x = lerpf(%HPLingMask.offset.x, %HPMask.offset.x, 0.04)
 	
-	$BossHPFrame/BossHPMask.offset.x = lerpf($BossHPFrame/BossHPMask.offset.x, BossHPtoPositionConverter(%Klo.CurrentHP), 0.15)
+	if dummydone:
+		await get_tree().create_timer(0.4).timeout
+		if dummydone:
+			pass
+			$BossHPFrame/BossHPMask.offset.x = lerpf($BossHPFrame/BossHPMask.offset.x, BossHPtoPositionConverter(Klo.CurrentHP), 0.15)
+	else:
+		emit_signal("dummythicc")
+		print("Congratulations, You defeated Klo,  and you win! Ask Quinn and recieve your reward!")
+		get_tree().quit(0)
+	
 	
 	if FadeInNamePlate:
 		$DialogueBox.modulate = lerp($DialogueBox.modulate, Color.WHITE, 0.4)
@@ -192,3 +206,7 @@ func InitializeDialogueHandover(DialogueFlag):
 
 func _on_player_bossfightis_open():
 	BossActive = true
+
+
+func _on_klo_isdonedefeated():
+	dummydone = false
