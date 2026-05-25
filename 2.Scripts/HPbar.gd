@@ -138,8 +138,6 @@ func _process(delta):
 	
 	$BossHPFrame/BossHPMask.offset.x = lerpf($BossHPFrame/BossHPMask.offset.x, BossHPtoPositionConverter(%Klo.CurrentHP), 0.15)
 	
-	
-	
 	if FadeInNamePlate:
 		$DialogueBox.modulate = lerp($DialogueBox.modulate, Color.WHITE, 0.4)
 		$DialogueBox/Name.modulate = lerp($DialogueBox/Name.modulate, Color.WHITE, 0.3)

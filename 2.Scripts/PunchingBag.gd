@@ -5,7 +5,7 @@ const Display:String = "Damage: "
 var vibrate 
 
 @export_range (1, 20, 1, "or_greater", "suffix:HP") var MaxHP:int = 12
-@export_range (1, 20, 1, "or_greater", "suffix:HP") var BossHP:int = 12
+@export_range (1, 20, 1, "or_greater", "suffix:HP") var CurrentHP:int = 12
 @export_range (1, 20, 1, "or_greater", "suffix:HP") var PunchingBagHP:int = 6
 
 @export var Iwannabetheguy:bool
@@ -87,17 +87,17 @@ func _on_player_attacking(Victim, AtkType, Damage):
 	if self == Victim and Type == "Boss":
 		match AtkType:
 			"Light":
-				BossHP = clampi(BossHP-Damage, 0, 1000)
+				CurrentHP = clampi(CurrentHP-Damage, 0, 1000)
 				if randi()%20 < 7:
 					%Player.CurrentHP -= 5
 			"Heavy":
-				BossHP = clampi(BossHP-Damage, 0, 1000)
+				CurrentHP = clampi(CurrentHP-Damage, 0, 1000)
 				if randi()%20 < 7:
 					%Player.CurrentHP -= 5
 		vibrate = true
 		await get_tree().create_timer(0.2).timeout
 		vibrate = false
-		if BossHP == 0:
+		if CurrentHP == 0:
 			self.queue_free()
 
 
