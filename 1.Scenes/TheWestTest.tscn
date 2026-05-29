@@ -1407,10 +1407,10 @@ metadata/_edit_group_ = true
 position = Vector2(3715, -613)
 texture = ExtResource("117_g3frv")
 
+[connection signal="Attacking" from="Player" to="Wall3" method="_on_player_attacking"]
 [connection signal="Attacking" from="Player" to="Wall1" method="_on_player_attacking"]
 [connection signal="Attacking" from="Player" to="Wall2" method="_on_player_attacking"]
 [connection signal="Attacking" from="Player" to="Klo" method="_on_player_attacking"]
-[connection signal="Attacking" from="Player" to="Wall3" method="_on_player_attacking"]
 [connection signal="Soundtobeplayed" from="Player" to="Player/Sounds" method="_on_player_soundtobeplayed"]
 [connection signal="animation_finished" from="Player/Anim" to="Player" method="_on_nonloopable_animFinished"]
 [connection signal="area_entered" from="Player/LightAtk" to="Player" method="_on_light_atk_area_entered"]
