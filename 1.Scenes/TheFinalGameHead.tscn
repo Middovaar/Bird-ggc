@@ -89,7 +89,6 @@
 [ext_resource type="Texture2D" uid="uid://cpk4kg86u5yw3" path="res://GFX/Sprites/saffronv2/light attack/AnimSaffronAtk2.png" id="56_ufosn"]
 [ext_resource type="Texture2D" uid="uid://cnonttxoj3hyp" path="res://GFX/Sprites/saffronv2/light attack/AnimSaffronAtk3.png" id="57_sjqqs"]
 [ext_resource type="Texture2D" uid="uid://bqpphcickgx0m" path="res://GFX/Sprites/saffronv2/light attack/AnimSaffronAtk4.png" id="58_ahxo6"]
-[ext_resource type="Texture2D" uid="uid://ipruybpfatwq" path="res://Assets/Environment/Breakable/Db_nest_pillarFront.png" id="58_m5qbu"]
 [ext_resource type="Texture2D" uid="uid://blvbivc4yn8s7" path="res://GFX/Sprites/saffronv2/light attack/AnimSaffronAtk5.png" id="59_37dl8"]
 [ext_resource type="Texture2D" uid="uid://b3v1kah6fgh0a" path="res://GFX/Sprites/Kloë/walk/AnimKloWalkEnd1-2.png" id="60_3ylnh"]
 [ext_resource type="Texture2D" uid="uid://dvauf1nioiihb" path="res://GFX/Sprites/saffronv2/light attack/AnimSaffronAtk6.png" id="60_dkvyw"]
@@ -1688,7 +1687,7 @@ collision_visibility_mode = 2
 position = Vector2(4900, -558)
 
 [node name="DbNestPillar" type="Sprite2D" parent="NestPillarBack" unique_id=158278998]
-position = Vector2(-36, 277)
+position = Vector2(-25, 283)
 texture = ExtResource("2_dkvyw")
 
 [node name="DarkSideNest" type="Node2D" parent="NestPillarBack" unique_id=202919622]
@@ -1808,6 +1807,7 @@ unique_name_in_owner = true
 process_thread_group = 1
 process_thread_group_order = 1
 process_thread_messages = 0
+visible = false
 position = Vector2(4855, -721)
 collision_layer = 16
 collision_mask = 4504
@@ -1819,9 +1819,7 @@ MayStartThinking = false
 [node name="Klonim" type="AnimatedSprite2D" parent="Klo" unique_id=1515502001]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_bpgp7")
-animation = &"wingflap"
-frame = 8
-frame_progress = 1.0
+animation = &"idle"
 offset = Vector2(-130, -65)
 script = ExtResource("121_6xivt")
 metadata/_edit_lock_ = true
@@ -1878,10 +1876,6 @@ polygon = PackedVector2Array(-2, -36, -1916, -1, -1916, 791, 6, 894, 1114, 775, 
 
 [node name="NestPillarFront" type="Node2D" parent="." unique_id=1242000427]
 position = Vector2(4900, -558)
-
-[node name="DbNestPillarFront" type="Sprite2D" parent="NestPillarFront" unique_id=1870546111]
-position = Vector2(-36, 292)
-texture = ExtResource("58_m5qbu")
 
 [node name="Garbage" type="Area2D" parent="." unique_id=1029781291]
 collision_layer = 4096
