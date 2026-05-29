@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://1ld1xlijhjwf"]
 
-[ext_resource type="Texture2D" uid="uid://bsy4arp3lui3h" path="res://Assets/Environment/Backgrounds/Db_background_boss_room.png" id="1_rdudu"]
+[ext_resource type="Texture2D" uid="uid://cq46bkhmh28go" path="res://Assets/Environment/Backgrounds/Db_background_boss_room_big.png" id="1_mw5ni"]
 [ext_resource type="Texture2D" uid="uid://bu7bsmiedfuf7" path="res://GFX/OLDDb_tile_mvp.png" id="2_a4q7r"]
 [ext_resource type="Texture2D" uid="uid://blhdoh6hwedeg" path="res://Assets/Environment/Interactables/Db_nest_pillar.png" id="2_dkvyw"]
 [ext_resource type="Script" uid="uid://bijtienw8gt37" path="res://2.Scripts/Character.gd" id="3_17fa7"]
@@ -1666,10 +1666,9 @@ compositor = SubResource("Compositor_eulb2")
 
 [node name="DbBackgroundBossRoom" type="Sprite2D" parent="." unique_id=564413778]
 light_mask = 0
-position = Vector2(1798.4998, -465.12512)
-scale = Vector2(2.1192431, 1.7167302)
-texture = ExtResource("1_rdudu")
-metadata/_edit_lock_ = true
+position = Vector2(1939, -758)
+scale = Vector2(1.235, 1)
+texture = ExtResource("1_mw5ni")
 
 [node name="Platforms" type="TileMapLayer" parent="." unique_id=120915874]
 tile_map_data = PackedByteArray("AABCAAMAAAAIAAgAAABIAP//AAALAAQAAABIAAAAAAALAAUAAABIAAEAAAALAAYAAABJAP//AAAMAAQAAABJAAAAAAAMAAUAAABJAAEAAAAMAAYAAABJAAIAAAAMAAcAAABKAP//AAANAAQAAABKAAAAAAANAAUAAABKAAEAAAANAAYAAABKAAIAAAANAAcAAABKAAMAAAANAAgAAABLAP//AAAOAAQAAABLAAAAAAAOAAUAAABLAAEAAAAOAAYAAABLAAIAAAAOAAcAAABLAAMAAAAOAAgAAABMAP//AAAPAAQAAABMAAAAAAAPAAUAAABMAAEAAAAPAAYAAABNAP//AAAQAAQAAABNAAAAAAAQAAUAAABNAAEAAAAQAAYAAABOAP//AAARAAQAAABOAAAAAAARAAUAAABOAAEAAAARAAYAAABPAP//AAASAAQAAABPAAAAAAASAAUAAABPAAEAAAASAAYAAABPAAIAAAASAAcAAABQAP//AAATAAQAAABQAAAAAAATAAUAAABQAAEAAAATAAYAAABQAAIAAAATAAcAAABRAP//AAAUAAQAAABRAAAAAAAUAAUAAABRAAEAAAAUAAYAAABRAAIAAAAUAAcAAABSAP//AAAVAAQAAABSAAAAAAAVAAUAAABTAP//AAAWAAQAAABTAAAAAAAWAAUAAABaAAAAAAAFAAQAAABaAAEAAAAFAAUAAABaAAIAAAAFAAYAAABbAAAAAAAGAAQAAABbAAEAAAAGAAUAAABbAAIAAAAGAAYAAABbAAMAAAAGAAcAAABcAAAAAAAHAAQAAABcAAEAAAAHAAUAAABcAAIAAAAHAAYAAABcAAMAAAAHAAcAAABcAAQAAAAHAAgAAABdAAAAAAAIAAQAAABdAAEAAAAIAAUAAABdAAIAAAAIAAYAAABdAAMAAAAIAAcAAABdAAQAAAAIAAgAAABeAAAAAAAJAAQAAABeAAEAAAAJAAUAAABeAAIAAAAJAAYAAABeAAMAAAAJAAcAAABfAAAAAAAKAAQAAABfAAEAAAAKAAUAAABfAAIAAAAKAAYAAADZ/wIAAAAAAAoAAADZ/wMAAAAAAAsAAADZ/wQAAAAAAAwAAADZ/wUAAAAAAA0AAADa/wIAAAABAAoAAADa/wMAAAABAAsAAADa/wQAAAABAAwAAADa/wUAAAABAA0AAADb/wIAAAACAAoAAADb/wMAAAACAAsAAADb/wQAAAACAAwAAADb/wUAAAACAA0AAADc/wIAAAADAAoAAADc/wMAAAADAAsAAADc/wQAAAADAAwAAADc/wUAAAADAA0AAADV/wMAAAAAAAoAAADV/wQAAAAAAAoAAADV/wUAAAAAAAoAAADV/wYAAAAAAAoAAADW/wMAAAABAAoAAADW/wQAAAAAAAoAAADW/wUAAAABAAwAAADW/wYAAAABAA0AAADX/wMAAAACAAoAAADX/wQAAAACAAsAAADX/wUAAAACAAwAAADX/wYAAAACAA0AAADY/wMAAAADAAoAAADY/wQAAAADAAsAAADY/wUAAAADAAwAAADY/wYAAAADAA0AAADd/wIAAAAAAAoAAADV/wcAAAAAAAoAAADe/wIAAAAAAAsAAAA=")
@@ -1818,7 +1817,9 @@ MayStartThinking = false
 [node name="Klonim" type="AnimatedSprite2D" parent="Klo" unique_id=1515502001]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_bpgp7")
-animation = &"idle"
+animation = &"stonetoss"
+frame = 6
+frame_progress = 1.0
 offset = Vector2(-130, -65)
 script = ExtResource("121_6xivt")
 metadata/_edit_lock_ = true
@@ -1971,7 +1972,7 @@ unique_name_in_owner = true
 position = Vector2(6, 0)
 scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_jp6ja")
-animation = &"stopjump"
+animation = &"walk"
 
 [node name="Colli" type="CollisionShape2D" parent="Player" unique_id=724284052]
 shape = SubResource("CapsuleShape2D_l704e")
