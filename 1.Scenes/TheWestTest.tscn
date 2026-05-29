@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://dwduqvjnqrerw"]
 
-[ext_resource type="Texture2D" uid="uid://bsy4arp3lui3h" path="res://Assets/Environment/Backgrounds/Db_background_boss_room.png" id="1_lnqgi"]
+[ext_resource type="Texture2D" uid="uid://bsy4arp3lui3h" path="res://Assets/Environment/Backgrounds/Drafts/Db_background_boss_room.png" id="1_lnqgi"]
 [ext_resource type="Script" uid="uid://dot7t3mewj2ys" path="res://2.Scripts/BreakableWall.gd" id="2_plbxd"]
 [ext_resource type="Texture2D" uid="uid://co3ka6mjv3yo3" path="res://GFX/DEBUG.Gfx/Dynamics/WallBreakable.png" id="3_vr58e"]
 [ext_resource type="Texture2D" uid="uid://bu7bsmiedfuf7" path="res://GFX/OLDDb_tile_mvp.png" id="4_waavp"]
@@ -101,7 +101,7 @@
 [ext_resource type="Texture2D" uid="uid://iiklex7ii6d7" path="res://GFX/Sprites/saffronv2/walk/AnimSaffronBreakWalk1.png" id="99_pa84j"]
 [ext_resource type="Texture2D" uid="uid://d3t5vbcya8gk7" path="res://GFX/Sprites/saffronv2/walk/AnimSaffronBreakWalk2.png" id="100_a8o2c"]
 [ext_resource type="Texture2D" uid="uid://btoycpnovfgs0" path="res://GFX/Sprites/saffronv2/walk/AnimSaffronBreakWalk3.png" id="101_skkah"]
-[ext_resource type="AudioStream" path="res://SOUND/SFX/Player SFX/player_attack_heavy.mp3" id="102_2sgu5"]
+[ext_resource type="AudioStream" uid="uid://bgkhb7dhyd3bb" path="res://SOUND/SFX/Player_SFX/player_attack_heavy.mp3" id="102_2sgu5"]
 [ext_resource type="Script" uid="uid://0irgraoap0pc" path="res://2.Scripts/PlayerSounds.gd" id="103_2cu5c"]
 [ext_resource type="Script" uid="uid://d3hfdoeqfv6y" path="res://2.Scripts/Camera.gd" id="104_o7ge7"]
 [ext_resource type="PackedScene" uid="uid://cp75vkb4aqqak" path="res://2.Resources/PlayerHP.res" id="105_np7kw"]

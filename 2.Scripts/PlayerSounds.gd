@@ -2,12 +2,12 @@ extends AudioStreamPlayer2D
 
 
 var SFXDict:Dictionary = {
-	"walk": preload("res://SOUND/SFX/Player SFX/player_walk.mp3"),
-	"light": preload("res://SOUND/SFX/Player SFX/player_attack_light.mp3"),
-	"heavy": preload("res://SOUND/SFX/Player SFX/player_attack_heavy.mp3"),
-	"dash": preload("res://SOUND/SFX/Player SFX/player_dash.mp3"),
-	"jump": preload("res://SOUND/SFX/Player SFX/player_jump.mp3"),
-	"hurt": preload("res://SOUND/SFX/Player SFX/player_hurt.mp3"),
+	"walk": preload("res://SOUND/SFX/Player_SFX/player_walk.mp3"),
+	"light": preload("res://SOUND/SFX/Player_SFX/player_attack_light.mp3"),
+	"heavy": preload("res://SOUND/SFX/Player_SFX/player_attack_heavy.mp3"),
+	"dash": preload("res://SOUND/SFX/Player_SFX/player_dash.mp3"),
+	"jump": preload("res://SOUND/SFX/Player_SFX/player_jump.mp3"),
+	"hurt": preload("res://SOUND/SFX/Player_SFX/player_hurt.mp3"),
 }
 
 var ReadiedSFX
