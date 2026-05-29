@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dn37ou5tmdynt" path="res://GFX/Sprites/saffronv2/dash/air/AnimSaffronJumpDashLoop10-12.png" id="11_ubj4u"]
 [ext_resource type="Texture2D" uid="uid://qd2d73ax6n0l" path="res://GFX/Sprites/saffronv2/dash/air/AnimSaffronJumpDashLoop1.png" id="13_q8i3o"]
 [ext_resource type="Texture2D" uid="uid://dbsb12uycq2qw" path="res://GFX/Sprites/saffronv2/dash/air/AnimSaffronJumpDashLoop2.png" id="14_qysok"]
-[ext_resource type="PackedScene" uid="uid://cp75vkb4aqqak" path="res://PlayerHP.res" id="15_c63qg"]
+[ext_resource type="PackedScene" uid="uid://cp75vkb4aqqak" path="res://2.Resources/PlayerHP.res" id="15_c63qg"]
 [ext_resource type="Texture2D" uid="uid://by5ty6760gnbt" path="res://GFX/Sprites/saffronv2/dash/air/AnimSaffronJumpDashLoop3-4.png" id="15_scrk0"]
 [ext_resource type="Texture2D" uid="uid://c6q68yxku5cms" path="res://GFX/Sprites/saffronv2/dash/air/AnimSaffronJumpDashLoop5-6.png" id="16_6chqa"]
 [ext_resource type="Script" uid="uid://dpiwg1nixejgb" path="res://2.Scripts/PunchingBag.gd" id="16_cfldv"]

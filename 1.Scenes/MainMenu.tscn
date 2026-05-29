@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dhxvluqk5h15w"]
+
+[node name="MainMenu" type="Node2D" unique_id=189344899]
+
+[node name="ControlPoints" type="Control" parent="." unique_id=1234437157]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="Sprites" type="Node2D" parent="." unique_id=1598493211]
