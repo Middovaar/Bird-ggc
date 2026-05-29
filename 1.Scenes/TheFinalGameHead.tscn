@@ -146,7 +146,7 @@
 [ext_resource type="Texture2D" uid="uid://iiklex7ii6d7" path="res://GFX/Sprites/saffronv2/walk/AnimSaffronBreakWalk1.png" id="97_64ltv"]
 [ext_resource type="Texture2D" uid="uid://d3t5vbcya8gk7" path="res://GFX/Sprites/saffronv2/walk/AnimSaffronBreakWalk2.png" id="98_dupcd"]
 [ext_resource type="Texture2D" uid="uid://btoycpnovfgs0" path="res://GFX/Sprites/saffronv2/walk/AnimSaffronBreakWalk3.png" id="99_m7x6r"]
-[ext_resource type="AudioStream" uid="uid://bgkhb7dhyd3bb" path="res://SOUND/SFX/Player SFX/player_attack_heavy.mp3" id="100_h1aff"]
+[ext_resource type="AudioStream" uid="uid://bgkhb7dhyd3bb" path="res://SOUND/SFX/Player_SFX/player_attack_heavy.mp3" id="100_h1aff"]
 [ext_resource type="Script" uid="uid://0irgraoap0pc" path="res://2.Scripts/PlayerSounds.gd" id="101_4wxva"]
 [ext_resource type="Script" uid="uid://d3hfdoeqfv6y" path="res://2.Scripts/Camera.gd" id="102_w1gbr"]
 [ext_resource type="PackedScene" uid="uid://cp75vkb4aqqak" path="res://2.Resources/PlayerHP.res" id="103_vm2f4"]
@@ -1807,7 +1807,6 @@ unique_name_in_owner = true
 process_thread_group = 1
 process_thread_group_order = 1
 process_thread_messages = 0
-visible = false
 position = Vector2(4855, -721)
 collision_layer = 16
 collision_mask = 4504

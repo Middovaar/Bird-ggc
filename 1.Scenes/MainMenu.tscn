@@ -1,11 +1,246 @@
 [gd_scene format=3 uid="uid://dhxvluqk5h15w"]
 
+[ext_resource type="Texture2D" uid="uid://ikydy040ng12" path="res://Assets/Menu UI/Menu/ui_window_canva.png" id="1_1mk6t"]
+[ext_resource type="Script" uid="uid://cpca2kn2g75v8" path="res://2.Scripts/Main Menu/MainMenuControl.gd" id="1_apoef"]
+[ext_resource type="Texture2D" uid="uid://c4hsuyilts34" path="res://Assets/title_bird_game.png" id="1_vj871"]
+[ext_resource type="Texture2D" uid="uid://xcb2smfqjop6" path="res://Assets/Menu UI/Menu/ui_mainmenu_deco_top.png" id="2_8u3uk"]
+[ext_resource type="Script" uid="uid://dotq4shutsyxc" path="res://2.Scripts/Main Menu/ButtonGardineManager.gd" id="2_rqb3c"]
+[ext_resource type="Texture2D" uid="uid://bckvf3qpdqu5v" path="res://Assets/croc_masters_logo.png" id="2_uql5i"]
+[ext_resource type="FontFile" uid="uid://c4igqr3sj2nh7" path="res://Assets/Menu UI/Menu/Font_common.ttf" id="3_50aqv"]
+[ext_resource type="Script" uid="uid://mxjfwyjh844" path="res://2.Scripts/Main Menu/MenuButton.gd" id="4_50aqv"]
+[ext_resource type="Texture2D" uid="uid://jqusxkvmhcbe" path="res://Assets/Menu UI/Menu/ui_mainmenu_deco_bottom.png" id="4_rqb3c"]
+[ext_resource type="Texture2D" uid="uid://r01g3mr47een" path="res://Assets/Menu UI/_Previews/Preview_mainmenu.png" id="5_8u3uk"]
+[ext_resource type="Texture2D" uid="uid://bos1x6be8yilu" path="res://Assets/Menu UI/Menu/ui_mainmenu_btn_onHover.png" id="8_k8yas"]
+[ext_resource type="Script" uid="uid://u1infesljdvy" path="res://2.Scripts/Main Menu/Hoverselector.gd" id="9_6oyxl"]
+[ext_resource type="Texture2D" uid="uid://dfat8l66qkmkh" path="res://Assets/Menu UI/_Previews/Preview_Credits.png" id="12_apoef"]
+[ext_resource type="Texture2D" uid="uid://n0sibw3ee376" path="res://Assets/Menu UI/_Previews/Preview_Setting.png" id="13_oi5f5"]
+
+[sub_resource type="FontVariation" id="FontVariation_50aqv"]
+base_font = ExtResource("3_50aqv")
+variation_embolden = 0.6
+
+[sub_resource type="FontVariation" id="FontVariation_rqb3c"]
+base_font = ExtResource("3_50aqv")
+variation_embolden = 0.6
+variation_transform = Transform2D(1, 0.25, 0, 1, 0, 0)
+
+[sub_resource type="FontVariation" id="FontVariation_k8yas"]
+base_font = ExtResource("3_50aqv")
+variation_transform = Transform2D(1, 0.25, 0, 1, 0, 0)
+
+[sub_resource type="Gradient" id="Gradient_oi5f5"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_b1nx5"]
+gradient = SubResource("Gradient_oi5f5")
+
+[sub_resource type="Gradient" id="Gradient_apoef"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_oi5f5"]
+gradient = SubResource("Gradient_apoef")
+
 [node name="MainMenu" type="Node2D" unique_id=189344899]
+script = ExtResource("1_apoef")
+
+[node name="Sprites" type="Node2D" parent="." unique_id=1598493211]
+
+[node name="UiWindowCanva" type="Sprite2D" parent="Sprites" unique_id=1494556846]
+position = Vector2(959.5, 544)
+scale = Vector2(1.0005187, 1)
+texture = ExtResource("1_1mk6t")
+
+[node name="CrocMastersLogo" type="Sprite2D" parent="Sprites" unique_id=1140862218]
+position = Vector2(1778, 978)
+scale = Vector2(0.59583354, 0.5958336)
+texture = ExtResource("2_uql5i")
 
 [node name="ControlPoints" type="Control" parent="." unique_id=1234437157]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlPoints" unique_id=1679670442]
+layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="Sprites" type="Node2D" parent="." unique_id=1598493211]
+[node name="TextureRect" type="TextureRect" parent="ControlPoints/VBoxContainer" unique_id=796340899]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_vj871")
+stretch_mode = 3
+
+[node name="ButtonGardine" type="VBoxContainer" parent="ControlPoints/VBoxContainer" unique_id=1557268318 node_paths=PackedStringArray("Start", "Settings", "Credits", "Exit")]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.2
+script = ExtResource("2_rqb3c")
+Start = NodePath("Start")
+Settings = NodePath("Settings")
+Credits = NodePath("Credits")
+Exit = NodePath("Exit")
+
+[node name="UpperSpacer" type="TextureRect" parent="ControlPoints/VBoxContainer/ButtonGardine" unique_id=874670705]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_8u3uk")
+stretch_mode = 3
+
+[node name="Start" type="RichTextLabel" parent="ControlPoints/VBoxContainer/ButtonGardine" unique_id=916350159]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.2
+theme_override_colors/default_color = Color(1, 0.99607843, 0.85882354, 1)
+theme_override_fonts/normal_font = ExtResource("3_50aqv")
+theme_override_font_sizes/normal_font_size = 76
+bbcode_enabled = true
+text = "[font_size=76][center]Start[/center][/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_50aqv")
+ButtonType = "Start"
+DisplayedText = "Start"
+
+[node name="Settings" type="RichTextLabel" parent="ControlPoints/VBoxContainer/ButtonGardine" unique_id=544001100]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.2
+theme_override_colors/default_color = Color(1, 0.99607843, 0.85882354, 1)
+theme_override_fonts/normal_font = ExtResource("3_50aqv")
+theme_override_fonts/bold_font = SubResource("FontVariation_50aqv")
+theme_override_fonts/bold_italics_font = SubResource("FontVariation_rqb3c")
+theme_override_fonts/italics_font = SubResource("FontVariation_k8yas")
+theme_override_font_sizes/normal_font_size = 62
+theme_override_font_sizes/bold_font_size = 62
+theme_override_font_sizes/bold_italics_font_size = 62
+theme_override_font_sizes/italics_font_size = 62
+theme_override_font_sizes/mono_font_size = 62
+bbcode_enabled = true
+text = "[i][center]Settings[/center][/i]"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_50aqv")
+ButtonType = "Settings"
+DisplayedText = "Settings"
+
+[node name="Credits" type="RichTextLabel" parent="ControlPoints/VBoxContainer/ButtonGardine" unique_id=1364570544]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.2
+theme_override_colors/default_color = Color(1, 0.99607843, 0.85882354, 1)
+theme_override_fonts/normal_font = ExtResource("3_50aqv")
+theme_override_fonts/bold_font = SubResource("FontVariation_50aqv")
+theme_override_fonts/bold_italics_font = SubResource("FontVariation_rqb3c")
+theme_override_fonts/italics_font = SubResource("FontVariation_k8yas")
+theme_override_font_sizes/normal_font_size = 62
+theme_override_font_sizes/bold_font_size = 62
+theme_override_font_sizes/bold_italics_font_size = 62
+theme_override_font_sizes/italics_font_size = 62
+theme_override_font_sizes/mono_font_size = 62
+bbcode_enabled = true
+text = "[i][center]Credits[/center][/i]"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_50aqv")
+ButtonType = "Credits"
+DisplayedText = "Credits"
+
+[node name="Exit" type="RichTextLabel" parent="ControlPoints/VBoxContainer/ButtonGardine" unique_id=1726207863]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.2
+theme_override_colors/default_color = Color(1, 0.99607843, 0.85882354, 1)
+theme_override_fonts/normal_font = ExtResource("3_50aqv")
+theme_override_fonts/bold_font = SubResource("FontVariation_50aqv")
+theme_override_fonts/bold_italics_font = SubResource("FontVariation_rqb3c")
+theme_override_fonts/italics_font = SubResource("FontVariation_k8yas")
+theme_override_font_sizes/normal_font_size = 62
+theme_override_font_sizes/bold_font_size = 62
+theme_override_font_sizes/bold_italics_font_size = 62
+theme_override_font_sizes/italics_font_size = 62
+theme_override_font_sizes/mono_font_size = 62
+bbcode_enabled = true
+text = "[i][center]Exit[/center][/i]"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_50aqv")
+ButtonType = "Exit"
+DisplayedText = "Exit"
+
+[node name="LesserSpacer" type="TextureRect" parent="ControlPoints/VBoxContainer/ButtonGardine" unique_id=793236895]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("4_rqb3c")
+stretch_mode = 3
+
+[node name="PreviewMainmenu" type="Sprite2D" parent="ControlPoints/VBoxContainer/ButtonGardine" unique_id=451538677]
+position = Vector2(-1063, -1160)
+texture = ExtResource("5_8u3uk")
+
+[node name="HoverSelector" type="Sprite2D" parent="ControlPoints/VBoxContainer/ButtonGardine" unique_id=1148186450]
+position = Vector2(960, 800)
+texture = ExtResource("8_k8yas")
+script = ExtResource("9_6oyxl")
+
+[node name="PreviewCredits" type="Sprite2D" parent="ControlPoints/VBoxContainer/ButtonGardine" unique_id=1412023169]
+position = Vector2(-3674, 236)
+texture = ExtResource("12_apoef")
+
+[node name="PreviewSetting" type="Sprite2D" parent="ControlPoints/VBoxContainer/ButtonGardine" unique_id=207887601]
+position = Vector2(-1508, 263)
+texture = ExtResource("13_oi5f5")
+
+[node name="Coverlayer" type="Node2D" parent="." unique_id=2020556151]
+unique_name_in_owner = true
+position = Vector2(0, 600)
+
+[node name="TextureRect" type="TextureRect" parent="Coverlayer" unique_id=825099884]
+offset_left = -1.2871729e-05
+offset_top = 1079.4011
+offset_right = 421.3081
+offset_bottom = 3004.8762
+rotation = 4.712389
+texture = SubResource("GradientTexture1D_b1nx5")
+
+[node name="TextureRect2" type="TextureRect" parent="Coverlayer" unique_id=804262874]
+offset_top = 2878.0
+offset_right = 1814.0665
+offset_bottom = 4803.475
+rotation = 4.712389
+texture = SubResource("GradientTexture1D_oi5f5")
+
+[connection signal="ButtonPress" from="ControlPoints/VBoxContainer/ButtonGardine" to="." method="_on_ButtonPress"]
+[connection signal="SelectHighlighterPos" from="ControlPoints/VBoxContainer/ButtonGardine" to="ControlPoints/VBoxContainer/ButtonGardine/HoverSelector" method="_on_button_gardine_select_highlighter_pos"]
+[connection signal="mouse_exited" from="ControlPoints/VBoxContainer/ButtonGardine" to="ControlPoints/VBoxContainer/ButtonGardine" method="_on_mouse_exited"]
+[connection signal="ButtonClick" from="ControlPoints/VBoxContainer/ButtonGardine/Start" to="ControlPoints/VBoxContainer/ButtonGardine" method="_OnButtonClick"]
+[connection signal="ButtonEscapeAllTypes" from="ControlPoints/VBoxContainer/ButtonGardine/Start" to="ControlPoints/VBoxContainer/ButtonGardine" method="OnButtonEscapeAllTypes"]
+[connection signal="ButtonFocus" from="ControlPoints/VBoxContainer/ButtonGardine/Start" to="ControlPoints/VBoxContainer/ButtonGardine" method="_OnButtonHover"]
+[connection signal="gui_input" from="ControlPoints/VBoxContainer/ButtonGardine/Start" to="ControlPoints/VBoxContainer/ButtonGardine/Start" method="_on_gui_input"]
+[connection signal="mouse_entered" from="ControlPoints/VBoxContainer/ButtonGardine/Start" to="ControlPoints/VBoxContainer/ButtonGardine/Start" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="ControlPoints/VBoxContainer/ButtonGardine/Start" to="ControlPoints/VBoxContainer/ButtonGardine/Start" method="_on_mouse_exited"]
+[connection signal="ButtonClick" from="ControlPoints/VBoxContainer/ButtonGardine/Settings" to="ControlPoints/VBoxContainer/ButtonGardine" method="_OnButtonClick"]
+[connection signal="ButtonEscapeAllTypes" from="ControlPoints/VBoxContainer/ButtonGardine/Settings" to="ControlPoints/VBoxContainer/ButtonGardine" method="OnButtonEscapeAllTypes"]
+[connection signal="ButtonFocus" from="ControlPoints/VBoxContainer/ButtonGardine/Settings" to="ControlPoints/VBoxContainer/ButtonGardine" method="_OnButtonHover"]
+[connection signal="gui_input" from="ControlPoints/VBoxContainer/ButtonGardine/Settings" to="ControlPoints/VBoxContainer/ButtonGardine/Settings" method="_on_gui_input"]
+[connection signal="mouse_entered" from="ControlPoints/VBoxContainer/ButtonGardine/Settings" to="ControlPoints/VBoxContainer/ButtonGardine/Settings" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="ControlPoints/VBoxContainer/ButtonGardine/Settings" to="ControlPoints/VBoxContainer/ButtonGardine/Settings" method="_on_mouse_exited"]
+[connection signal="ButtonClick" from="ControlPoints/VBoxContainer/ButtonGardine/Credits" to="ControlPoints/VBoxContainer/ButtonGardine" method="_OnButtonClick"]
+[connection signal="ButtonEscapeAllTypes" from="ControlPoints/VBoxContainer/ButtonGardine/Credits" to="ControlPoints/VBoxContainer/ButtonGardine" method="OnButtonEscapeAllTypes"]
+[connection signal="ButtonFocus" from="ControlPoints/VBoxContainer/ButtonGardine/Credits" to="ControlPoints/VBoxContainer/ButtonGardine" method="_OnButtonHover"]
+[connection signal="gui_input" from="ControlPoints/VBoxContainer/ButtonGardine/Credits" to="ControlPoints/VBoxContainer/ButtonGardine/Credits" method="_on_gui_input"]
+[connection signal="mouse_entered" from="ControlPoints/VBoxContainer/ButtonGardine/Credits" to="ControlPoints/VBoxContainer/ButtonGardine/Credits" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="ControlPoints/VBoxContainer/ButtonGardine/Credits" to="ControlPoints/VBoxContainer/ButtonGardine/Credits" method="_on_mouse_exited"]
+[connection signal="ButtonClick" from="ControlPoints/VBoxContainer/ButtonGardine/Exit" to="ControlPoints/VBoxContainer/ButtonGardine" method="_OnButtonClick"]
+[connection signal="ButtonEscapeAllTypes" from="ControlPoints/VBoxContainer/ButtonGardine/Exit" to="ControlPoints/VBoxContainer/ButtonGardine" method="OnButtonEscapeAllTypes"]
+[connection signal="ButtonFocus" from="ControlPoints/VBoxContainer/ButtonGardine/Exit" to="ControlPoints/VBoxContainer/ButtonGardine" method="_OnButtonHover"]
+[connection signal="gui_input" from="ControlPoints/VBoxContainer/ButtonGardine/Exit" to="ControlPoints/VBoxContainer/ButtonGardine/Exit" method="_on_gui_input"]
+[connection signal="mouse_entered" from="ControlPoints/VBoxContainer/ButtonGardine/Exit" to="ControlPoints/VBoxContainer/ButtonGardine/Exit" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="ControlPoints/VBoxContainer/ButtonGardine/Exit" to="ControlPoints/VBoxContainer/ButtonGardine/Exit" method="_on_mouse_exited"]
