@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://boee1novoh3v7"
+path="res://.godot/imported/player_hurt.mp3-5c4c30a32c5916b6cf2f99cdf3fad6f1.mp3str"
+
+[deps]
+
+source_file="res://SOUND/SFX/Player SFX/player_hurt.mp3"
+dest_files=["res://.godot/imported/player_hurt.mp3-5c4c30a32c5916b6cf2f99cdf3fad6f1.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
