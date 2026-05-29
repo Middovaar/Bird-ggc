@@ -94,7 +94,6 @@ func DialogueSwitchBoard(DialogueUUID):
 	# The Id, is catches here, and pushed as DialogueReq
 	# Based on DialogueReq, run match and recieve the appropriate Dialogue.address
 	var DialogueAdress
-	
 	match DialogueUUID:
 		106:
 			DialogueAdress = Dialogue.KloeStart.A

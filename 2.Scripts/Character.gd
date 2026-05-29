@@ -39,6 +39,13 @@ extends CharacterBody2D
 ## [br] [br]
 ## [b]Base Value[/b] = [code]-400.0px/Δt[/code]
 @export_range(-900.0, -100.0, 5.0, "or_less", "prefer_slider", "suffix:px/Δt") var JumpSpeed:float = -500.0
+## Player May Double Joup
+## [br] [br]
+## Controls if PLayers are able to Double Jump in mid air plainly. Remember, this will override Dash Resets Jump 
+## [br] [br]
+## [b]Base Value[/b] = [code]No[/code]
+@export var DoubleJump:bool = false
+
 
 ## Movement Speed Decay Factor
 ## [br] [br]
@@ -222,6 +229,9 @@ var AcceleratingDirection:Vector2 = Vector2(0, 0)
 var prevInput:int
 var ChangeDirectionCharger:float = 1.0
 
+## Jumping Variables
+var DoubleJumpAvaliabletoPlayer:bool = true
+
 ## Dashing Stuff
 var IsDashing:int = 0
 var DashTimer:float = 0.0
@@ -314,28 +324,6 @@ func _physics_process(delta):
 				PlayAnimation(AnimationtoPlay)
 	#endregion
 	
-	#region Movement Jump
-	## You press jump - you jump, simple as.
-	if not FreezeEverything:
-		if Input.is_action_just_pressed("Jump"):
-			if self.is_on_floor(): #...but you have to be on the floor of course
-				velocity.y = JumpSpeed
-				if $Anim.animation != "startjump" or "jump":
-					AnimationtoPlay = "startjump"
-					PlayAnimation(AnimationtoPlay)
-		
-			elif DashResetsJump == 1 and IsDashing: #... or you are dashing, and may do so through dash I-frame jump resets
-				velocity.y = JumpSpeed
-			#elif DashResetsJump == 2 and IsDashing: #This should ONLY be turned on if we enable powerups
-				#velocity.y = JumpSpeed
-			else: #... else, you may not jump.
-				pass
-			AnimationtoPlay = "stopjump"
-			PlayAnimation(AnimationtoPlay)
-	
-	
-	#endregion
-	
 	#region Walking Acceleration Calculator
 	## When the player presses, say [Left], this will calculate for how long the player has pressed that key
 	## up to the TimeToReachMaxSpeed variable, row 28. Based on this, one can calculate how far one is up
@@ -413,6 +401,8 @@ func _physics_process(delta):
 	if IsDashing == 1:
 		velocity.x = PlayerVelocityDresser(RawVelocity, delta) * (abs(DashStrength) + 1)
 	
+	if is_on_floor():
+		DoubleJumpAvaliabletoPlayer = true
 	
 	#print(TimeSpentAccelerating, AcceleratingDirection)
 	
@@ -430,16 +420,22 @@ func _input(event):
 			else:
 				AnimationtoPlay = "jumpdash"
 				PlayAnimation(AnimationtoPlay)
-	
-		if Input.is_action_just_released("Dash"):
-			IsDashing = 0
-			if is_on_floor():
-				AnimationtoPlay = "walk"
-				PlayAnimation(AnimationtoPlay)
-			else:
-				AnimationtoPlay = "jump"
-				PlayAnimation(AnimationtoPlay)
 		
+		if Input.is_action_just_pressed("Jump"):
+			if self.is_on_floor() or DoubleJumpAvaliabletoPlayer: #...but you have to be on the floor of course
+				velocity.y = JumpSpeed
+				DoubleJumpAvaliabletoPlayer = false
+				if $Anim.animation != "startjump" or "jump":
+					AnimationtoPlay = "startjump"
+					PlayAnimation(AnimationtoPlay)
+
+			elif DashResetsJump == 1 and IsDashing: #... or you are dashing, and may do so through dash I-frame jump resets
+				velocity.y = JumpSpeed
+			#elif DashResetsJump == 2 and IsDashing: #This should ONLY be turned on if we enable powerups
+				#velocity.y = JumpSpeed
+			else: #... else, you may not jump.
+				pass
+			#AnimationtoPlay = "stopjump"
 	
 		if Input.is_action_just_pressed("LightAtk") and AtkGateKeeper != true:
 			LightAttack()
@@ -452,8 +448,6 @@ func _input(event):
 		
 		if Input.is_action_just_pressed("Quit"):
 			get_tree().quit(0)
-			
-			
 		
 		if Input.is_action_just_pressed("HeavyAtk") and AtkGateKeeper != true:
 			HeavyAttack()
@@ -574,12 +568,13 @@ func IsHurt():
 		await get_tree().create_timer(0.15).timeout
 		$Anim.self_modulate = Color.WHITE
 		await get_tree().create_timer(0.15).timeout
-	
+
 
 ### Animation Controller
 
 func PlayAnimation(Animationchange) -> void:
 	$Anim.play(AnimationtoPlay)
+	print(Animationchange)
 	emit_signal("Soundtobeplayed", AnimationtoPlay)
 	
 func _on_nonloopable_animFinished():
@@ -588,8 +583,16 @@ func _on_nonloopable_animFinished():
 			PlayAnimation("walk")
 			AnimationtoPlay = "walk"
 		"startjump":
-			PlayAnimation("jump")
 			AnimationtoPlay = "jump"
+			PlayAnimation("jump")
+		
+		"jump":
+			if self.is_on_floor():
+				AnimationtoPlay = "stopjump"
+				PlayAnimation(AnimationtoPlay)
+			else:
+				AnimationtoPlay = "jump"
+				PlayAnimation("jump")
 			
 		"grounddash":
 			PlayAnimation("grounddashsustain")
@@ -603,14 +606,14 @@ func _on_nonloopable_animFinished():
 			AnimationtoPlay = "idle"
 		"stopjump":
 			if velocity.x == 0:
-				PlayAnimation("idle")
 				AnimationtoPlay = "idle"
+				PlayAnimation("idle")
 			if velocity.x != 0 and AcceleratingDirection.x == AcceleratingDirection.y:
-				PlayAnimation("sneak")
 				AnimationtoPlay = "sneak"
+				PlayAnimation("sneak")
 			if velocity.x != 0 and AcceleratingDirection.x != AcceleratingDirection.y:
-				PlayAnimation("walk")
 				AnimationtoPlay = "walk"
+				PlayAnimation("walk")
 			
 		"hurt":
 			if AcceleratingDirection.x == AcceleratingDirection.y and AcceleratingDirection.x + AcceleratingDirection.y == 0:
@@ -638,7 +641,6 @@ func _on_out_of_bounds(body):
 	AnimationtoPlay = "idle"
 	$Sounds.queue_free()
 
-
 func _on_enter_boss_arena(body):
 	BossPosition = %Klo.position
 	FreezeEverything = true
@@ -664,7 +666,6 @@ func _on_player_hp_dialogue_handover(WhatDialogue, theboolean):
 				BossTalkingTime = false
 				FreezeEverything = false
 
-
 func _on_klo_hit(Hittype, Damage):
 	match Hittype:
 		"Normal":
@@ -677,7 +678,6 @@ func _on_klo_hit(Hittype, Damage):
 				CurrentHP -= Damage
 			else:
 				die()
-
 
 func die():
 	get_tree().quit(0)
