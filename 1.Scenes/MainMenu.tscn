@@ -108,8 +108,10 @@ stretch_mode = 3
 
 [node name="ButtonGardine" type="VBoxContainer" parent="MainControlPoints/VBoxContainer" unique_id=1557268318 node_paths=PackedStringArray("Start", "Settings", "Credits", "Exit")]
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.2
+mouse_filter = 0
 script = ExtResource("2_rqb3c")
 Start = NodePath("Start")
 Settings = NodePath("Settings")
@@ -126,6 +128,7 @@ stretch_mode = 3
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.2
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(1, 0.99607843, 0.85882354, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_font_sizes/normal_font_size = 76
@@ -141,6 +144,7 @@ DisplayedText = "Start"
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.2
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(1, 0.99607843, 0.85882354, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_fonts/bold_font = SubResource("FontVariation_50aqv")
@@ -163,6 +167,7 @@ DisplayedText = "Settings"
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.2
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(1, 0.99607843, 0.85882354, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_fonts/bold_font = SubResource("FontVariation_50aqv")
@@ -185,6 +190,7 @@ DisplayedText = "Credits"
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.2
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(1, 0.99607843, 0.85882354, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_fonts/bold_font = SubResource("FontVariation_50aqv")
@@ -214,7 +220,7 @@ position = Vector2(-1063, -1160)
 texture = ExtResource("5_8u3uk")
 
 [node name="HoverSelector" type="Sprite2D" parent="MainControlPoints/VBoxContainer/ButtonGardine" unique_id=1148186450]
-position = Vector2(960, 800)
+position = Vector2(130, 800)
 texture = ExtResource("8_k8yas")
 script = ExtResource("9_6oyxl")
 
@@ -267,15 +273,17 @@ offset_left = 127.0
 offset_top = 405.0
 offset_right = 950.0
 offset_bottom = 491.0
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_font_sizes/normal_font_size = 61
 bbcode_enabled = true
 horizontal_alignment = 1
 script = ExtResource("16_b1nx5")
-NamePlateType = 0
+NamePlateType = 2
 Person = 0
 UseThisText = "Jette \"Jettdotangel\" Enge"
+AlternateText = "Nå på Rema 1000!"
 
 [node name="Quinn" type="RichTextLabel" parent="CreditsControlPoints" unique_id=817721718]
 layout_mode = 0
@@ -283,31 +291,35 @@ offset_left = 979.0
 offset_top = 405.0
 offset_right = 1802.0
 offset_bottom = 491.0
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_font_sizes/normal_font_size = 61
 bbcode_enabled = true
 horizontal_alignment = 1
 script = ExtResource("16_b1nx5")
-NamePlateType = 0
+NamePlateType = 2
 Person = 1
 UseThisText = "Quinn \"Unsaved\" Davies"
+AlternateText = "𝕊"
 
-[node name="West" type="RichTextLabel" parent="CreditsControlPoints" unique_id=135438914]
+[node name="West" type="RichTextLabel" parent="CreditsControlPoints" unique_id=460060714]
 layout_mode = 0
 offset_left = 127.0
 offset_top = 561.0
 offset_right = 950.0
 offset_bottom = 647.0
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_font_sizes/normal_font_size = 61
 bbcode_enabled = true
 horizontal_alignment = 1
 script = ExtResource("16_b1nx5")
-NamePlateType = 0
+NamePlateType = 2
 Person = 2
 UseThisText = "The West"
+AlternateText = "᠅ ᠦᠷᠤᠡ ᠅"
 
 [node name="Tolz" type="RichTextLabel" parent="CreditsControlPoints" unique_id=604126192]
 layout_mode = 0
@@ -315,15 +327,17 @@ offset_left = 979.0
 offset_top = 561.0
 offset_right = 1802.0
 offset_bottom = 647.0
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_font_sizes/normal_font_size = 61
 bbcode_enabled = true
 horizontal_alignment = 1
 script = ExtResource("16_b1nx5")
-NamePlateType = 0
+NamePlateType = 2
 Person = 3
 UseThisText = "Joel \"Tolz\" Andersson"
+AlternateText = "N 57.63846, E 18.29184"
 
 [node name="Pam" type="RichTextLabel" parent="CreditsControlPoints" unique_id=1561383632]
 layout_mode = 0
@@ -331,15 +345,17 @@ offset_left = 127.0
 offset_top = 725.0
 offset_right = 950.0
 offset_bottom = 811.0
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_font_sizes/normal_font_size = 61
 bbcode_enabled = true
 horizontal_alignment = 1
 script = ExtResource("16_b1nx5")
-NamePlateType = 0
+NamePlateType = 2
 Person = 4
 UseThisText = "pamp0"
+AlternateText = "和！對對糊"
 
 [node name="Yun" type="RichTextLabel" parent="CreditsControlPoints" unique_id=465713843]
 layout_mode = 0
@@ -347,15 +363,17 @@ offset_left = 979.0
 offset_top = 725.0
 offset_right = 1802.0
 offset_bottom = 811.0
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_font_sizes/normal_font_size = 61
 bbcode_enabled = true
 horizontal_alignment = 1
 script = ExtResource("16_b1nx5")
-NamePlateType = 0
+NamePlateType = 2
 Person = 5
 UseThisText = "Yun"
+AlternateText = "磨杵成针"
 
 [node name="JetteRole" type="RichTextLabel" parent="CreditsControlPoints" unique_id=826160214]
 layout_mode = 0
@@ -363,6 +381,7 @@ offset_left = 127.0
 offset_top = 381.0
 offset_right = 950.0
 offset_bottom = 423.0
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_fonts/italics_font = SubResource("FontVariation_oi5f5")
@@ -372,9 +391,10 @@ bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("16_b1nx5")
-NamePlateType = 1
+NamePlateType = 2
 Person = 0
 UseThisText = "Concept/Character Art"
+AlternateText = "Ta gjerne titt på komikken min!"
 
 [node name="QuinnRole" type="RichTextLabel" parent="CreditsControlPoints" unique_id=1683066466]
 layout_mode = 0
@@ -382,6 +402,7 @@ offset_left = 979.0
 offset_top = 381.0
 offset_right = 1802.0
 offset_bottom = 423.0
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_fonts/italics_font = SubResource("FontVariation_6cosd")
@@ -391,9 +412,10 @@ bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("16_b1nx5")
-NamePlateType = 1
+NamePlateType = 2
 Person = 1
 UseThisText = "Design Lead"
+AlternateText = "Chui𝕊 un peu keuquir auj."
 
 [node name="WestRole" type="RichTextLabel" parent="CreditsControlPoints" unique_id=645048801]
 layout_mode = 0
@@ -401,6 +423,7 @@ offset_left = 127.0
 offset_top = 537.0
 offset_right = 950.0
 offset_bottom = 579.0
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_fonts/italics_font = SubResource("FontVariation_5ifiv")
@@ -410,9 +433,10 @@ bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("16_b1nx5")
-NamePlateType = 1
+NamePlateType = 2
 Person = 2
 UseThisText = "Concept/Level Design"
+AlternateText = "ᠲᠣᠭᠯᠠᠭᠠᠮᠢᠨ ᠪᠠ ᠯᠡᠸᠡᠯ ᠳᠢᠽᠠᠵᠨ"
 
 [node name="TolzRole" type="RichTextLabel" parent="CreditsControlPoints" unique_id=1736399811]
 layout_mode = 0
@@ -420,6 +444,7 @@ offset_left = 979.0
 offset_top = 537.0
 offset_right = 1802.0
 offset_bottom = 579.0
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_fonts/italics_font = SubResource("FontVariation_b1nx5")
@@ -429,9 +454,10 @@ bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("16_b1nx5")
-NamePlateType = 1
+NamePlateType = 2
 Person = 3
 UseThisText = "Programing, Worldbuilding"
+AlternateText = "Awaa? Is this you!?"
 
 [node name="PamRole" type="RichTextLabel" parent="CreditsControlPoints" unique_id=1488146447]
 layout_mode = 0
@@ -439,6 +465,7 @@ offset_left = 127.0
 offset_top = 701.0
 offset_right = 950.0
 offset_bottom = 743.0
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_fonts/italics_font = SubResource("FontVariation_lmqps")
@@ -448,9 +475,10 @@ bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("16_b1nx5")
-NamePlateType = 1
+NamePlateType = 2
 Person = 4
 UseThisText = "Enviromental/Technical Art"
+AlternateText = "环境游戏美术设计"
 
 [node name="YunRole" type="RichTextLabel" parent="CreditsControlPoints" unique_id=283975829]
 layout_mode = 0
@@ -458,6 +486,7 @@ offset_left = 979.0
 offset_top = 701.0
 offset_right = 1802.0
 offset_bottom = 743.0
+mouse_default_cursor_shape = 2
 theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
 theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_fonts/italics_font = SubResource("FontVariation_un3om")
@@ -467,9 +496,10 @@ bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("16_b1nx5")
-NamePlateType = 1
+NamePlateType = 2
 Person = 5
 UseThisText = "UI/Technical Art"
+AlternateText = "总有一天，我会成为一名生涯大师"
 
 [node name="Button" type="NinePatchRect" parent="CreditsControlPoints" unique_id=1405135710]
 layout_mode = 0
@@ -625,12 +655,12 @@ texture = SubResource("GradientTexture1D_oi5f5")
 [connection signal="mouse_entered" from="CreditsControlPoints/Quinn" to="CreditsControlPoints/QuinnRole" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="CreditsControlPoints/Quinn" to="CreditsControlPoints/Quinn" method="_on_mouse_exited"]
 [connection signal="mouse_exited" from="CreditsControlPoints/Quinn" to="CreditsControlPoints/QuinnRole" method="_on_mouse_exited"]
-[connection signal="gui_input" from="CreditsControlPoints/West" to="CreditsControlPoints/West" method="_on_gui_input"]
 [connection signal="gui_input" from="CreditsControlPoints/West" to="CreditsControlPoints/WestRole" method="_on_gui_input"]
-[connection signal="mouse_entered" from="CreditsControlPoints/West" to="CreditsControlPoints/West" method="_on_mouse_entered"]
+[connection signal="gui_input" from="CreditsControlPoints/West" to="CreditsControlPoints/West" method="_on_gui_input"]
 [connection signal="mouse_entered" from="CreditsControlPoints/West" to="CreditsControlPoints/WestRole" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="CreditsControlPoints/West" to="CreditsControlPoints/West" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="CreditsControlPoints/West" to="CreditsControlPoints/West" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="CreditsControlPoints/West" to="CreditsControlPoints/WestRole" method="_on_mouse_exited"]
+[connection signal="mouse_exited" from="CreditsControlPoints/West" to="CreditsControlPoints/West" method="_on_mouse_exited"]
 [connection signal="gui_input" from="CreditsControlPoints/Tolz" to="CreditsControlPoints/Tolz" method="_on_gui_input"]
 [connection signal="gui_input" from="CreditsControlPoints/Tolz" to="CreditsControlPoints/TolzRole" method="_on_gui_input"]
 [connection signal="mouse_entered" from="CreditsControlPoints/Tolz" to="CreditsControlPoints/Tolz" method="_on_mouse_entered"]
@@ -657,9 +687,7 @@ texture = SubResource("GradientTexture1D_oi5f5")
 [connection signal="mouse_entered" from="CreditsControlPoints/QuinnRole" to="CreditsControlPoints/QuinnRole" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="CreditsControlPoints/QuinnRole" to="CreditsControlPoints/Quinn" method="_on_mouse_exited"]
 [connection signal="mouse_exited" from="CreditsControlPoints/QuinnRole" to="CreditsControlPoints/QuinnRole" method="_on_mouse_exited"]
-[connection signal="mouse_entered" from="CreditsControlPoints/WestRole" to="CreditsControlPoints/West" method="_on_mouse_entered"]
 [connection signal="mouse_entered" from="CreditsControlPoints/WestRole" to="CreditsControlPoints/WestRole" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="CreditsControlPoints/WestRole" to="CreditsControlPoints/West" method="_on_mouse_exited"]
 [connection signal="mouse_exited" from="CreditsControlPoints/WestRole" to="CreditsControlPoints/WestRole" method="_on_mouse_exited"]
 [connection signal="mouse_entered" from="CreditsControlPoints/TolzRole" to="CreditsControlPoints/Tolz" method="_on_mouse_entered"]
 [connection signal="mouse_entered" from="CreditsControlPoints/TolzRole" to="CreditsControlPoints/TolzRole" method="_on_mouse_entered"]

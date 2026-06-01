@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://rp0lnef70f5f"]
+
+[ext_resource type="Script" uid="uid://dw87t53n5q5o7" path="res://2.Scripts/Master/GameMaster.gd" id="1_wol84"]
+[ext_resource type="PackedScene" uid="uid://dhxvluqk5h15w" path="res://1.Scenes/MainMenu.tscn" id="2_6q41w"]
+
+[sub_resource type="Gradient" id="Gradient_wol84"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6q41w"]
+gradient = SubResource("Gradient_wol84")
+
+[node name="MainHead" type="Node2D" unique_id=1335114781]
+script = ExtResource("1_wol84")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=221008779]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = SubResource("GradientTexture1D_6q41w")
+
+[node name="MainMenu" parent="." unique_id=189344899 instance=ExtResource("2_6q41w")]
+
+[connection signal="StartGame" from="MainMenu" to="." method="_on_main_menu_start_game"]

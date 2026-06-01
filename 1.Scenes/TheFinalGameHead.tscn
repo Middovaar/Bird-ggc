@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://1ld1xlijhjwf"]
 
 [ext_resource type="Texture2D" uid="uid://cq46bkhmh28go" path="res://Assets/Environment/Backgrounds/Db_background_boss_room_big.png" id="1_mw5ni"]
+[ext_resource type="Script" uid="uid://dleu08y7bxmxh" path="res://2.Scripts/GameHead.gd" id="1_wg2ma"]
 [ext_resource type="Texture2D" uid="uid://bu7bsmiedfuf7" path="res://GFX/OLDDb_tile_mvp.png" id="2_a4q7r"]
 [ext_resource type="Texture2D" uid="uid://blhdoh6hwedeg" path="res://Assets/Environment/Interactables/Db_nest_pillar.png" id="2_dkvyw"]
 [ext_resource type="Script" uid="uid://bijtienw8gt37" path="res://2.Scripts/Character.gd" id="3_17fa7"]
@@ -1658,6 +1659,7 @@ size = Vector2(212, 272)
 size = Vector2(15643, 1245)
 
 [node name="TheFinalGameHead" type="Node2D" unique_id=369207571]
+script = ExtResource("1_wg2ma")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1032634118]
 environment = SubResource("Environment_kq13e")

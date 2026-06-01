@@ -1,11 +1,11 @@
 extends Sprite2D
 
 var Positions:Dictionary = {
-	"Start": Vector2(960.0, 180.0),
-	"Settings": Vector2(960.0, 270.0),
-	"Credits": Vector2(960.0, 360.0),
-	"Exit": Vector2(960.0, 450.0),
-	"Avoid": Vector2(960.0, 780.0),
+	"Start": Vector2(125.0, 180.0),
+	"Settings": Vector2(125.0, 270.0),
+	"Credits": Vector2(125.0, 360.0),
+	"Exit": Vector2(125.0, 450.0),
+	"Avoid": Vector2(125.0, 780.0),
 }
 
 var PosGoTo:Vector2
@@ -25,3 +25,7 @@ func _process(delta):
 func _on_button_gardine_select_highlighter_pos(Type):
 	if Positions[Type] != null:
 		PosGoTo = Positions[Type]
+
+
+func _on_area_2d_mouse_entered():
+	PosGoTo = Positions["Avoid"]
