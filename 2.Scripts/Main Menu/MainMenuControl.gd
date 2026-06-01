@@ -2,25 +2,50 @@ extends Node2D
 
 const StartActive:Vector2 = Vector2(0.0, -1200.0)
 signal StartGame
+signal StartCredits
+signal StartSettings
 
 var Start:bool = false
 var MoveToSides:bool = false
-
+var MoveInCredits:bool = false
+var MoveInSettings:bool = false
 
 var progress:float = 0.0
-
+var creditsprogress:float = 0.0
 
 @onready var Cover = %Coverlayer
 
 func _process(delta):
+	print(str(MoveToSides) + ", " + str(MoveInCredits) + ", " + str(MoveInSettings))
 	if Start:
 		progress = clamp(progress+0.01, 0.0, 1.0)
 		if Cover != null:
 			Cover.position.y = 600-1800*EaseInOut(progress)
 	
+	
 	if MoveToSides:
 		progress = clamp(progress+0.01, 0.0, 1.0)
-		$ControlPoints.position.y = 0-1920*EaseInOut(progress)
+		$MainControlPoints.position.y = 0-1920*EaseInOut(progress)
+	
+	elif MoveToSides == false:
+		progress = clamp(progress-0.01, 0.0, 1.0)
+		$MainControlPoints.position.y = 0-1920*EaseInOut(progress)
+	
+	
+	if MoveInCredits:
+		creditsprogress = clamp(creditsprogress+0.01, 0.0, 1.0)
+		$CreditsControlPoints.position.x = 1920-1920*EaseInOut(creditsprogress)
+	elif MoveInCredits == false:
+		creditsprogress = clamp(progress-0.01, 0.0, 1.0)
+		$CreditsControlPoints.position.x = 1920-1920*EaseInOut(creditsprogress)
+		
+	if MoveInSettings:
+		creditsprogress = clamp(creditsprogress+0.01, 0.0, 1.0)
+		$SettingsControlPoints.position.x = -1920+1920*EaseInOut(creditsprogress)
+	elif MoveInSettings == false:
+		creditsprogress = clamp(progress-0.01, 0.0, 1.0)
+		$SettingsControlPoints.position.x = -1920+1920*EaseInOut(creditsprogress)
+
 
 func EaseInOut(val:float) -> float: 
 	# Normalize the input to the domain of the function
@@ -32,6 +57,13 @@ func EaseInOut(val:float) -> float:
 
 func MoveToSide(form) -> void:
 	MoveToSides = true
+	match form:
+		"Settings":
+			MoveInSettings = true
+			emit_signal("StartSettings")
+		"Credits":
+			MoveInCredits = true
+			emit_signal("StartCredits")
 
 func _on_ButtonPress(Type):
 	match Type:
@@ -45,6 +77,7 @@ func _on_ButtonPress(Type):
 		"Settings":
 			MoveToSide(Type)
 		"Credits":
+			
 			MoveToSide(Type)
 		"Exit":
 			get_tree().quit(0)
@@ -52,4 +85,8 @@ func _on_ButtonPress(Type):
 func reentersScope():
 	Start = false
 	MoveToSides = false
-	progress = 0.0
+	MoveInCredits = false
+	MoveInSettings = false
+
+func _on_button_letsgo_back():
+	reentersScope()

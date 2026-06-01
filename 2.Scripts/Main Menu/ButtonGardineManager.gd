@@ -156,7 +156,6 @@ func _OnButtonClick(ButtonType):
 	
 	Active = false
 	emit_signal("ButtonPress", ButtonType)
-	print("clicked ", ButtonType)
 
 
 func OnButtonEscapeAllTypes(Type):

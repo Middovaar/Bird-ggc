@@ -22,7 +22,7 @@ var Otherfontsize:float = 62
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if ButtonType == "Start":
 		self.text = FSOpener+str(roundi(Startfontsize))+FSOpenClose+CenterOpener+DisplayedText+CenterCloser+FontSizeCloser
 	elif MouseInside:
