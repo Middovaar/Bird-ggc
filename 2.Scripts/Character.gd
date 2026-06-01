@@ -273,7 +273,7 @@ func _process(delta):
 		$Camera.position = lerp($Camera.position, Vector2(2700, -620), 0.06)
 		$Camera/PlayerHp/HPBar.modulate = lerp($Camera/PlayerHp/HPBar.modulate, Color.TRANSPARENT, 0.04)
 	else:
-		$Camera.position = lerp($Camera.position, Vector2(0, 0), 0.06)
+		#$Camera.position = lerp($Camera.position, Vector2(0, 0), 0.06)
 		$Camera/PlayerHp/HPBar.modulate = lerp($Camera/PlayerHp/HPBar.modulate, Color.WHITE, 0.04)
 	
 	if BossOpen:
