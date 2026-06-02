@@ -103,6 +103,8 @@ signal AnimationChanger(EmittingAnimation)
 signal SuperflyCamera(yn)
 signal Hit(Hittype:String, Damage:int)
 
+## Updates the HP Bar of Kloe to reflect Kloe's lowered HP
+signal KloeCurrentHP(HP:int)
 
 func _ready():
 	Anim.play("idle")
@@ -439,4 +441,7 @@ func _on_dive_collider_body_entered(body): #Depricated.
 func _on_player_attacking(Victim, AtkType, Damage): #Applies damage to Kloe when Saffron attacks them
 	if Victim == self and CurrentHP >= 0:
 		CurrentHP -= Damage
-		print(CurrentHP)
+		emit_signal("KloeCurrentHP", CurrentHP)
+	elif CurrentHP <= 0:
+		
+		self.queue_free()

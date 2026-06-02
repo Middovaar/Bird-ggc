@@ -261,6 +261,9 @@ var FreezeEverything:bool = false
 signal PlayerDeath()
 var IsPlayerDead:bool
 
+## Win Manager
+signal PlayerWin()
+
 func _ready():
 	#region Data that will be pulled from the Main goes here
 	
@@ -687,3 +690,12 @@ func die():
 	AnimationtoPlay = "idle"
 	PlayAnimation("idle")
 	AcceleratingDirection = Vector2.ZERO
+
+
+func _on_player_hp_dummythicc():
+	FreezeEverything = true
+	velocity = Vector2.ZERO
+	AnimationtoPlay = "idle"
+	PlayAnimation("idle")
+	AcceleratingDirection = Vector2.ZERO
+	emit_signal("PlayerWin")

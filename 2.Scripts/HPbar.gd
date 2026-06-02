@@ -34,7 +34,7 @@ var CurrentBossHPDisplacement:float = 0.0
 var scanner:float = 0.0
 
 ## Klo HP Percentage Calculator
-var KloeHPFraction:float = 1.0
+var KloeHPFraction:float = 1.000
 
 const BossHPBarActivePosition:float = 2460
 
@@ -133,7 +133,6 @@ func _process(delta):
 	CurrentPlayerHPDisplacement = HPtoPositionConverter(%Player.CurrentHP)
 	if Boss != null:
 		CurrentBossHPDisplacement = BossHPtoPositionConverter(%Klo.CurrentHP)
-		lerpf(position.x, BossHPBarActivePosition, 0.25)
 	else:
 		CurrentBossHPDisplacement = -2000
 	
@@ -143,11 +142,9 @@ func _process(delta):
 	
 	if dummydone:
 		$BossHPFrame/BossHPMask.offset.x = lerpf($BossHPFrame/BossHPMask.offset.x, BossHPtoPositionConverter(KloeHPFraction), 0.15)
-	
 	else:
-		emit_signal("dummythicc")
-		print("Congratulations, You defeated Klo,  and you win! Ask Quinn and recieve your reward!")
-		get_tree().quit(0)
+		#print("Congratulations, You defeated Klo,  and you win! Ask Quinn and recieve your reward!")
+		$BossHPFrame.position.x = lerpf($BossHPFrame.position.x, 3500.0, 0.3)
 	
 	if FadeInNamePlate:
 		$DialogueBox.modulate = lerp($DialogueBox.modulate, Color.WHITE, 0.4)
@@ -164,7 +161,7 @@ func HPtoPositionConverter(HP) -> float:
 	return -ZeroHPDisplacement + (HPPercentage*10/4) 
 
 func BossHPtoPositionConverter(HPFraction) -> float:
-	return 0+(ZeroBossHPDisplacement*HPFraction)
+	return 0+(ZeroBossHPDisplacement*(1-HPFraction))
 
 func _on_player_boss_dialogue_initializer(History):
 	if TextIsAnimated != true:
@@ -202,3 +199,11 @@ func _on_player_bossfightis_open():
 
 func _on_klo_isdonedefeated():
 	dummydone = false
+	emit_signal("dummythicc")
+	
+
+
+func _on_klo_kloe_current_hp(HP):
+	KloeHPFraction = float(HP)/%Klo.MaxHP
+	if HP <= 0:
+		_on_klo_isdonedefeated()

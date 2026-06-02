@@ -1948,10 +1948,10 @@ TimeToReachMaxSpeed = 0.3
 JumpSpeed = -900.0
 MovSpeedDecayFactor = 10.0
 DashDecay = 0.5
-LightAttackDamage = 20
-HeavyAttackDamage = 40
-DashAttackDamageBonus = 2
-JumpAttackDamage = 1
+LightAttackDamage = 10
+HeavyAttackDamage = 15
+DashAttackDamageBonus = 7
+JumpAttackDamage = 5
 
 [node name="AttackIndicators" type="Node2D" parent="Player" unique_id=1212496731]
 
@@ -2348,6 +2348,7 @@ shape = SubResource("RectangleShape2D_nu33a")
 
 [connection signal="AnimationChanger" from="Klo" to="Klo/Klonim" method="_on_klo_animation"]
 [connection signal="Hit" from="Klo" to="Player" method="_on_klo_hit"]
+[connection signal="KloeCurrentHP" from="Klo" to="Player/Camera/PlayerHp" method="_on_klo_kloe_current_hp"]
 [connection signal="SuperflyCamera" from="Klo" to="Player/Camera" method="_on_klo_superfly_camera"]
 [connection signal="animation_finished" from="Klo/Klonim" to="Klo" method="_on_anim_finished"]
 [connection signal="timeout" from="Klo/ReactionTime" to="Klo" method="KloeReactionTime"]
@@ -2368,6 +2369,7 @@ shape = SubResource("RectangleShape2D_nu33a")
 [connection signal="BossfightisOpen" from="Player" to="Player/Camera" method="_on_bossfightBegin"]
 [connection signal="BossfightisOpen" from="Player" to="Player/Camera/PlayerHp" method="_on_player_bossfightis_open"]
 [connection signal="PlayerDeath" from="Player" to="." method="_on_player_player_death"]
+[connection signal="PlayerWin" from="Player" to="." method="_on_player_player_win"]
 [connection signal="Soundtobeplayed" from="Player" to="Player/Sounds" method="_on_player_soundtobeplayed"]
 [connection signal="animation_finished" from="Player/Anim" to="Player" method="_on_nonloopable_animFinished"]
 [connection signal="area_entered" from="Player/LightAtk" to="Player" method="_on_light_atk_area_entered"]
@@ -2380,5 +2382,6 @@ shape = SubResource("RectangleShape2D_nu33a")
 [connection signal="body_exited" from="Player/HeavyAtk" to="Player" method="_on_heavy_atk_area_exited"]
 [connection signal="finished" from="Player/Sounds" to="Player/Sounds" method="_on_finished"]
 [connection signal="DialogueHandover" from="Player/Camera/PlayerHp" to="Player" method="_on_player_hp_dialogue_handover"]
+[connection signal="dummythicc" from="Player/Camera/PlayerHp" to="Player" method="_on_player_hp_dummythicc"]
 [connection signal="body_entered" from="EnterBossArenaArea" to="Player" method="_on_enter_boss_arena"]
 [connection signal="body_entered" from="OutOfBounds" to="Player" method="_on_out_of_bounds"]
