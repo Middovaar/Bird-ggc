@@ -14,11 +14,20 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Birdgame"
+config/name="Fearless Feathers: The Last Finch"
+config/version="0.8"
 config/tags=PackedStringArray("ggc")
 run/main_scene="uid://rp0lnef70f5f"
+config/use_custom_user_dir=true
 config/features=PackedStringArray("4.6", "GL Compatibility")
-config/icon="res://GFX/Icons/icon.svg"
+run/max_fps=720
+boot_splash/bg_color=Color(0.0046199737, 0.0119009465, 0.058592767, 1)
+boot_splash/stretch_mode=0
+boot_splash/image="uid://bckvf3qpdqu5v"
+config/icon="uid://4ukj8rb3ut1j"
+config/macos_native_icon="res://FeatherIconOSX.icns"
+config/windows_native_icon="res://FeatherIconWin.ico"
+boot_splash/minimum_display_time=700
 
 [display]
 

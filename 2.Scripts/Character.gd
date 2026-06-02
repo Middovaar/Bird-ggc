@@ -255,6 +255,10 @@ signal Soundtobeplayed(SFX)
 ## Out Of Bounds Freeze Everything!!!
 var FreezeEverything:bool = false
 
+## Death manager
+signal PlayerDeath()
+var IsPlayerDead:bool
+
 func _ready():
 	#region Data that will be pulled from the Main goes here
 	
@@ -677,4 +681,5 @@ func _on_klo_hit(Hittype, Damage):
 				die()
 
 func die():
-	get_tree().quit(0)
+	FreezeEverything = true
+	emit_signal("PlayerDeath")
