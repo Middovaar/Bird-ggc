@@ -210,6 +210,10 @@ extends CharacterBody2D
 #endregion
 
 #endregion
+#region Special Parameters
+@export_group("Is This The West?")
+@export var IsThisTheWestsExperiments:bool = false
+#endregion
 
 #endregion
 
@@ -252,6 +256,13 @@ var PositionAtGameStart
 ## Sound Manager
 signal Soundtobeplayed(SFX)
 
+## Variables associated with a Game Over
+var DeathSlowdown:bool
+signal DeathSlowdownAnnouncer()
+
+## Quit Game through pressing Escape
+signal ExitGame()
+
 ## Out Of Bounds Freeze Everything!!!
 var FreezeEverything:bool = false
 
@@ -266,14 +277,14 @@ func _ready():
 	
 	pass
 
-
 func _process(delta):
 	if BossTalkingTime:
 		#CameraDisplacementfromBoss = self.position+$Camera.position
 		$Camera.position = lerp($Camera.position, Vector2(2700, -620), 0.06)
 		$Camera/PlayerHp/HPBar.modulate = lerp($Camera/PlayerHp/HPBar.modulate, Color.TRANSPARENT, 0.04)
 	else:
-		#$Camera.position = lerp($Camera.position, Vector2(0, 0), 0.06)
+		if IsThisTheWestsExperiments == false:
+			$Camera.position = lerp($Camera.position, Vector2(0, 0), 0.06)
 		$Camera/PlayerHp/HPBar.modulate = lerp($Camera/PlayerHp/HPBar.modulate, Color.WHITE, 0.04)
 	
 	if BossOpen:
@@ -281,11 +292,11 @@ func _process(delta):
 		BossOpen = false
 
 func _physics_process(delta):
-	#print(AnimationtoPlay)
+	
 	#region Gravity
 	## Makes sure that the player charact is affected by gravity
 	if not is_on_floor() and not FreezeEverything:
-		self.velocity += get_gravity() * delta #Self will be pulled down if in air
+		self.velocity += get_gravity() * delta*get_parent().DeathSlowdownFactor #Self will be pulled down if in air
 	#endregion
 	
 	#region Movement
@@ -330,14 +341,14 @@ func _physics_process(delta):
 	## the track towards max speed. so 0 = 0 speed, and when this is equal to TimeToReachMaxSpeed, then
 	## speed would be equal to the maximum player speed.
 	if AcceleratingDirection == Vector2(1, 0) and TimeSpentAccelerating.x < TimeToReachMaxSpeed: # Player presses the Left Button
-		TimeSpentAccelerating.x += 1 * delta #Counts seconds held.
+		TimeSpentAccelerating.x += 1 * delta*get_parent().DeathSlowdownFactor #Counts seconds held.
 	if AcceleratingDirection == Vector2(0, 1) and TimeSpentAccelerating.y < TimeToReachMaxSpeed: # Player presses the Right Button
-		TimeSpentAccelerating.y += 1 * delta #Counts seconds held.
+		TimeSpentAccelerating.y += 1 * delta*get_parent().DeathSlowdownFactor #Counts seconds held.
 	#endregion
 	
 	#region Dashing
 	if IsDashing and DashTimer < DashTime:
-		DashTimer +=  delta
+		DashTimer +=  delta*get_parent().DeathSlowdownFactor
 	if IsDashing and DashTimer >= DashTime:
 		IsDashing = 0
 		if is_on_floor():
@@ -347,7 +358,7 @@ func _physics_process(delta):
 			AnimationtoPlay = "jump"
 			PlayAnimation(AnimationtoPlay)
 	if IsDashing == 0  and DashTimer > 0.0:
-		DashTimer -= 1 * delta # 1 is Dash Recharge Rate
+		DashTimer -= 1 * delta*get_parent().DeathSlowdownFactor # 1 is Dash Recharge Rate
 		
 	#endregion
 	
@@ -363,19 +374,19 @@ func _physics_process(delta):
 	match AcceleratingDirection:
 		Vector2(0, 0): # No key is held, everything decreases fast.
 			if TimeSpentAccelerating.x > 0.0:
-				TimeSpentAccelerating.x -= max((MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta, 0.0)
+				TimeSpentAccelerating.x -= max((MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta*get_parent().DeathSlowdownFactor, 0.0)
 			if TimeSpentAccelerating.y > 0.0:
-				TimeSpentAccelerating.y -= max((MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta, 0.0)
+				TimeSpentAccelerating.y -= max((MovSpeedDecayFactor * (NoInputModSpdDecay*0.01)) * delta*get_parent().DeathSlowdownFactor, 0.0)
 		Vector2(1, 0): # [Left] is held, only [Right] decays fast, but then more slowly.
 			if TimeSpentAccelerating.y > TrailingMovSpdDecayLimit*0.01:
-				TimeSpentAccelerating.y -= max(MovSpeedDecayFactor * delta, 0.0)
+				TimeSpentAccelerating.y -= max(MovSpeedDecayFactor * delta*get_parent().DeathSlowdownFactor, 0.0)
 			if TimeSpentAccelerating.y <= TrailingMovSpdDecayLimit*0.01 and TimeSpentAccelerating.y > 0.0:
 				TimeSpentAccelerating.y = 0.0
 			
 			
 		Vector2(0, 1): # [Right] is held, only [Left] decays fast, but then more slowly.
 			if TimeSpentAccelerating.x > TrailingMovSpdDecayLimit*0.01:
-				TimeSpentAccelerating.x -= max(MovSpeedDecayFactor * delta, 0.0)
+				TimeSpentAccelerating.x -= max(MovSpeedDecayFactor * delta*get_parent().DeathSlowdownFactor, 0.0)
 			if TimeSpentAccelerating.x <= TrailingMovSpdDecayLimit*0.01 and TimeSpentAccelerating.x > 0.0:
 				TimeSpentAccelerating.x = 0.0
 		Vector2(1, 1): # [Left]+[Right] is held, decay to 0.15, and hold there (don't cancel movement).
@@ -395,23 +406,23 @@ func _physics_process(delta):
 	
 	## Assignment of Velocity
 	if IsDashing == 0 and DashTimer <= 0.0:
-		velocity.x = PlayerVelocityDresser(RawVelocity, delta)
+		velocity.x = PlayerVelocityDresser(RawVelocity, delta*get_parent().DeathSlowdownFactor)
 	if IsDashing == 0 and DashTimer > 0.0:
-		velocity.x = lerpf(velocity.x, PlayerVelocityDresser(RawVelocity, delta) * (abs(DashStrength * DashTimer) + 1), 0.1)
+		velocity.x = lerpf(velocity.x, PlayerVelocityDresser(RawVelocity, delta*get_parent().DeathSlowdownFactor) * (abs(DashStrength * DashTimer) + 1), 0.1)
 	if IsDashing == 1:
-		velocity.x = PlayerVelocityDresser(RawVelocity, delta) * (abs(DashStrength) + 1)
+		velocity.x = PlayerVelocityDresser(RawVelocity, delta*get_parent().DeathSlowdownFactor) * (abs(DashStrength) + 1)
 	
 	if is_on_floor():
 		DoubleJumpAvaliabletoPlayer = true
 	
-	#print(TimeSpentAccelerating, AcceleratingDirection)
-	
 	## Moves the body based on the internal velocity vector (Vector2D)
 	move_and_slide()
 
-
 func _input(event):
 	if not FreezeEverything:
+		
+		#region Button Inputs
+		## Dash
 		if Input.is_action_just_pressed("Dash") and IsDashing == 0 and DashTimer <= 0.0:
 			IsDashing = 1
 			if is_on_floor():
@@ -421,22 +432,24 @@ func _input(event):
 				AnimationtoPlay = "jumpdash"
 				PlayAnimation(AnimationtoPlay)
 		
+		## Jump
 		if Input.is_action_just_pressed("Jump"):
 			if self.is_on_floor() or DoubleJumpAvaliabletoPlayer: #...but you have to be on the floor of course
-				velocity.y = JumpSpeed
+				velocity.y = JumpSpeed*get_parent().DeathSlowdownFactor
 				DoubleJumpAvaliabletoPlayer = false
 				if $Anim.animation != "startjump" or "jump":
 					AnimationtoPlay = "startjump"
 					PlayAnimation(AnimationtoPlay)
 
 			elif DashResetsJump == 1 and IsDashing: #... or you are dashing, and may do so through dash I-frame jump resets
-				velocity.y = JumpSpeed
+				velocity.y = JumpSpeed*get_parent().DeathSlowdownFactor
 			#elif DashResetsJump == 2 and IsDashing: #This should ONLY be turned on if we enable powerups
 				#velocity.y = JumpSpeed
 			else: #... else, you may not jump.
 				pass
 			#AnimationtoPlay = "stopjump"
 	
+		## Attacks
 		if Input.is_action_just_pressed("LightAtk") and AtkGateKeeper != true:
 			LightAttack()
 			if is_on_floor():
@@ -455,15 +468,21 @@ func _input(event):
 				AnimationtoPlay = "heavyatk"
 				PlayAnimation(AnimationtoPlay)
 	
+		## Debug Heal/Hurt
 		if Input.is_action_just_pressed("selfHurt"):
 			CurrentHP = CurrentHP-10
 			if CurrentHP < 0:
 				CurrentHP = 0
+		
 		if Input.is_action_just_pressed("selfHeal"):
 			CurrentHP = CurrentHP+10
 			if CurrentHP > MaxHP:
 				CurrentHP = MaxHP
-
+		
+		## Pressed Escape
+		if Input.is_action_just_pressed("Quit"):
+			emit_signal("ExitGame")
+		#endregion
 
 ## Using the velocity gathered from previous calculations, use the velocity and the delta to
 ## assign appropriate animations, flip the player sprite, and create the slidey deceleration effect 
@@ -571,7 +590,6 @@ func IsHurt():
 
 func PlayAnimation(Animationchange) -> void:
 	$Anim.play(AnimationtoPlay)
-	print(Animationchange)
 	emit_signal("Soundtobeplayed", AnimationtoPlay)
 	
 func _on_nonloopable_animFinished():
@@ -677,4 +695,4 @@ func _on_klo_hit(Hittype, Damage):
 				die()
 
 func die():
-	get_tree().quit(0)
+	emit_signal("DeathSlowdownAnnouncer")

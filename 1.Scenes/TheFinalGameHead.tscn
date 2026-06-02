@@ -2363,6 +2363,8 @@ shape = SubResource("RectangleShape2D_nu33a")
 [connection signal="BossDialogueInitializer" from="Player" to="Player/Camera/PlayerHp" method="_on_player_boss_dialogue_initializer"]
 [connection signal="BossfightisOpen" from="Player" to="Klo" method="_on_player_bossfightis_open"]
 [connection signal="BossfightisOpen" from="Player" to="Player/Camera/PlayerHp" method="_on_player_bossfightis_open"]
+[connection signal="DeathSlowdownAnnouncer" from="Player" to="." method="_on_player_death_slowdown_announcer"]
+[connection signal="ExitGame" from="Player" to="." method="_on_player_exit_game"]
 [connection signal="Soundtobeplayed" from="Player" to="Player/Sounds" method="_on_player_soundtobeplayed"]
 [connection signal="animation_finished" from="Player/Anim" to="Player" method="_on_nonloopable_animFinished"]
 [connection signal="area_entered" from="Player/LightAtk" to="Player" method="_on_light_atk_area_entered"]
