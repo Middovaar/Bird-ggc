@@ -33,6 +33,9 @@ var CurrentPlayerHPDisplacement:float = 0.0
 var CurrentBossHPDisplacement:float = 0.0
 var scanner:float = 0.0
 
+## Klo HP Percentage Calculator
+var KloeHPFraction:float = 1.0
+
 const BossHPBarActivePosition:float = 2460
 
 func _ready():
@@ -47,8 +50,6 @@ func _ready():
 	jsonObject.parse(parser)
 	Dialogue = jsonObject.data
 	%TextBox.text = "" #Nulls the text box
-	
-
 
 func RenderText(DialogueUUID):
 	# Detects how many lines of texts there are in a given dialogue block
@@ -141,15 +142,12 @@ func _process(delta):
 	%HPLingMask.offset.x = lerpf(%HPLingMask.offset.x, %HPMask.offset.x, 0.04)
 	
 	if dummydone:
-		await get_tree().create_timer(0.4).timeout
-		if dummydone:
-			pass
-			$BossHPFrame/BossHPMask.offset.x = lerpf($BossHPFrame/BossHPMask.offset.x, BossHPtoPositionConverter(Klo.CurrentHP), 0.15)
+		$BossHPFrame/BossHPMask.offset.x = lerpf($BossHPFrame/BossHPMask.offset.x, BossHPtoPositionConverter(KloeHPFraction), 0.15)
+	
 	else:
 		emit_signal("dummythicc")
 		print("Congratulations, You defeated Klo,  and you win! Ask Quinn and recieve your reward!")
 		get_tree().quit(0)
-	
 	
 	if FadeInNamePlate:
 		$DialogueBox.modulate = lerp($DialogueBox.modulate, Color.WHITE, 0.4)
@@ -161,15 +159,12 @@ func _process(delta):
 	if BossActive:
 		$BossHPFrame.position.x = lerp($BossHPFrame.position.x, BossHPBarActivePosition, 0.2)
 
-func HPtoPositionConverter(HP):
+func HPtoPositionConverter(HP) -> float:
 	var HPPercentage = HP*100 / %Player.MaxHP
 	return -ZeroHPDisplacement + (HPPercentage*10/4) 
 
-func BossHPtoPositionConverter(HP):
-	var HPPercentage:float = HP / %Klo.MaxHP
-	
-	return ZeroBossHPDisplacement-(ZeroBossHPDisplacement*HPPercentage)
-
+func BossHPtoPositionConverter(HPFraction) -> float:
+	return 0+(ZeroBossHPDisplacement*HPFraction)
 
 func _on_player_boss_dialogue_initializer(History):
 	if TextIsAnimated != true:
@@ -182,7 +177,6 @@ func _on_player_boss_dialogue_initializer(History):
 				
 			_:
 				RenderText(DialoguetoDialogueUUIDTranslator("KloeStart"))
-
 
 func DialoguetoDialogueUUIDTranslator(DialogueDesc:String) -> int:
 	var TranslatedDialogueUUID:int
@@ -205,7 +199,6 @@ func InitializeDialogueHandover(DialogueFlag):
 
 func _on_player_bossfightis_open():
 	BossActive = true
-
 
 func _on_klo_isdonedefeated():
 	dummydone = false

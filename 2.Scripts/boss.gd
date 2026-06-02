@@ -66,9 +66,17 @@ extends CharacterBody2D
 ## [br] [br]
 ## [b]Base Value[/b] = [code]-400.0px/Δt[/code]
 @export_range(-900.0, -100.0, 5.0, "or_less", "prefer_slider", "suffix:px/Δt") var JumpSpeed:float = -1000.0
+@export_category("Damage Envelope")
+## Base Damage for Ground Attack
+## [br] [br]
+## Determines the DMG of Kloë's melee attack (the wing slap).
+## [br] [br]
+## [b]Base Value[/b] = [code]12HP[/code]
+@export_range(0, 100, 1, "or_more", "prefer_slider", "suffix:HP") var WingSlapDMG:int = 15
 
 var vel:float
 var Desireposition
+@export_category("Kloë's AI")
 @export var MayStartThinking:bool = true
 
 var InputKeyPushedDown:float = 0.0
@@ -368,13 +376,13 @@ func EaseInOut(val:float) -> float:
 	else:
 		return 1.0 - pow(-2.0 * x + 2.0, 2.0) / 2.0
 
-func _on_area_2d_area_entered(area):
+func _on_area_2d_area_entered(area): # Basically Kloe's vision. Is the player in Kloe's FOV or nah when diving
 	if area == %Player and Superfly:
 		DetectedPlayerinDiveZone = true
 	else:
 		DetectedPlayerinDiveZone = false
 
-func _KloeDashTimerFinishes():
+func _KloeDashTimerFinishes(): # Kloe Dashtimer
 	if ChanceToSuperfly >= 20:
 		# insert logic to balance this out a bit
 		
@@ -388,7 +396,7 @@ func _KloeDashTimerFinishes():
 	else:
 		pass
 
-func _on_anim_finished():
+func _on_anim_finished(): # Kloe's animation controller
 	match Anim.animation:
 		"flystart":
 			if is_on_floor():
@@ -409,25 +417,26 @@ func _on_anim_finished():
 			Animationassigner(null)
 	pass
 
-func _on_ground_attack_body_entered(body):
+func _on_ground_attack_body_entered(body): # Controls when Kloe ground-swoops
 	if body == Player and self.is_on_floor() and IsDashing == false and MayStartThinking:
 		Animationassigner("NormalAtk")
-		emit_signal("Hit", "Normal", 45)
+		emit_signal("Hit", "Normal", WingSlapDMG)
 
-func _on_super_flytimer_timeout():
+func _on_super_flytimer_timeout(): #If Kloe has swooped around for too long, Kloe will dive and land
 	if Superfly and IsNotLookingForThrowable:
 		Dive("cancel")
 
-func _on_player_bossfightis_open():
+func _on_player_bossfightis_open(): #Controls when Kloe should you know, start actually thinking propperly
 	MayStartThinking = true
 
-func _on_area_dive_collider_body_entered(body):
+func _on_area_dive_collider_body_entered(body): #Kloe sees player in his dive zone collision box? Kloe dives
 	if Superfly and IsNotLookingForThrowable:
 		Dive("atk")
 
-func _on_dive_collider_body_entered(body):
+func _on_dive_collider_body_entered(body): #Depricated.
 	pass # Replace with function body.
 
-func _on_player_attacking(Victim, AtkType, Damage):
+func _on_player_attacking(Victim, AtkType, Damage): #Applies damage to Kloe when Saffron attacks them
 	if Victim == self and CurrentHP >= 0:
 		CurrentHP -= Damage
+		print(CurrentHP)

@@ -1948,6 +1948,8 @@ TimeToReachMaxSpeed = 0.3
 JumpSpeed = -900.0
 MovSpeedDecayFactor = 10.0
 DashDecay = 0.5
+LightAttackDamage = 20
+HeavyAttackDamage = 40
 DashAttackDamageBonus = 2
 JumpAttackDamage = 1
 
