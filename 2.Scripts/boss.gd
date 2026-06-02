@@ -138,7 +138,7 @@ func KloeBrain():
 	
 	if is_on_floor() and abs(PlayerBossDistanceDiscrepancy.x) < (MovementSpaceTolerance + 300):
 		if abs(PlayerBossDistanceDiscrepancy.y) > 110:
-			velocity.y = Jump(null)
+			velocity.y = Jump(null) *get_parent().DeathSlowdownFactor
 	
 	if RandomBias > ChanceToSuperfly and Superfly != true:
 		Superfly = true
@@ -159,7 +159,7 @@ func _physics_process(delta):
 	#region Gravity
 	### Gravity Handler
 	if not is_on_floor() and MayStartThinking:
-		velocity += get_gravity() * delta * Flyingfactor
+		velocity += get_gravity() * delta * Flyingfactor *get_parent().DeathSlowdownFactor
 	#endregion
 	
 	#region Movement Generator # Simulates a Keypress
@@ -175,9 +175,9 @@ func _physics_process(delta):
 	NormalizedSpeed = EaseInOut(abs(InputKeyPushedDown)/100) #typecast to float, divide by 100
 	
 	if not Superfly:
-		velocity.x = CalculateSpeed(NormalizedSpeed)+DashSpeed
+		velocity.x = CalculateSpeed(NormalizedSpeed)+DashSpeed*get_parent().DeathSlowdownFactor
 	else:
-		velocity.x = SuperFlySpeed*Direction
+		velocity.x = SuperFlySpeed*Direction*get_parent().DeathSlowdownFactor
 	# decay the DashSpeed
 	if DashSpeed > 0:
 		DashSpeed -= 5
@@ -253,10 +253,10 @@ func Dash():
 func Jump(mode):
 	if mode != "Superfly":
 		Animationassigner("Jump")
-		return JumpSpeed
+		return JumpSpeed *get_parent().DeathSlowdownFactor
 	else:
 		Animationassigner("Jump")
-		return JumpSpeed * 1.5
+		return JumpSpeed * 1.5 *get_parent().DeathSlowdownFactor
 
 func SuperFlying():
 	velocity.y = Jump("Superfly")

@@ -3,6 +3,9 @@ extends Node2D
 @onready var GameOverScreen = preload("res://1.Scenes/GameOverScreen.res").instantiate()
 signal ExitGame
 
+## Death Slowdown Factor
+var PlayerDeath:bool = false
+var DeathSlowdownFactor:float = 1.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
