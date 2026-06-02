@@ -217,9 +217,10 @@ extends CharacterBody2D
 
 ## Talking with the Boss
 var BossPosition:Vector2
-var BossTalkingTime:bool
+var BossTalking:bool
+signal BossTalkingInitializer()
 var CameraDisplacementfromBoss
-signal  BossDialogueInitializer(History)
+signal  BossDialogueBoxInitializer(History)
 var BossOpen:bool = false
 signal BossfightisOpen()
 
@@ -271,21 +272,6 @@ func _ready():
 	
 	pass
 
-
-func _process(delta):
-	if BossTalkingTime:
-		#CameraDisplacementfromBoss = self.position+$Camera.position
-		$Camera.position = lerp($Camera.position, Vector2(2700, -620), 0.06)
-		$Camera/PlayerHp/HPBar.modulate = lerp($Camera/PlayerHp/HPBar.modulate, Color.TRANSPARENT, 0.04)
-	elif IsThisNotTheWest == true:
-		$Camera.position = lerp($Camera.position, Vector2(0, 0), 0.06)
-		$Camera/PlayerHp/HPBar.modulate = lerp($Camera/PlayerHp/HPBar.modulate, Color.WHITE, 0.04)
-	else:
-		$Camera/PlayerHp/HPBar.modulate = lerp($Camera/PlayerHp/HPBar.modulate, Color.WHITE, 0.04)
-	
-	if BossOpen:
-		emit_signal("BossfightisOpen")
-		BossOpen = false
 
 func _physics_process(delta):
 
@@ -650,9 +636,13 @@ func _on_enter_boss_arena(body):
 	velocity = Vector2.ZERO
 	AnimationtoPlay = "idle"
 	$Sounds.volume_db = -30
-	BossTalkingTime = true
-	emit_signal("BossDialogueInitializer", "KloeStart") # Second argument should really be a dict or maybe an array detailing what you have done.
+	BossTalkingTime()
+	emit_signal("BossDialogueBoxInitializer", "KloeStart") # Second argument should really be a dict or maybe an array detailing what you have done.
 	%EnterBossArenaArea.queue_free()
+
+func BossTalkingTime():
+	emit_signal("BossTalkingInitializer")
+
 
 func _on_player_hp_dialogue_handover(WhatDialogue, theboolean):
 	if theboolean == false:
@@ -663,9 +653,12 @@ func _on_player_hp_dialogue_handover(WhatDialogue, theboolean):
 				AcceleratingDirection = Vector2.ZERO
 				AnimationtoPlay = "idle"
 				$Sounds.volume_db = -10
-				BossOpen = true
-				BossTalkingTime = false
+				BossOpener()
 				FreezeEverything = false
+
+func BossOpener():
+	emit_signal("BossfightisOpen")
+	BossOpen = false
 
 func _on_klo_hit(Hittype, Damage):
 	match Hittype:
