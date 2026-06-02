@@ -1282,7 +1282,7 @@ DashTime = 0.35
 DashDecay = 0.5
 DashAttackDamageBonus = 2
 JumpAttackDamage = 1
-IsThisTheWestsExperiments = true
+IsThisNotTheWest = false
 
 [node name="Node2D" type="Node2D" parent="Player" unique_id=1092872548]
 position = Vector2(-823, 78)

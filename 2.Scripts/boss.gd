@@ -97,7 +97,6 @@ signal Hit(Hittype:String, Damage:int)
 
 
 func _ready():
-	
 	Anim.play("idle")
 
 func KloeReactionTime():
@@ -111,10 +110,10 @@ func KloeBrain():
 	
 	PlayerBossDistanceDiscrepancy =  Player.get_position() - self.position
 	
-	if is_on_wall() and is_on_floor():
+	if is_on_wall() and is_on_floor() and MayStartThinking:
 		velocity.y = Jump(null)
 		
-	if is_on_floor():
+	if is_on_floor() and MayStartThinking:
 		if PlayerBossDistanceDiscrepancy.x < 0.0 - MovementSpaceTolerance:
 			DirectionInput = "left"
 		if PlayerBossDistanceDiscrepancy.x > 0.0 + MovementSpaceTolerance:
@@ -122,7 +121,7 @@ func KloeBrain():
 		if abs(PlayerBossDistanceDiscrepancy.x) < MovementSpaceTolerance:
 			DirectionInput = "idle"
 	
-	if not is_on_floor() and Superfly:
+	if not is_on_floor() and Superfly and MayStartThinking:
 		if PlayerBossDistanceDiscrepancy.x < 0.0 - MovementSpaceTolerance:
 			DirectionInput = "left"
 		if PlayerBossDistanceDiscrepancy.x > 0.0 + MovementSpaceTolerance:
@@ -130,27 +129,31 @@ func KloeBrain():
 		if abs(PlayerBossDistanceDiscrepancy.x) < MovementSpaceTolerance:
 			DirectionInput = "idle"
 	
-	if abs(PlayerBossDistanceDiscrepancy.x) >= DashThresholdTolerance and Direction != 0:
+	if abs(PlayerBossDistanceDiscrepancy.x) >= DashThresholdTolerance and Direction != 0 and MayStartThinking:
 		if HasDashed != true:
 			IsDashing = true
 			DashSpeed = Dash()
 			HasDashed = true
 	
-	if is_on_floor() and abs(PlayerBossDistanceDiscrepancy.x) < (MovementSpaceTolerance + 300):
+	if is_on_floor() and abs(PlayerBossDistanceDiscrepancy.x) < (MovementSpaceTolerance + 300) and MayStartThinking:
 		if abs(PlayerBossDistanceDiscrepancy.y) > 110:
 			velocity.y = Jump(null) *get_parent().DeathSlowdownFactor
 	
-	if RandomBias > ChanceToSuperfly and Superfly != true:
+	if RandomBias > ChanceToSuperfly and Superfly != true and MayStartThinking:
 		Superfly = true
 		SuperFlying()
 		
-	if abs(PlayerBossDistanceDiscrepancy.x) >= DashThresholdTolerance*2.5 and Direction != 0 and Superfly == false:
+	if abs(PlayerBossDistanceDiscrepancy.x) >= DashThresholdTolerance*2.5 and Direction != 0 and Superfly == false and MayStartThinking:
 		Superfly = true
 		SuperFlying()
 		if ShouldIStoneToss():
 			IsNotLookingForThrowable = false
 		else:
 			IsNotLookingForThrowable = true
+			
+	if MayStartThinking != true:
+		DirectionInput = "idle"
+		Direction = 0
 
 func ShouldIStoneToss() -> bool:
 	return false
@@ -159,7 +162,7 @@ func _physics_process(delta):
 	#region Gravity
 	### Gravity Handler
 	if not is_on_floor() and MayStartThinking:
-		velocity += get_gravity() * delta * Flyingfactor *get_parent().DeathSlowdownFactor
+		velocity += get_gravity() * delta * Flyingfactor * get_parent().DeathSlowdownFactor
 	#endregion
 	
 	#region Movement Generator # Simulates a Keypress
@@ -213,11 +216,8 @@ func _physics_process(delta):
 		
 	#endregion
 	
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	
 	move_and_slide()
-
 
 func walking(direction:String) -> int:
 	match direction:
@@ -367,7 +367,6 @@ func EaseInOut(val:float) -> float:
 		return 2.0 * x * x
 	else:
 		return 1.0 - pow(-2.0 * x + 2.0, 2.0) / 2.0
-		
 
 func _on_area_2d_area_entered(area):
 	if area == %Player and Superfly:
@@ -410,17 +409,14 @@ func _on_anim_finished():
 			Animationassigner(null)
 	pass
 
-
 func _on_ground_attack_body_entered(body):
-	if body == Player and self.is_on_floor() and IsDashing == false:
+	if body == Player and self.is_on_floor() and IsDashing == false and MayStartThinking:
 		Animationassigner("NormalAtk")
-		emit_signal("Hit", "Normal", 5)
-
+		emit_signal("Hit", "Normal", 45)
 
 func _on_super_flytimer_timeout():
 	if Superfly and IsNotLookingForThrowable:
 		Dive("cancel")
-
 
 func _on_player_bossfightis_open():
 	MayStartThinking = true
@@ -429,10 +425,8 @@ func _on_area_dive_collider_body_entered(body):
 	if Superfly and IsNotLookingForThrowable:
 		Dive("atk")
 
-
 func _on_dive_collider_body_entered(body):
 	pass # Replace with function body.
-
 
 func _on_player_attacking(Victim, AtkType, Damage):
 	if Victim == self and CurrentHP >= 0:

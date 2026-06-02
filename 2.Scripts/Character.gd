@@ -212,7 +212,8 @@ extends CharacterBody2D
 #endregion
 
 #endregion
-
+@export_category("Node-Based Variables")
+@export var IsThisNotTheWest:bool = true
 
 ## Talking with the Boss
 var BossPosition:Vector2
@@ -276,8 +277,10 @@ func _process(delta):
 		#CameraDisplacementfromBoss = self.position+$Camera.position
 		$Camera.position = lerp($Camera.position, Vector2(2700, -620), 0.06)
 		$Camera/PlayerHp/HPBar.modulate = lerp($Camera/PlayerHp/HPBar.modulate, Color.TRANSPARENT, 0.04)
+	elif IsThisNotTheWest == true:
+		$Camera.position = lerp($Camera.position, Vector2(0, 0), 0.06)
+		$Camera/PlayerHp/HPBar.modulate = lerp($Camera/PlayerHp/HPBar.modulate, Color.WHITE, 0.04)
 	else:
-		#$Camera.position = lerp($Camera.position, Vector2(0, 0), 0.06)
 		$Camera/PlayerHp/HPBar.modulate = lerp($Camera/PlayerHp/HPBar.modulate, Color.WHITE, 0.04)
 	
 	if BossOpen:
@@ -285,7 +288,7 @@ func _process(delta):
 		BossOpen = false
 
 func _physics_process(delta):
-	#print(AnimationtoPlay)
+
 	#region Gravity
 	## Makes sure that the player charact is affected by gravity
 	if not is_on_floor() and not FreezeEverything:
@@ -408,7 +411,7 @@ func _physics_process(delta):
 	if is_on_floor():
 		DoubleJumpAvaliabletoPlayer = true
 	
-	#print(TimeSpentAccelerating, AcceleratingDirection)
+
 	
 	## Moves the body based on the internal velocity vector (Vector2D)
 	move_and_slide()
@@ -575,7 +578,7 @@ func IsHurt():
 
 func PlayAnimation(Animationchange) -> void:
 	$Anim.play(AnimationtoPlay)
-	print(Animationchange)
+	
 	emit_signal("Soundtobeplayed", AnimationtoPlay)
 	
 func _on_nonloopable_animFinished():
@@ -635,12 +638,9 @@ func _on_out_of_bounds_body_entered(body):
 	position = PositionAtGameStart
 
 func _on_out_of_bounds(body):
-	FreezeEverything = true
-	await get_tree().create_timer(0.5).timeout
-	velocity = Vector2.ZERO
-	PlayAnimation("idle")
-	AnimationtoPlay = "idle"
-	$Sounds.queue_free()
+	CurrentHP = 0
+	die()
+	
 
 func _on_enter_boss_arena(body):
 	BossPosition = %Klo.position
@@ -681,5 +681,16 @@ func _on_klo_hit(Hittype, Damage):
 				die()
 
 func die():
-	FreezeEverything = true
-	emit_signal("PlayerDeath")
+	if FreezeEverything == false:
+		FreezeEverything = true
+		emit_signal("PlayerDeath")
+	else:
+		pass
+	
+	%Klo.MayStartThinking = false
+	%Klo.velocity = Vector2.ZERO
+	
+	velocity = Vector2.ZERO
+	AnimationtoPlay = "idle"
+	PlayAnimation("idle")
+	AcceleratingDirection = Vector2.ZERO

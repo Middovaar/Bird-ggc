@@ -6,6 +6,7 @@ signal ExitGame
 ## Death Slowdown Factor
 var PlayerDeath:bool = false
 var DeathSlowdownFactor:float = 1.0
+signal PlayerDead()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -15,12 +16,15 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_just_pressed("Quit"):
-		emit_signal("ExitGame")
+		_on_player_player_death()
 
 
 func _on_player_player_death():
-	add_child(GameOverScreen)
-	get_node("GameOverScreen").connect("LetsGoBack", _on_LetsGoBack)
+	%Camera.add_child(GameOverScreen)
+	get_node("%Camera/GameOverScreen").z_index = 2
+	get_node("%Camera/GameOverScreen").connect("LetsGoBack", _on_LetsGoBack)
+	emit_signal("PlayerDead")
+	%Player.FreezeEverything = true
 
 func _on_LetsGoBack():
 	emit_signal("ExitGame")
