@@ -18,7 +18,10 @@
 [ext_resource type="Script" uid="uid://bridv8has1a06" path="res://2.Scripts/Main Menu/NamePlates.gd" id="16_b1nx5"]
 [ext_resource type="Texture2D" uid="uid://ckid8v6xmij8y" path="res://Assets/Menu UI/Menu/ui_key_square.png" id="17_6cosd"]
 [ext_resource type="Script" uid="uid://rwdsc1fmlip" path="res://2.Scripts/Main Menu/backbutton.gd" id="18_5ifiv"]
-[ext_resource type="Texture2D" uid="uid://cl8a58ycf0474" path="res://Assets/Menu UI/_Previews/Preview_Setting_buttonmap.png" id="19_5ifiv"]
+[ext_resource type="Texture2D" uid="uid://dmchjq7wt5g0m" path="res://Assets/Menu UI/Settings/ui_settings_control.png" id="19_gcaml"]
+[ext_resource type="Texture2D" uid="uid://bwyy0ku57em6o" path="res://Assets/Menu UI/Settings/ui_settings_slider_frame.png" id="20_50abq"]
+[ext_resource type="Texture2D" uid="uid://b1jhp0qbo6i1a" path="res://Assets/Menu UI/Settings/ui_settings_slider_handle.png" id="20_l75kt"]
+[ext_resource type="Texture2D" uid="uid://bui5tgmj7nf8j" path="res://Assets/Menu UI/Settings/ui_settings_slider_fill.png" id="21_50abq"]
 
 [sub_resource type="FontVariation" id="FontVariation_50aqv"]
 base_font = ExtResource("3_50aqv")
@@ -56,6 +59,24 @@ variation_transform = Transform2D(1, 0.2, 0, 1, 0, 0)
 [sub_resource type="FontVariation" id="FontVariation_un3om"]
 base_font = ExtResource("3_50aqv")
 variation_transform = Transform2D(1, 0.2, 0, 1, 0, 0)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hxrug"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r1p0m"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vmsye"]
+
+[sub_resource type="Theme" id="Theme_4xxhq"]
+HSlider/constants/center_grabber = 0
+HSlider/constants/grabber_offset = 0
+HSlider/constants/tick_offset = 0
+HSlider/icons/grabber = ExtResource("20_l75kt")
+HSlider/icons/grabber_disabled = ExtResource("20_l75kt")
+HSlider/icons/grabber_highlight = ExtResource("20_l75kt")
+HSlider/icons/tick = null
+HSlider/styles/grabber_area = SubResource("StyleBoxEmpty_hxrug")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxEmpty_r1p0m")
+HSlider/styles/slider = SubResource("StyleBoxEmpty_vmsye")
 
 [sub_resource type="Gradient" id="Gradient_oi5f5"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
@@ -230,7 +251,7 @@ position = Vector2(-3674, 236)
 texture = ExtResource("12_apoef")
 
 [node name="PreviewSetting" type="Sprite2D" parent="MainControlPoints/VBoxContainer/ButtonGardine" unique_id=207887601]
-position = Vector2(-1792, 40)
+position = Vector2(-3685, 1469)
 texture = ExtResource("13_oi5f5")
 
 [node name="CreditsControlPoints" type="Control" parent="." unique_id=1389632836]
@@ -550,11 +571,6 @@ layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="PreviewSettingButtonmap" type="Sprite2D" parent="SettingsControlPoints" unique_id=1714876426]
-z_index = 1
-position = Vector2(1391, 546)
-texture = ExtResource("19_5ifiv")
-
 [node name="Sprite2D" type="Sprite2D" parent="SettingsControlPoints" unique_id=1945799849]
 position = Vector2(973, 545)
 texture = ExtResource("15_oi5f5")
@@ -602,6 +618,92 @@ theme_override_font_sizes/normal_font_size = 125
 bbcode_enabled = true
 text = "Settings"
 horizontal_alignment = 1
+
+[node name="MusicTitle" type="RichTextLabel" parent="SettingsControlPoints" unique_id=986123378]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 406.0
+offset_right = 848.0
+offset_bottom = 467.0
+theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
+theme_override_fonts/normal_font = ExtResource("3_50aqv")
+theme_override_font_sizes/normal_font_size = 46
+bbcode_enabled = true
+text = "Music"
+horizontal_alignment = 1
+
+[node name="SFXTitle" type="RichTextLabel" parent="SettingsControlPoints" unique_id=1728952769]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 616.0
+offset_right = 848.0
+offset_bottom = 677.0
+theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
+theme_override_fonts/normal_font = ExtResource("3_50aqv")
+theme_override_font_sizes/normal_font_size = 46
+bbcode_enabled = true
+text = "SFX Volume"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="SettingsControlPoints" unique_id=1747238835]
+layout_mode = 0
+offset_left = 1018.0
+offset_top = 399.0
+offset_right = 1786.0
+offset_bottom = 829.0
+texture = ExtResource("19_gcaml")
+
+[node name="Slider" type="Control" parent="SettingsControlPoints" unique_id=934430382]
+anchors_preset = 0
+offset_left = 535.0
+offset_top = 484.0
+offset_right = 635.0
+offset_bottom = 584.0
+scale = Vector2(0.8, 1)
+pivot_offset = Vector2(50, 50)
+metadata/_edit_lock_ = true
+
+[node name="UiSettingsSliderFrame" type="Sprite2D" parent="SettingsControlPoints/Slider" unique_id=451079931]
+texture = ExtResource("20_50abq")
+metadata/_edit_lock_ = true
+
+[node name="UiSettingsSliderFill" type="Sprite2D" parent="SettingsControlPoints/Slider" unique_id=987255429]
+texture = ExtResource("21_50abq")
+metadata/_edit_lock_ = true
+
+[node name="Slider2" type="Control" parent="SettingsControlPoints" unique_id=387613446]
+anchors_preset = 0
+offset_left = 535.0
+offset_top = 690.0
+offset_right = 635.0
+offset_bottom = 790.0
+scale = Vector2(0.8, 1)
+pivot_offset = Vector2(50, 50)
+metadata/_edit_lock_ = true
+
+[node name="UiSettingsSliderFrame" type="Sprite2D" parent="SettingsControlPoints/Slider2" unique_id=405113096]
+texture = ExtResource("20_50abq")
+metadata/_edit_lock_ = true
+
+[node name="UiSettingsSliderFill" type="Sprite2D" parent="SettingsControlPoints/Slider2" unique_id=143565373]
+texture = ExtResource("21_50abq")
+metadata/_edit_lock_ = true
+
+[node name="Music" type="HSlider" parent="SettingsControlPoints" unique_id=840369795]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 440.0
+offset_right = 850.0
+offset_bottom = 530.0
+theme = SubResource("Theme_4xxhq")
+
+[node name="SFX" type="HSlider" parent="SettingsControlPoints" unique_id=743249044]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 644.0
+offset_right = 850.0
+offset_bottom = 734.0
+theme = SubResource("Theme_4xxhq")
 
 [node name="Coverlayer" type="Node2D" parent="." unique_id=2020556151]
 unique_name_in_owner = true
@@ -685,24 +787,38 @@ texture = SubResource("GradientTexture1D_oi5f5")
 [connection signal="mouse_entered" from="CreditsControlPoints/Yun" to="CreditsControlPoints/YunRole" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="CreditsControlPoints/Yun" to="CreditsControlPoints/Yun" method="_on_mouse_exited"]
 [connection signal="mouse_exited" from="CreditsControlPoints/Yun" to="CreditsControlPoints/YunRole" method="_on_mouse_exited"]
+[connection signal="gui_input" from="CreditsControlPoints/JetteRole" to="CreditsControlPoints/Jette" method="_on_gui_input"]
+[connection signal="gui_input" from="CreditsControlPoints/JetteRole" to="CreditsControlPoints/JetteRole" method="_on_gui_input"]
 [connection signal="mouse_entered" from="CreditsControlPoints/JetteRole" to="CreditsControlPoints/Jette" method="_on_mouse_entered"]
 [connection signal="mouse_entered" from="CreditsControlPoints/JetteRole" to="CreditsControlPoints/JetteRole" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="CreditsControlPoints/JetteRole" to="CreditsControlPoints/Jette" method="_on_mouse_exited"]
 [connection signal="mouse_exited" from="CreditsControlPoints/JetteRole" to="CreditsControlPoints/JetteRole" method="_on_mouse_exited"]
+[connection signal="gui_input" from="CreditsControlPoints/QuinnRole" to="CreditsControlPoints/Quinn" method="_on_gui_input"]
+[connection signal="gui_input" from="CreditsControlPoints/QuinnRole" to="CreditsControlPoints/QuinnRole" method="_on_gui_input"]
 [connection signal="mouse_entered" from="CreditsControlPoints/QuinnRole" to="CreditsControlPoints/Quinn" method="_on_mouse_entered"]
 [connection signal="mouse_entered" from="CreditsControlPoints/QuinnRole" to="CreditsControlPoints/QuinnRole" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="CreditsControlPoints/QuinnRole" to="CreditsControlPoints/Quinn" method="_on_mouse_exited"]
 [connection signal="mouse_exited" from="CreditsControlPoints/QuinnRole" to="CreditsControlPoints/QuinnRole" method="_on_mouse_exited"]
+[connection signal="gui_input" from="CreditsControlPoints/WestRole" to="CreditsControlPoints/West" method="_on_gui_input"]
+[connection signal="gui_input" from="CreditsControlPoints/WestRole" to="CreditsControlPoints/WestRole" method="_on_gui_input"]
+[connection signal="mouse_entered" from="CreditsControlPoints/WestRole" to="CreditsControlPoints/West" method="_on_mouse_entered"]
 [connection signal="mouse_entered" from="CreditsControlPoints/WestRole" to="CreditsControlPoints/WestRole" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="CreditsControlPoints/WestRole" to="CreditsControlPoints/West" method="_on_mouse_exited"]
 [connection signal="mouse_exited" from="CreditsControlPoints/WestRole" to="CreditsControlPoints/WestRole" method="_on_mouse_exited"]
+[connection signal="gui_input" from="CreditsControlPoints/TolzRole" to="CreditsControlPoints/Tolz" method="_on_gui_input"]
+[connection signal="gui_input" from="CreditsControlPoints/TolzRole" to="CreditsControlPoints/TolzRole" method="_on_gui_input"]
 [connection signal="mouse_entered" from="CreditsControlPoints/TolzRole" to="CreditsControlPoints/Tolz" method="_on_mouse_entered"]
 [connection signal="mouse_entered" from="CreditsControlPoints/TolzRole" to="CreditsControlPoints/TolzRole" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="CreditsControlPoints/TolzRole" to="CreditsControlPoints/Tolz" method="_on_mouse_exited"]
 [connection signal="mouse_exited" from="CreditsControlPoints/TolzRole" to="CreditsControlPoints/TolzRole" method="_on_mouse_exited"]
+[connection signal="gui_input" from="CreditsControlPoints/PamRole" to="CreditsControlPoints/Pam" method="_on_gui_input"]
+[connection signal="gui_input" from="CreditsControlPoints/PamRole" to="CreditsControlPoints/PamRole" method="_on_gui_input"]
 [connection signal="mouse_entered" from="CreditsControlPoints/PamRole" to="CreditsControlPoints/Pam" method="_on_mouse_entered"]
 [connection signal="mouse_entered" from="CreditsControlPoints/PamRole" to="CreditsControlPoints/PamRole" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="CreditsControlPoints/PamRole" to="CreditsControlPoints/Pam" method="_on_mouse_exited"]
 [connection signal="mouse_exited" from="CreditsControlPoints/PamRole" to="CreditsControlPoints/PamRole" method="_on_mouse_exited"]
+[connection signal="gui_input" from="CreditsControlPoints/YunRole" to="CreditsControlPoints/Yun" method="_on_gui_input"]
+[connection signal="gui_input" from="CreditsControlPoints/YunRole" to="CreditsControlPoints/YunRole" method="_on_gui_input"]
 [connection signal="mouse_entered" from="CreditsControlPoints/YunRole" to="CreditsControlPoints/Yun" method="_on_mouse_entered"]
 [connection signal="mouse_entered" from="CreditsControlPoints/YunRole" to="CreditsControlPoints/YunRole" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="CreditsControlPoints/YunRole" to="CreditsControlPoints/Yun" method="_on_mouse_exited"]

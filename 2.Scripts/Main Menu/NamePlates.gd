@@ -72,3 +72,4 @@ func _on_gui_input(_event):
 		else:
 			Selected = false
 			UsingAlternateText = false
+	_on_mouse_entered()
