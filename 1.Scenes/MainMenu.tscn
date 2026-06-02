@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://bridv8has1a06" path="res://2.Scripts/Main Menu/NamePlates.gd" id="16_b1nx5"]
 [ext_resource type="Texture2D" uid="uid://ckid8v6xmij8y" path="res://Assets/Menu UI/Menu/ui_key_square.png" id="17_6cosd"]
 [ext_resource type="Script" uid="uid://rwdsc1fmlip" path="res://2.Scripts/Main Menu/backbutton.gd" id="18_5ifiv"]
+[ext_resource type="Texture2D" uid="uid://cl8a58ycf0474" path="res://Assets/Menu UI/_Previews/Preview_Setting_buttonmap.png" id="19_5ifiv"]
 
 [sub_resource type="FontVariation" id="FontVariation_50aqv"]
 base_font = ExtResource("3_50aqv")
@@ -229,7 +230,7 @@ position = Vector2(-3674, 236)
 texture = ExtResource("12_apoef")
 
 [node name="PreviewSetting" type="Sprite2D" parent="MainControlPoints/VBoxContainer/ButtonGardine" unique_id=207887601]
-position = Vector2(-3667, 1747)
+position = Vector2(-1792, 40)
 texture = ExtResource("13_oi5f5")
 
 [node name="CreditsControlPoints" type="Control" parent="." unique_id=1389632836]
@@ -549,22 +550,14 @@ layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="Sprite2D" type="Sprite2D" parent="SettingsControlPoints" unique_id=1945799849]
-position = Vector2(964, 538)
-texture = ExtResource("15_oi5f5")
+[node name="PreviewSettingButtonmap" type="Sprite2D" parent="SettingsControlPoints" unique_id=1714876426]
+z_index = 1
+position = Vector2(1391, 546)
+texture = ExtResource("19_5ifiv")
 
-[node name="CreditTitle" type="RichTextLabel" parent="SettingsControlPoints" unique_id=1361604682]
-layout_mode = 0
-offset_left = 749.0
-offset_top = 63.0
-offset_right = 1182.0
-offset_bottom = 228.0
-theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
-theme_override_fonts/normal_font = ExtResource("3_50aqv")
-theme_override_font_sizes/normal_font_size = 125
-bbcode_enabled = true
-text = "Settings"
-horizontal_alignment = 1
+[node name="Sprite2D" type="Sprite2D" parent="SettingsControlPoints" unique_id=1945799849]
+position = Vector2(973, 545)
+texture = ExtResource("15_oi5f5")
 
 [node name="Button" type="NinePatchRect" parent="SettingsControlPoints" unique_id=1975421667]
 layout_mode = 0
@@ -595,6 +588,19 @@ theme_override_fonts/normal_font = ExtResource("3_50aqv")
 theme_override_font_sizes/normal_font_size = 66
 bbcode_enabled = true
 text = "Back"
+horizontal_alignment = 1
+
+[node name="CreditTitle" type="RichTextLabel" parent="SettingsControlPoints" unique_id=1361604682]
+layout_mode = 0
+offset_left = 749.0
+offset_top = 63.0
+offset_right = 1182.0
+offset_bottom = 228.0
+theme_override_colors/default_color = Color(0.14901961, 0.08627451, 0.21568628, 1)
+theme_override_fonts/normal_font = ExtResource("3_50aqv")
+theme_override_font_sizes/normal_font_size = 125
+bbcode_enabled = true
+text = "Settings"
 horizontal_alignment = 1
 
 [node name="Coverlayer" type="Node2D" parent="." unique_id=2020556151]
@@ -655,12 +661,12 @@ texture = SubResource("GradientTexture1D_oi5f5")
 [connection signal="mouse_entered" from="CreditsControlPoints/Quinn" to="CreditsControlPoints/QuinnRole" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="CreditsControlPoints/Quinn" to="CreditsControlPoints/Quinn" method="_on_mouse_exited"]
 [connection signal="mouse_exited" from="CreditsControlPoints/Quinn" to="CreditsControlPoints/QuinnRole" method="_on_mouse_exited"]
-[connection signal="gui_input" from="CreditsControlPoints/West" to="CreditsControlPoints/WestRole" method="_on_gui_input"]
 [connection signal="gui_input" from="CreditsControlPoints/West" to="CreditsControlPoints/West" method="_on_gui_input"]
-[connection signal="mouse_entered" from="CreditsControlPoints/West" to="CreditsControlPoints/WestRole" method="_on_mouse_entered"]
+[connection signal="gui_input" from="CreditsControlPoints/West" to="CreditsControlPoints/WestRole" method="_on_gui_input"]
 [connection signal="mouse_entered" from="CreditsControlPoints/West" to="CreditsControlPoints/West" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="CreditsControlPoints/West" to="CreditsControlPoints/WestRole" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="CreditsControlPoints/West" to="CreditsControlPoints/WestRole" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="CreditsControlPoints/West" to="CreditsControlPoints/West" method="_on_mouse_exited"]
+[connection signal="mouse_exited" from="CreditsControlPoints/West" to="CreditsControlPoints/WestRole" method="_on_mouse_exited"]
 [connection signal="gui_input" from="CreditsControlPoints/Tolz" to="CreditsControlPoints/Tolz" method="_on_gui_input"]
 [connection signal="gui_input" from="CreditsControlPoints/Tolz" to="CreditsControlPoints/TolzRole" method="_on_gui_input"]
 [connection signal="mouse_entered" from="CreditsControlPoints/Tolz" to="CreditsControlPoints/Tolz" method="_on_mouse_entered"]
