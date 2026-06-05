@@ -4,6 +4,7 @@ const StartActive:Vector2 = Vector2(0.0, -1200.0)
 signal StartGame
 signal StartCredits
 signal StartSettings
+signal PlayTestDoot()
 
 var Start:bool = false
 var MoveToSides:bool = false
@@ -94,3 +95,7 @@ func reentersScope():
 
 func _on_button_letsgo_back():
 	reentersScope()
+
+
+func _on_sfx_play_test_doot():
+	emit_signal("PlayTestDoot")

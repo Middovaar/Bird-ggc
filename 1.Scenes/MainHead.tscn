@@ -1,7 +1,9 @@
-[gd_scene format=3 uid="uid://bl8kfxoj8yq6r"]
+[gd_scene format=3 uid="uid://rp0lnef70f5f"]
 
 [ext_resource type="Script" uid="uid://dw87t53n5q5o7" path="res://2.Scripts/Master/GameMaster.gd" id="1_wol84"]
 [ext_resource type="PackedScene" uid="uid://dhxvluqk5h15w" path="res://1.Scenes/MainMenu.tscn" id="2_6q41w"]
+[ext_resource type="Script" uid="uid://bsspnex8ac3el" path="res://2.Scripts/Master/AudioControl.gd" id="3_6q41w"]
+[ext_resource type="AudioStream" uid="uid://drbmsdcv8ejwf" path="res://SOUND/SFX/Klo_SFX/Caw_1.mp3" id="4_8oa5b"]
 
 [sub_resource type="Gradient" id="Gradient_wol84"]
 offsets = PackedFloat32Array(0)
@@ -20,4 +22,18 @@ texture = SubResource("GradientTexture1D_6q41w")
 
 [node name="MainMenu" parent="." unique_id=189344899 instance=ExtResource("2_6q41w")]
 
+[node name="AudioSFX" type="AudioStreamPlayer2D" parent="." unique_id=467655160]
+position = Vector2(960, 540)
+script = ExtResource("3_6q41w")
+VolumeEmmiterType = "sfx"
+TestDoot = ExtResource("4_8oa5b")
+
+[node name="AudioMusic" type="AudioStreamPlayer2D" parent="." unique_id=245708911]
+position = Vector2(960, 540)
+script = ExtResource("3_6q41w")
+VolumeEmmiterType = "music"
+
+[connection signal="PlayTestDoot" from="." to="AudioSFX" method="_on_PlayTestDoot"]
+[connection signal="PlayTestDoot" from="MainMenu" to="." method="_on_PlayTestDoot"]
 [connection signal="StartGame" from="MainMenu" to="." method="_on_main_menu_start_game"]
+[connection signal="finished" from="AudioSFX" to="AudioSFX" method="_on_finished"]

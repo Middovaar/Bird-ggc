@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://bwyy0ku57em6o" path="res://Assets/Menu UI/Settings/ui_settings_slider_frame.png" id="20_50abq"]
 [ext_resource type="Texture2D" uid="uid://b1jhp0qbo6i1a" path="res://Assets/Menu UI/Settings/ui_settings_slider_handle.png" id="20_l75kt"]
 [ext_resource type="Texture2D" uid="uid://bui5tgmj7nf8j" path="res://Assets/Menu UI/Settings/ui_settings_slider_fill.png" id="21_50abq"]
+[ext_resource type="Script" uid="uid://qnn2ok8xe4o0" path="res://2.Scripts/Main Menu/mainmenuvolumecontrol.gd" id="23_50abq"]
 
 [sub_resource type="FontVariation" id="FontVariation_50aqv"]
 base_font = ExtResource("3_50aqv")
@@ -696,6 +697,13 @@ offset_top = 440.0
 offset_right = 850.0
 offset_bottom = 530.0
 theme = SubResource("Theme_4xxhq")
+script = ExtResource("23_50abq")
+volumeSliderType = "music"
+
+[node name="Timer" type="Timer" parent="SettingsControlPoints/Music" unique_id=2025148450]
+process_callback = 0
+wait_time = 0.2
+autostart = true
 
 [node name="SFX" type="HSlider" parent="SettingsControlPoints" unique_id=743249044]
 layout_mode = 0
@@ -704,6 +712,13 @@ offset_top = 644.0
 offset_right = 850.0
 offset_bottom = 734.0
 theme = SubResource("Theme_4xxhq")
+script = ExtResource("23_50abq")
+volumeSliderType = "sfx"
+
+[node name="Timer" type="Timer" parent="SettingsControlPoints/SFX" unique_id=653674260]
+process_callback = 0
+wait_time = 0.2
+autostart = true
 
 [node name="Coverlayer" type="Node2D" parent="." unique_id=2020556151]
 unique_name_in_owner = true
@@ -831,3 +846,12 @@ texture = SubResource("GradientTexture1D_oi5f5")
 [connection signal="gui_input" from="SettingsControlPoints/Button" to="SettingsControlPoints/Button" method="_on_gui_input"]
 [connection signal="mouse_entered" from="SettingsControlPoints/Button" to="SettingsControlPoints/Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="SettingsControlPoints/Button" to="SettingsControlPoints/Button" method="_on_mouse_exited"]
+[connection signal="drag_ended" from="SettingsControlPoints/Music" to="SettingsControlPoints/Music" method="_on_drag_ended"]
+[connection signal="drag_started" from="SettingsControlPoints/Music" to="SettingsControlPoints/Music" method="_on_drag_started"]
+[connection signal="value_changed" from="SettingsControlPoints/Music" to="SettingsControlPoints/Music" method="_on_value_changed"]
+[connection signal="timeout" from="SettingsControlPoints/Music/Timer" to="SettingsControlPoints/Music" method="_on_timer_timeout"]
+[connection signal="PlayTestDoot" from="SettingsControlPoints/SFX" to="." method="_on_sfx_play_test_doot"]
+[connection signal="drag_ended" from="SettingsControlPoints/SFX" to="SettingsControlPoints/SFX" method="_on_drag_ended"]
+[connection signal="drag_started" from="SettingsControlPoints/SFX" to="SettingsControlPoints/SFX" method="_on_drag_started"]
+[connection signal="value_changed" from="SettingsControlPoints/SFX" to="SettingsControlPoints/SFX" method="_on_value_changed"]
+[connection signal="timeout" from="SettingsControlPoints/SFX/Timer" to="SettingsControlPoints/SFX" method="_on_timer_timeout"]

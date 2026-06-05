@@ -29,6 +29,10 @@ config/macos_native_icon="res://FeatherIconOSX.icns"
 config/windows_native_icon="res://FeatherIconWin.ico"
 boot_splash/minimum_display_time=700
 
+[autoload]
+
+Volume="*uid://sixjho17f8y1"
+
 [display]
 
 window/size/viewport_width=1920
