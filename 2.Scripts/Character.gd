@@ -264,6 +264,9 @@ var IsPlayerDead:bool
 ## Win Manager
 signal PlayerWin()
 
+## Super Secret Hat!
+var HatLowwer:bool = false
+
 func _ready():
 	#region Data that will be pulled from the Main goes here
 	
@@ -400,10 +403,19 @@ func _physics_process(delta):
 	if is_on_floor():
 		DoubleJumpAvaliabletoPlayer = true
 	
-
 	
 	## Moves the body based on the internal velocity vector (Vector2D)
 	move_and_slide()
+	
+	
+	## Hat Lowers
+	if HatLowwer and %Klo.MayStartThinking == false:
+		$Hat.offset.y = minf($Hat.offset.y+60*delta, -80.0)
+	elif HatLowwer == false and %Klo.MayStartThinking == false:
+		$Hat.offset.y = maxf($Hat.offset.y-600*delta, -2000.0)
+	else:
+		$Hat.offset.y == -12000
+
 
 ## Inputs
 func _input(_event):
@@ -475,6 +487,7 @@ func PlayerVelocityDresser(velo, del):
 			$Anim.scale.x = 0.6
 			%LightAtk.scale.x = 1.0
 			%HeavyAtk.scale.x = 1.0
+			$Hat.scale.x = 0.28
 			prevInput = 0
 			ChangeDirectionCharger = 1.0
 			return (-velo.x + (velo.y * 0.5))
@@ -482,6 +495,7 @@ func PlayerVelocityDresser(velo, del):
 			$Anim.scale.x = -0.6
 			%LightAtk.scale.x = -1.0
 			%HeavyAtk.scale.x = -1.0
+			$Hat.scale.x = -0.28
 			prevInput = 1
 			ChangeDirectionCharger = 1.0
 			return velo.y -(velo.x*0.5) 
@@ -705,3 +719,13 @@ func _on_player_hp_dummythicc():
 	PlayAnimation("idle")
 	AcceleratingDirection = Vector2.ZERO
 	emit_signal("PlayerWin")
+
+## Te Secret Get Mesh Hat thingy
+func _on_hat_getter_body_entered(body):
+	if %Klo.MayStartThinking == false:
+		HatLowwer = true
+	else:
+		HatLowwer = false
+
+func _on_hat_getter_body_exited(body):
+	HatLowwer = false

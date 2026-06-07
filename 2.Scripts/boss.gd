@@ -17,7 +17,7 @@ extends CharacterBody2D
 @export_subgroup("")
 @export var Player:Node
 @export var Anim:Node
-@export var Phase:int = 3
+@export var Phase:int = 1
 @export_enum("left", "right", "idle") var DirectionInput:String = "idle"
 
 @export_subgroup("Player Movement")
