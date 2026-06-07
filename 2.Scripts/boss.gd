@@ -169,7 +169,6 @@ func ShouldIStoneToss() -> bool:
 	return false
 
 func _physics_process(delta):
-	print(velocity.y)
 	
 	#region Gravity
 	### Gravity Handler
@@ -301,11 +300,12 @@ func Animationassigner(Special):
 
 	if Special == null:
 		if abs(velocity.x) > 1.0 and is_on_floor():
-			Anim.play("idle") #replace with walking animation okeh
+			
+			Anim.play("walking") #replace with walking animation okeh
 		if abs(velocity.x) < 1.0 and is_on_floor():
-			Anim.play("idle")
+			Anim.play("walking")
 		elif not is_on_floor():
-			pass
+			return
 		
 	match Special:
 		"Jump":
@@ -334,14 +334,17 @@ func Animationassigner(Special):
 func NormalMovementButtonPresser():
 	match DirectionInput:
 		"right":
+			Animationassigner(null)
 			Direction = 1
 			if InputKeyPushedDown < 100:
 				InputKeyPushedDown += AccelerationRate
 		"left":
+			Animationassigner(null)
 			Direction = -1
 			if InputKeyPushedDown < 100:	
 				InputKeyPushedDown += AccelerationRate
 		_:
+			Animationassigner(null)
 			Direction = 0
 			if InputKeyPushedDown > 0:
 				InputKeyPushedDown -= DeccelerationRate

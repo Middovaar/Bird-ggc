@@ -1618,7 +1618,7 @@ normal = Vector2(-1, -8.74228e-08)
 distance = -3377.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urk6q"]
-size = Vector2(212, 272)
+size = Vector2(212, 912)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nu33a"]
 size = Vector2(17668, 1245)
@@ -1956,15 +1956,17 @@ MayStartThinking = false
 [node name="Klonim" type="AnimatedSprite2D" parent="Klo" unique_id=1515502001]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_bpgp7")
-animation = &"idle"
+animation = &"walking"
+frame = 4
+frame_progress = 0.3223979
 offset = Vector2(-130, -65)
 script = ExtResource("121_6xivt")
 metadata/_edit_lock_ = true
 
 [node name="SelfCollision" type="CollisionShape2D" parent="Klo" unique_id=1860820703]
-visible = false
 position = Vector2(0, -30)
 shape = SubResource("CapsuleShape2D_ff4wj")
+debug_color = Color(0.9520405, 0.099755935, 0.48858768, 0.35686275)
 
 [node name="ReactionTime" type="Timer" parent="Klo" unique_id=1904221678]
 process_priority = 1
@@ -1984,8 +1986,8 @@ wait_time = 5.5
 autostart = true
 
 [node name="DiveCollider" type="Node2D" parent="Klo" unique_id=1676867585]
-visible = false
 position = Vector2(0, 17)
+metadata/_edit_lock_ = true
 
 [node name="AreaDiveCollider" type="Area2D" parent="Klo/DiveCollider" unique_id=1477355753]
 position = Vector2(-330, -74)
@@ -1994,22 +1996,25 @@ collision_mask = 4367
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Klo/DiveCollider/AreaDiveCollider" unique_id=422488439]
 position = Vector2(0, 78)
-polygon = PackedVector2Array(265, -6, 393, -8, -199, 834, -569, 833)
+polygon = PackedVector2Array(265, -6, 393, -8, 382, 1358, -964, 1365)
 
 [node name="GroundAttack" type="Area2D" parent="Klo/DiveCollider" unique_id=512232563]
 collision_layer = 224
 collision_mask = 271
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Klo/DiveCollider/GroundAttack" unique_id=1125850331]
+self_modulate = Color(1, 1, 0, 0.5019608)
 polygon = PackedVector2Array(-199, -120, 0, -153, 0, 58, -201, 43)
 
 [node name="StonetossDive" type="Area2D" parent="Klo/DiveCollider" unique_id=399813799]
 collision_layer = 0
 collision_mask = 4096
+metadata/_edit_lock_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Klo/DiveCollider/StonetossDive" unique_id=1114440994]
 self_modulate = Color(0, 1, 0, 0.15686275)
 polygon = PackedVector2Array(-2, -36, -1916, -1, -1916, 791, 6, 894, 1114, 775, 1114, -3)
+metadata/_edit_lock_ = true
 
 [node name="Garbage" type="Area2D" parent="." unique_id=1029781291]
 collision_layer = 4096
@@ -2473,7 +2478,7 @@ unique_name_in_owner = true
 position = Vector2(2200, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnterBossArenaArea" unique_id=673012723]
-position = Vector2(-113, -72)
+position = Vector2(-113, -392)
 shape = SubResource("RectangleShape2D_urk6q")
 debug_color = Color(0.29852748, 0.6206186, 0.28993195, 0.41960785)
 
