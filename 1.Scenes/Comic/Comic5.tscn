@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://smmdmjd68128"]
+
+[ext_resource type="Script" uid="uid://bd2y0dulfqo5c" path="res://1.Scenes/Comic/HeadPage.gd" id="1_tv24h"]
+[ext_resource type="Texture2D" uid="uid://cdg1hx3x3qk3e" path="res://GFX/comic/5/5p2.png" id="3_58rlk"]
+[ext_resource type="Script" uid="uid://2bjd6wemqygv" path="res://1.Scenes/Comic/PanelBehaviours.gd" id="4_rfg4m"]
+[ext_resource type="Texture2D" uid="uid://ckmw5a23iell3" path="res://GFX/comic/4/4p2.png" id="5_iwu3r"]
+[ext_resource type="Texture2D" uid="uid://ceawchd8ty3bt" path="res://GFX/comic/5/5p3.png" id="6_hk8sn"]
+[ext_resource type="Texture2D" uid="uid://dohslp76n08" path="res://GFX/comic/5/5p4.png" id="7_hxcp4"]
+[ext_resource type="Texture2D" uid="uid://det14xaqwu35j" path="res://GFX/comic/5/5p5.png" id="8_ii01b"]
+[ext_resource type="Texture2D" uid="uid://c3h1ryfofv4yi" path="res://GFX/comic/5/5p6.png" id="9_15pgf"]
+[ext_resource type="Texture2D" uid="uid://bopy1rcgsfxmc" path="res://GFX/comic/5/5p7.png" id="10_ewqro"]
+[ext_resource type="Texture2D" uid="uid://x2p7xsmgi776" path="res://GFX/comic/5/5p8.png" id="11_wo7x2"]
+[ext_resource type="Texture2D" uid="uid://owwwlgsnt6fq" path="res://GFX/comic/5/5p9.png" id="12_ldlln"]
+
+[node name="Head" type="Node2D" unique_id=1407549397]
+script = ExtResource("1_tv24h")
+HeadPage = 5
+
+[node name="5p1" type="Sprite2D" parent="." unique_id=992327517]
+position = Vector2(215, -222)
+texture = ExtResource("3_58rlk")
+script = ExtResource("4_rfg4m")
+PanelNumber = 1
+
+[node name="5p2" type="Sprite2D" parent="." unique_id=438277292]
+position = Vector2(983.00006, -231.00008)
+scale = Vector2(1.0695187, 1.0657896)
+texture = ExtResource("5_iwu3r")
+script = ExtResource("4_rfg4m")
+PanelNumber = 2
+
+[node name="Timer" type="Timer" parent="5p2" unique_id=1292465035]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="5p3" type="Sprite2D" parent="." unique_id=2137865430]
+position = Vector2(1690, -241)
+texture = ExtResource("6_hk8sn")
+script = ExtResource("4_rfg4m")
+PanelNumber = 3
+
+[node name="Timer" type="Timer" parent="5p3" unique_id=209855931]
+one_shot = true
+autostart = true
+
+[node name="5p4" type="Sprite2D" parent="." unique_id=639981458]
+position = Vector2(141, 1251)
+texture = ExtResource("7_hxcp4")
+script = ExtResource("4_rfg4m")
+PanelNumber = 4
+
+[node name="Timer" type="Timer" parent="5p4" unique_id=180345214]
+wait_time = 1.5
+one_shot = true
+autostart = true
+
+[node name="5p5" type="Sprite2D" parent="." unique_id=18427870]
+position = Vector2(390.5, 1252)
+texture = ExtResource("8_ii01b")
+script = ExtResource("4_rfg4m")
+PanelNumber = 5
+
+[node name="Timer" type="Timer" parent="5p5" unique_id=2011022375]
+wait_time = 1.75
+one_shot = true
+autostart = true
+
+[node name="5p6" type="Sprite2D" parent="." unique_id=1611416449]
+position = Vector2(676, 1251)
+scale = Vector2(1.0041323, 1)
+texture = ExtResource("9_15pgf")
+script = ExtResource("4_rfg4m")
+PanelNumber = 6
+
+[node name="Timer" type="Timer" parent="5p6" unique_id=639231754]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="5p7" type="Sprite2D" parent="." unique_id=238007348]
+position = Vector2(947, 1260)
+texture = ExtResource("10_ewqro")
+script = ExtResource("4_rfg4m")
+PanelNumber = 7
+
+[node name="Timer" type="Timer" parent="5p7" unique_id=1139070428]
+wait_time = 2.25
+one_shot = true
+autostart = true
+
+[node name="5p8" type="Sprite2D" parent="." unique_id=7139283]
+position = Vector2(1143, 1269)
+texture = ExtResource("11_wo7x2")
+script = ExtResource("4_rfg4m")
+PanelNumber = 8
+
+[node name="Timer" type="Timer" parent="5p8" unique_id=620682653]
+wait_time = 2.5
+one_shot = true
+autostart = true
+
+[node name="5p9" type="Sprite2D" parent="." unique_id=1341725596]
+position = Vector2(1524.5, 1271)
+scale = Vector2(0.58424777, 0.58424777)
+texture = ExtResource("12_ldlln")
+script = ExtResource("4_rfg4m")
+PanelNumber = 9
+
+[node name="Timer" type="Timer" parent="5p9" unique_id=1083694357]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="5p2/Timer" to="5p2" method="_on_timer_timeout"]
+[connection signal="timeout" from="5p3/Timer" to="5p3" method="_on_timer_timeout"]
+[connection signal="timeout" from="5p4/Timer" to="5p4" method="_on_timer_timeout"]
+[connection signal="timeout" from="5p5/Timer" to="5p5" method="_on_timer_timeout"]
+[connection signal="timeout" from="5p6/Timer" to="5p6" method="_on_timer_timeout"]
+[connection signal="timeout" from="5p7/Timer" to="5p7" method="_on_timer_timeout"]
+[connection signal="timeout" from="5p8/Timer" to="5p8" method="_on_timer_timeout"]
+[connection signal="timeout" from="5p9/Timer" to="5p9" method="_on_timer_timeout"]

@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://by712xqrac58n"]
+
+[ext_resource type="Script" uid="uid://bu154so8svisq" path="res://2.Scripts/Comic/comic_instantiator.gd" id="1_kdbon"]
+[ext_resource type="Texture2D" uid="uid://b44cmfrr5ryl" path="res://GFX/Picture1.png" id="2_tgwcw"]
+
+[node name="ComicInstantiator" type="Node2D" unique_id=162650518]
+script = ExtResource("1_kdbon")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1259207054]
+position = Vector2(2510, 540)
+texture = ExtResource("2_tgwcw")

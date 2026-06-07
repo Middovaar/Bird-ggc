@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://13hx6d3o3e03"]
+
+[ext_resource type="Script" uid="uid://cqi6q08ex6exk" path="res://1.Scenes/Comic/black_curtain.gd" id="1_sla73"]
+
+[sub_resource type="Gradient" id="Gradient_oi5f5"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_geqgk"]
+gradient = SubResource("Gradient_oi5f5")
+
+[sub_resource type="Gradient" id="Gradient_apoef"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_f8k5h"]
+gradient = SubResource("Gradient_apoef")
+
+[node name="BlackCurtain" type="Node2D" unique_id=1957893462]
+script = ExtResource("1_sla73")
+
+[node name="Coverlayer" type="Node2D" parent="." unique_id=605334885]
+unique_name_in_owner = true
+position = Vector2(0, 600)
+
+[node name="TextureRect" type="TextureRect" parent="Coverlayer" unique_id=1999639998]
+offset_left = -1.2871729e-05
+offset_top = 1079.4011
+offset_right = 421.3081
+offset_bottom = 3004.8762
+rotation = 4.712389
+texture = SubResource("GradientTexture1D_geqgk")
+
+[node name="TextureRect2" type="TextureRect" parent="Coverlayer" unique_id=1542408506]
+offset_top = 2878.0
+offset_right = 1814.0665
+offset_bottom = 4803.475
+rotation = 4.712389
+texture = SubResource("GradientTexture1D_f8k5h")

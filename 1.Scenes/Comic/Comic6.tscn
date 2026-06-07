@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://demtsfkfhtsd0"]
+
+[ext_resource type="Script" uid="uid://bd2y0dulfqo5c" path="res://1.Scenes/Comic/HeadPage.gd" id="1_nidjr"]
+[ext_resource type="Texture2D" uid="uid://cs76amg5ceyw7" path="res://GFX/comic/6/6p1.png" id="3_io0cb"]
+[ext_resource type="Script" uid="uid://2bjd6wemqygv" path="res://1.Scenes/Comic/PanelBehaviours.gd" id="4_3iwa6"]
+[ext_resource type="Texture2D" uid="uid://djwd5eot3h4uk" path="res://GFX/comic/6/6p2.png" id="5_3iwa6"]
+[ext_resource type="Texture2D" uid="uid://ylobo0tmfe0e" path="res://GFX/comic/6/6p3.png" id="6_ul2bf"]
+[ext_resource type="Texture2D" uid="uid://dd1ljegesb2tu" path="res://GFX/comic/6/6p4.png" id="7_5leh2"]
+[ext_resource type="Texture2D" uid="uid://ciagwtcex6rpb" path="res://GFX/comic/6/6p5.png" id="8_ociwy"]
+
+[node name="Head" type="Node2D" unique_id=1407549397]
+script = ExtResource("1_nidjr")
+HeadPage = 6
+
+[node name="6p1" type="Sprite2D" parent="." unique_id=992327517]
+position = Vector2(-271, 215)
+texture = ExtResource("3_io0cb")
+script = ExtResource("4_3iwa6")
+PanelNumber = 1
+
+[node name="6p2" type="Sprite2D" parent="." unique_id=438277292]
+position = Vector2(2293, 215)
+texture = ExtResource("5_3iwa6")
+script = ExtResource("4_3iwa6")
+PanelNumber = 2
+
+[node name="Timer" type="Timer" parent="6p2" unique_id=1292465035]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="6p3" type="Sprite2D" parent="." unique_id=2137865430]
+position = Vector2(-300, 552)
+texture = ExtResource("6_ul2bf")
+script = ExtResource("4_3iwa6")
+PanelNumber = 3
+
+[node name="Timer" type="Timer" parent="6p3" unique_id=209855931]
+one_shot = true
+autostart = true
+
+[node name="6p4" type="Sprite2D" parent="." unique_id=1701975841]
+position = Vector2(2332, 552)
+texture = ExtResource("7_5leh2")
+script = ExtResource("4_3iwa6")
+PanelNumber = 4
+
+[node name="Timer" type="Timer" parent="6p4" unique_id=2098985814]
+wait_time = 1.5
+one_shot = true
+autostart = true
+
+[node name="6p5" type="Sprite2D" parent="." unique_id=785636163]
+position = Vector2(-687.99994, 890)
+scale = Vector2(1.1115723, 1.1120336)
+texture = ExtResource("8_ociwy")
+script = ExtResource("4_3iwa6")
+PanelNumber = 5
+
+[node name="Timer" type="Timer" parent="6p5" unique_id=1003509590]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="6p2/Timer" to="6p2" method="_on_timer_timeout"]
+[connection signal="timeout" from="6p3/Timer" to="6p3" method="_on_timer_timeout"]
+[connection signal="timeout" from="6p4/Timer" to="6p4" method="_on_timer_timeout"]
+[connection signal="timeout" from="6p5/Timer" to="6p5" method="_on_timer_timeout"]

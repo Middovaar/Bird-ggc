@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://b3cvk4q322fjr"]
+
+[ext_resource type="Script" uid="uid://bd2y0dulfqo5c" path="res://1.Scenes/Comic/HeadPage.gd" id="1_c6po4"]
+[ext_resource type="Texture2D" uid="uid://sl5jr1bpovw5" path="res://GFX/comic/2/2p1.png" id="3_k3e8r"]
+[ext_resource type="Script" uid="uid://2bjd6wemqygv" path="res://1.Scenes/Comic/PanelBehaviours.gd" id="4_i720v"]
+[ext_resource type="Texture2D" uid="uid://bn5cqbrjkxk42" path="res://GFX/comic/2/2p2.png" id="5_i720v"]
+[ext_resource type="Texture2D" uid="uid://bhrxkqub2sse3" path="res://GFX/comic/2/2p3.png" id="6_3icwt"]
+[ext_resource type="Texture2D" uid="uid://fjoics7743n2" path="res://GFX/comic/2/2p4.png" id="7_5dp0d"]
+[ext_resource type="Texture2D" uid="uid://oet1330imjga" path="res://GFX/comic/2/2p5.png" id="8_oneg5"]
+
+[node name="Head" type="Node2D" unique_id=1407549397]
+script = ExtResource("1_c6po4")
+HeadPage = 2
+
+[node name="2p1" type="Sprite2D" parent="." unique_id=992327517]
+position = Vector2(-348, 213)
+texture = ExtResource("3_k3e8r")
+script = ExtResource("4_i720v")
+PanelNumber = 1
+
+[node name="2p2" type="Sprite2D" parent="." unique_id=438277292]
+position = Vector2(-353, 213)
+texture = ExtResource("5_i720v")
+script = ExtResource("4_i720v")
+PanelNumber = 2
+
+[node name="Timer" type="Timer" parent="2p2" unique_id=1292465035]
+wait_time = 0.6
+one_shot = true
+autostart = true
+
+[node name="2p3" type="Sprite2D" parent="." unique_id=2137865430]
+position = Vector2(-334.5, 213)
+texture = ExtResource("6_3icwt")
+script = ExtResource("4_i720v")
+PanelNumber = 3
+
+[node name="Timer" type="Timer" parent="2p3" unique_id=209855931]
+one_shot = true
+autostart = true
+
+[node name="2p4" type="Sprite2D" parent="." unique_id=1701975841]
+position = Vector2(694, 1444)
+texture = ExtResource("7_5dp0d")
+script = ExtResource("4_i720v")
+PanelNumber = 4
+
+[node name="Timer" type="Timer" parent="2p4" unique_id=2098985814]
+wait_time = 1.4
+one_shot = true
+autostart = true
+
+[node name="2p5" type="Sprite2D" parent="." unique_id=851769076]
+position = Vector2(1574, 1443)
+texture = ExtResource("8_oneg5")
+script = ExtResource("4_i720v")
+PanelNumber = 5
+
+[node name="Timer" type="Timer" parent="2p5" unique_id=391914285]
+wait_time = 1.7999999999999998
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="2p2/Timer" to="2p2" method="_on_timer_timeout"]
+[connection signal="timeout" from="2p3/Timer" to="2p3" method="_on_timer_timeout"]
+[connection signal="timeout" from="2p4/Timer" to="2p4" method="_on_timer_timeout"]
+[connection signal="timeout" from="2p5/Timer" to="2p5" method="_on_timer_timeout"]

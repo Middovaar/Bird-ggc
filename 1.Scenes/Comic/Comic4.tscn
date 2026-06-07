@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://rbonlhrti3ph"]
+
+[ext_resource type="Script" uid="uid://bd2y0dulfqo5c" path="res://1.Scenes/Comic/HeadPage.gd" id="1_n32q7"]
+[ext_resource type="Texture2D" uid="uid://p2xp43sup4ne" path="res://GFX/comic/4/4p1.png" id="3_n32q7"]
+[ext_resource type="Script" uid="uid://2bjd6wemqygv" path="res://1.Scenes/Comic/PanelBehaviours.gd" id="4_1y77e"]
+[ext_resource type="Texture2D" uid="uid://ckmw5a23iell3" path="res://GFX/comic/4/4p2.png" id="5_483wf"]
+[ext_resource type="Texture2D" uid="uid://rjpstfee8sx6" path="res://GFX/comic/4/4p3.png" id="6_7ybjm"]
+
+[node name="Head" type="Node2D" unique_id=1407549397]
+script = ExtResource("1_n32q7")
+HeadPage = 4
+
+[node name="4p1" type="Sprite2D" parent="." unique_id=992327517]
+position = Vector2(-405, 215)
+texture = ExtResource("3_n32q7")
+script = ExtResource("4_1y77e")
+PanelNumber = 1
+
+[node name="4p2" type="Sprite2D" parent="." unique_id=438277292]
+position = Vector2(-407, 607)
+texture = ExtResource("5_483wf")
+script = ExtResource("4_1y77e")
+PanelNumber = 2
+
+[node name="Timer" type="Timer" parent="4p2" unique_id=1292465035]
+one_shot = true
+autostart = true
+
+[node name="4p3" type="Sprite2D" parent="." unique_id=2137865430]
+position = Vector2(-663, 1454)
+texture = ExtResource("6_7ybjm")
+script = ExtResource("4_1y77e")
+PanelNumber = 3
+
+[node name="Timer" type="Timer" parent="4p3" unique_id=209855931]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="4p2/Timer" to="4p2" method="_on_timer_timeout"]
+[connection signal="timeout" from="4p3/Timer" to="4p3" method="_on_timer_timeout"]
