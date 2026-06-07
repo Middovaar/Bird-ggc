@@ -12,6 +12,9 @@ signal PlayerDead()
 ## Win Factor
 signal PlayerWin()
 
+## Caster of SFX
+signal PlaySFX(SFX)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GameOverScreen = preload("res://1.Scenes/GameOverScreen.res").instantiate()
@@ -41,3 +44,6 @@ func _on_player_player_win():
 	emit_signal("PlayerWin")
 	%Player.FreezeEverything = true
 	
+
+func _on_player_soundtobeplayed(SFX):
+	emit_signal("PlaySFX", SFX)

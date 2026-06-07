@@ -405,8 +405,8 @@ func _physics_process(delta):
 	## Moves the body based on the internal velocity vector (Vector2D)
 	move_and_slide()
 
-
-func _input(event):
+## Inputs
+func _input(_event):
 	if not FreezeEverything:
 		if Input.is_action_just_pressed("Dash") and IsDashing == 0 and DashTimer <= 0.0:
 			IsDashing = 1
@@ -498,10 +498,10 @@ func PlayerVelocityDresser(velo, del):
 ## Converts the time spent holding down a key, into character velocity
 func VelocityCalculator(Acceleration:Vector2):
 	var rawInput = Vector2(clamp(Acceleration.x / TimeToReachMaxSpeed, 0.0, 1.0), clamp(Acceleration.y / TimeToReachMaxSpeed, 0.0, 1.0))
-	
-	
 	var ProcessedInput = Vector2(EaseInOut(rawInput.x), EaseInOut(rawInput.y)) * BaseMovSpeed
 	return ProcessedInput
+
+
 
 ## Ease I-O function that controls the acceleration of the player etc.
 func EaseInOut(val:float) -> float: 
@@ -512,25 +512,25 @@ func EaseInOut(val:float) -> float:
 	else:
 		return 1.0 - pow(-2.0 * x + 2.0, 2.0) / 2.0
 
-### Attacks
 
+
+### Attacks
+## Light Attack
 func LightAttack() -> void:
-	#%HeavyIndicator.visible = true
+	var DashBonus = DashAttackDamageBonus if IsDashing else 0 
 	AtkGateKeeper = true
 	if is_on_floor():
-		emit_signal("Attacking", LightAtkHitting, "Light", LightAttackDamage)
+		emit_signal("Attacking", LightAtkHitting, "Light", LightAttackDamage+DashBonus)
 		
 	else:
-		emit_signal("Attacking", LightAtkHitting, "Light", JumpAttackDamage)
+		emit_signal("Attacking", LightAtkHitting, "Light", JumpAttackDamage+DashBonus)
 	
 	await get_tree().create_timer(LightAttackSpeed).timeout
-	#%HeavyIndicator.visible = false
 	AtkGateKeeper = false
 
+## Heavy Attack
 func HeavyAttack() -> void:
 	var DashBonus = DashAttackDamageBonus if IsDashing else 0 
-	
-	#%LightIndicator.visible = true
 	AtkGateKeeper = true
 	if is_on_floor():
 		emit_signal("Attacking", HeavyAtkHitting, "Light", HeavyAttackDamage+DashBonus)
@@ -541,35 +541,25 @@ func HeavyAttack() -> void:
 	#%LightIndicator.visible = false
 	AtkGateKeeper = false
 
+
+## Detectors to see where to apply damage. Obviously, when you exit such a region, you null everything
 func _on_light_atk_area_entered(area):
 	LightAtkHitting = area
-
 func _on_heavy_atk_area_entered(area):
 	HeavyAtkHitting = area
-
-func _on_light_atk_area_exited(area):
-	LightAtkHitting = area
-
-func _on_heavy_atk_area_exited(area):
-	HeavyAtkHitting = area
-
-func IsHurt():
-	AnimationtoPlay = "hurt"
-	PlayAnimation("hurt")
-	for n in 3:
-		$Anim.self_modulate = Color.TRANSPARENT
-		await get_tree().create_timer(0.15).timeout
-		$Anim.self_modulate = Color.WHITE
-		await get_tree().create_timer(0.15).timeout
+func _on_light_atk_area_exited(_area):
+	LightAtkHitting = null
+func _on_heavy_atk_area_exited(_area):
+	HeavyAtkHitting = null
 
 
-### Animation Controller
-
-func PlayAnimation(Animationchange) -> void:
+## Animation Controller, # Animationchange is a SHADOWED var. It is already set by AnimationToPlay.
+func PlayAnimation(_Animationchange) -> void:
+	#print(Animationchange)
 	$Anim.play(AnimationtoPlay)
-	
 	emit_signal("Soundtobeplayed", AnimationtoPlay)
-	
+
+## When a non-loopableAnimation finishes. What to do then?
 func _on_nonloopable_animFinished():
 	match $Anim.animation:
 		"startwalk":
@@ -623,15 +613,22 @@ func _on_nonloopable_animFinished():
 				PlayAnimation("walk")
 				AnimationtoPlay = "walk"
 
-func _on_out_of_bounds_body_entered(body):
-	position = PositionAtGameStart
-
+## When you fall out of bounds
 func _on_out_of_bounds(body):
-	CurrentHP = 0
-	die()
-	
+	if body == self:
+		CurrentHP = 0
+		die()
+	else:
+		pass
 
+## When a body enters the boss arena
 func _on_enter_boss_arena(body):
+	if body == self:
+		PlayerEnteringBossArena()
+	else:
+		pass
+## When that body happens to be you the player!
+func PlayerEnteringBossArena():
 	BossPosition = %Klo.position
 	FreezeEverything = true
 	PlayAnimation("idle")
@@ -639,14 +636,11 @@ func _on_enter_boss_arena(body):
 	velocity = Vector2.ZERO
 	AnimationtoPlay = "idle"
 	$Sounds.volume_db = -30
-	BossTalkingTime()
+	emit_signal("BossTalkingInitializer")
 	emit_signal("BossDialogueBoxInitializer", "KloeStart") # Second argument should really be a dict or maybe an array detailing what you have done.
 	%EnterBossArenaArea.queue_free()
 
-func BossTalkingTime():
-	emit_signal("BossTalkingInitializer")
-
-
+## What to do after Klo has finished yapping
 func _on_player_hp_dialogue_handover(WhatDialogue, theboolean):
 	if theboolean == false:
 		match WhatDialogue:
@@ -655,14 +649,15 @@ func _on_player_hp_dialogue_handover(WhatDialogue, theboolean):
 				PlayAnimation("idle")
 				AcceleratingDirection = Vector2.ZERO
 				AnimationtoPlay = "idle"
-				$Sounds.volume_db = -10
 				BossOpener()
 				FreezeEverything = false
 
+## When you open the Boss Arena, do this
 func BossOpener():
 	emit_signal("BossfightisOpen")
 	BossOpen = false
 
+## When Klo hits you, do this
 func _on_klo_hit(Hittype, Damage):
 	match Hittype:
 		"Normal":
@@ -676,6 +671,17 @@ func _on_klo_hit(Hittype, Damage):
 			else:
 				die()
 
+## When you are hurt by Klo hitting you
+func IsHurtByKloe(DamageType):
+	AnimationtoPlay = "hurt"
+	PlayAnimation("hurt")
+	for n in 3:
+		$Anim.self_modulate = Color.TRANSPARENT
+		await get_tree().create_timer(0.15).timeout
+		$Anim.self_modulate = Color.WHITE
+		await get_tree().create_timer(0.15).timeout
+
+## When you die, do this
 func die():
 	if FreezeEverything == false:
 		FreezeEverything = true
@@ -691,7 +697,7 @@ func die():
 	PlayAnimation("idle")
 	AcceleratingDirection = Vector2.ZERO
 
-
+## When you kill Klo, do this
 func _on_player_hp_dummythicc():
 	FreezeEverything = true
 	velocity = Vector2.ZERO

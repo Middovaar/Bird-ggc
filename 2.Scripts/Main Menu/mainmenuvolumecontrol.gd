@@ -13,6 +13,9 @@ var ReadsVolumeValue:bool = false
 ## Emits the intended volume value to Master
 signal PlayTestDoot()
 
+func _ready():
+	set_value_no_signal(50.0)
+
 func _on_value_changed(value):
 	if ReadsVolumeValue:
 		match volumeSliderType:

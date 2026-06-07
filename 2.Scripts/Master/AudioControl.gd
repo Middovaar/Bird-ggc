@@ -1,7 +1,7 @@
 extends AudioStreamPlayer2D
 
-const MaxVol:float = 10.0
-const MinVol:float = -55.0
+const MaxVol:float = 0.95
+const MinVol:float = 0
 
 @export_enum("sfx", "music") var VolumeEmmiterType:String
 @export var TestDoot:AudioStreamMP3
@@ -14,15 +14,13 @@ func _ready():
 func _process(delta):
 	match VolumeEmmiterType:
 		"sfx":
-			volume_db = remap(Volume.SFX, 0.0, 100.0, MinVol, MaxVol)
+			volume_linear = remap(Volume.SFX, 0.0, 100.0, MinVol, MaxVol)
 		"music":
-			volume_db = remap(Volume.Music, 0.0, 100.0, MinVol, MaxVol)
-
+			volume_linear = remap(Volume.Music, 0.0, 100.0, MinVol, MaxVol)
 
 func _on_PlayTestDoot():
 	self.stream = TestDoot
 	play()
-	
 
 
 func _on_finished():

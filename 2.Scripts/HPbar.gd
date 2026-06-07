@@ -171,7 +171,6 @@ func _on_player_boss_dialogue_initializer(History):
 				WhatDialogueAreWeAt = "KloeStart"
 				FadeInNamePlate = true
 				DontHandoverTwice = false
-				
 			_:
 				RenderText(DialoguetoDialogueUUIDTranslator("KloeStart"))
 
