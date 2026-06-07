@@ -1,11 +1,11 @@
 {
 	"KloeStart": {
-		"A": ["Tsk", "", ".", "", ".", "", "."],
-		"B": ["I'll ", "give ", "you ", "this", ": ", "", "", "Your ", "tenacity ", "is ", "[wave=0.2]of ", "ut", "mo", "st", " ", "an", "no", "ya", "nc", "e[/wave]", "."],
-		"C": ["It ", "reminds ", "me ", "of ", "the ", "old ", "fea", "ther", "less ", "ones.", ".", "."],
-		"D": ["Well", ", no ", "matter", "."],
-		"E": ["You ", "must ", "miss ", "them", ".", "", ".", "", "."],
-		"F": ["I shan't ", "keep", " ", "[wave=0.2]y", "", "o", "", "u[/wave]", "", "", " ", "from ", "them", "."],
+		"A": ["."],
+		"B": ["I'll "],
+		"C": ["It "],
+		"D": ["Well"],
+		"E": ["You "],
+		"F": ["I shan't "],
 		
 		"Description": "Triggered after getting off the car (At the start of the game)",
 		"Items": 5

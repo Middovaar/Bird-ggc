@@ -147,7 +147,7 @@ func KloeBrain():
 	
 	if is_on_floor() and abs(PlayerBossDistanceDiscrepancy.x) < (MovementSpaceTolerance + 300) and MayStartThinking:
 		if abs(PlayerBossDistanceDiscrepancy.y) > 110:
-			velocity.y = Jump(null) *get_parent().DeathSlowdownFactor
+			velocity.y = Jump(null) * get_parent().DeathSlowdownFactor
 	
 	if RandomBias > ChanceToSuperfly and Superfly != true and MayStartThinking:
 		Superfly = true
@@ -169,6 +169,8 @@ func ShouldIStoneToss() -> bool:
 	return false
 
 func _physics_process(delta):
+	print(velocity.y)
+	
 	#region Gravity
 	### Gravity Handler
 	if not is_on_floor() and MayStartThinking:
@@ -204,6 +206,7 @@ func _physics_process(delta):
 	# Superfly mode
 	if Superfly and velocity.y >= 0.0:
 		Flyingfactor = 0
+		velocity.y = 0.0
 	
 	if is_on_floor():
 		Flyingfactor = 1
@@ -263,7 +266,7 @@ func Dash():
 func Jump(mode):
 	if mode != "Superfly":
 		Animationassigner("Jump")
-		return JumpSpeed *get_parent().DeathSlowdownFactor
+		return JumpSpeed * get_parent().DeathSlowdownFactor
 	else:
 		Animationassigner("Jump")
 		return JumpSpeed * 1.5 *get_parent().DeathSlowdownFactor
