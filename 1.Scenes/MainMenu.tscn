@@ -378,7 +378,7 @@ script = ExtResource("16_b1nx5")
 NamePlateType = 2
 Person = 4
 UseThisText = "pamp0"
-AlternateText = "和！對對糊"
+AlternateText = "(￣ω￣) /"
 
 [node name="Yun" type="RichTextLabel" parent="CreditsControlPoints" unique_id=465713843]
 layout_mode = 0
@@ -501,7 +501,7 @@ script = ExtResource("16_b1nx5")
 NamePlateType = 2
 Person = 4
 UseThisText = "Enviromental/Technical Art"
-AlternateText = "环境游戏美术设计"
+AlternateText = "Always run on 4h of sleep!"
 
 [node name="YunRole" type="RichTextLabel" parent="CreditsControlPoints" unique_id=283975829]
 layout_mode = 0
@@ -740,6 +740,7 @@ rotation = 4.712389
 texture = SubResource("GradientTexture1D_oi5f5")
 
 [connection signal="ButtonPress" from="MainControlPoints/VBoxContainer/ButtonGardine" to="." method="_on_ButtonPress"]
+[connection signal="HoverAudio" from="MainControlPoints/VBoxContainer/ButtonGardine" to="." method="_on_button_gardine_hover_audio"]
 [connection signal="SelectHighlighterPos" from="MainControlPoints/VBoxContainer/ButtonGardine" to="MainControlPoints/VBoxContainer/ButtonGardine/HoverSelector" method="_on_button_gardine_select_highlighter_pos"]
 [connection signal="mouse_exited" from="MainControlPoints/VBoxContainer/ButtonGardine" to="MainControlPoints/VBoxContainer/ButtonGardine" method="_on_mouse_exited"]
 [connection signal="ButtonClick" from="MainControlPoints/VBoxContainer/ButtonGardine/Start" to="MainControlPoints/VBoxContainer/ButtonGardine" method="_OnButtonClick"]

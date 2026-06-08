@@ -5,6 +5,8 @@ signal StartGame
 signal StartCredits
 signal StartSettings
 signal PlayTestDoot()
+signal SoundFX(SFX:String)
+signal MusicFX(Music:String)
 
 var Start:bool = false
 var MoveToSides:bool = false
@@ -86,6 +88,8 @@ func _on_ButtonPress(Type):
 			MoveToSide(Type)
 		"Exit":
 			get_tree().quit(0)
+	
+	_onSoundFX("menuButton")
 
 func reentersScope():
 	Start = false
@@ -96,6 +100,15 @@ func reentersScope():
 func _on_button_letsgo_back():
 	reentersScope()
 
-
 func _on_sfx_play_test_doot():
 	emit_signal("PlayTestDoot")
+
+func _onSoundFX(SFX):
+	emit_signal("SoundFX", SFX)
+
+func _onMusicRequest(Music):
+	emit_signal("MusicFX", Music)
+
+
+func _on_button_gardine_hover_audio():
+	_onSoundFX("buttonHover")

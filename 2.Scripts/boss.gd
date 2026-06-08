@@ -102,6 +102,7 @@ var PlayerBossDistanceDiscrepancy:Vector2
 signal AnimationChanger(EmittingAnimation)
 signal SuperflyCamera(yn)
 signal Hit(Hittype:String, Damage:int)
+signal Winner()
 
 ## Updates the HP Bar of Kloe to reflect Kloe's lowered HP
 signal KloeCurrentHP(HP:int)
@@ -123,7 +124,7 @@ func KloeBrain():
 	if is_on_wall() and is_on_floor() and MayStartThinking:
 		velocity.y = Jump(null)
 		
-	if is_on_floor() and MayStartThinking:
+	if is_on_floor() and MayStartThinking and position.x > 2000:
 		if PlayerBossDistanceDiscrepancy.x < 0.0 - MovementSpaceTolerance:
 			DirectionInput = "left"
 		if PlayerBossDistanceDiscrepancy.x > 0.0 + MovementSpaceTolerance:
@@ -149,11 +150,11 @@ func KloeBrain():
 		if abs(PlayerBossDistanceDiscrepancy.y) > 110:
 			velocity.y = Jump(null) * get_parent().DeathSlowdownFactor
 	
-	if RandomBias > ChanceToSuperfly and Superfly != true and MayStartThinking:
+	if RandomBias > ChanceToSuperfly and Superfly != true and Phase >= 2 and MayStartThinking:
 		Superfly = true
 		SuperFlying()
 		
-	if abs(PlayerBossDistanceDiscrepancy.x) >= DashThresholdTolerance*2.5 and Direction != 0 and Superfly == false and MayStartThinking:
+	if abs(PlayerBossDistanceDiscrepancy.x) >= DashThresholdTolerance*2.5 and Direction != 0 and Superfly == false and Phase >=2 and MayStartThinking:
 		Superfly = true
 		SuperFlying()
 		if ShouldIStoneToss():
@@ -228,6 +229,14 @@ func _physics_process(delta):
 		
 	#endregion
 	
+	if position.y > 2000.0:
+		emit_signal("Winner")
+	
+	if position.x < 2000.0:
+		if DirectionInput == "left":
+			DirectionInput = "right"
+		else:
+			DirectionInput = "right"
 	
 	move_and_slide()
 
@@ -280,11 +289,9 @@ func Dive(mode):
 	match mode:
 		"atk":
 			position = lerp(self.position, Player.get_position(), 0.08)
-			Engine.time_scale = 0.3
 			Animationassigner("Dive")
 			await get_tree().create_timer(0.5).timeout
 			emit_signal("Hit", "Dive", 10)
-			Engine.time_scale = 1.0
 			Animationassigner("Airstrike")
 			CancelSuperfly()
 			
@@ -298,9 +305,8 @@ func Dive(mode):
 
 func Animationassigner(Special):
 
-	if Special == null:
+	if Special == null and %Klonim.animation == "idle" and MayStartThinking == false:
 		if abs(velocity.x) > 1.0 and is_on_floor():
-			
 			Anim.play("walking") #replace with walking animation okeh
 		if abs(velocity.x) < 1.0 and is_on_floor():
 			Anim.play("walking")
@@ -308,12 +314,23 @@ func Animationassigner(Special):
 			return
 		
 	match Special:
+		"walking":
+			emit_signal("AnimationChanger", "walking")
+		"idle":
+			emit_signal("AnimationChanger", "idle")
 		"Jump":
-			Anim.play("flystart")
-		#"Dash":
-			Anim.play("flystart")
+			if Phase == 2:
+				if Superfly:
+					Anim.play("idle")
+				else:
+					Anim.play("fly")
+			else:
+				Anim.play("idle")
+		"Dash":
+			if is_on_floor_only():
+				emit_signal("AnimationChanger", "walking")
 		#"DashEnd":
-			Anim.play("dashend")
+			#Anim.play("dashend")
 		"StartFly":
 			Anim.play("flystart")
 		"Fly":
@@ -324,6 +341,8 @@ func Animationassigner(Special):
 			Anim.play("doublefly")
 		"Airstrike":
 			Anim.play("airstrike")
+		"speak":
+			Anim.play("speak")
 		"NormalAtk":
 			Anim.play("wingflap")
 		null:
@@ -406,23 +425,32 @@ func _KloeDashTimerFinishes(): # Kloe Dashtimer
 
 func _on_anim_finished(): # Kloe's animation controller
 	match Anim.animation:
+		"idle":
+			if MayStartThinking:
+				Animationassigner("walking")
+			else:
+				Animationassigner("speak")
 		"flystart":
 			if is_on_floor():
-				Animationassigner("DashEnd")
-			if Superfly:
+				Animationassigner("walking")
+			else:
 				Animationassigner("Fly")
 		"fly":
 			Animationassigner("DoubleFly")
 		"doublefly":
 			Animationassigner("Fly")
 		"dashend":
-			Animationassigner(null)
+			Animationassigner("idle")
+		"speak":
+			Animationassigner("idle")
 		_:
 			Animationassigner(null)
 		"airstrike":
 			Animationassigner(null)
 		"wingflap":
-			Animationassigner(null)
+			Animationassigner("idle")
+		"die":
+			Animationassigner("die")
 	pass
 
 func _on_ground_attack_body_entered(body): # Controls when Kloe ground-swoops
@@ -449,5 +477,11 @@ func _on_player_attacking(Victim, AtkType, Damage): #Applies damage to Kloe when
 		CurrentHP -= Damage
 		emit_signal("KloeCurrentHP", CurrentHP)
 	elif CurrentHP <= 0:
-		
-		self.queue_free()
+		emit_signal("AnimationChanger", "die")
+	if CurrentHP <= MaxHP * 0.5 :
+		Phase = 2
+
+
+func _on_out_of_bounds_body_entered(body):
+	if body == self:
+		CurrentHP = 0

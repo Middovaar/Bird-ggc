@@ -264,6 +264,9 @@ var IsPlayerDead:bool
 ## Win Manager
 signal PlayerWin()
 
+## Audio Manager
+signal SFX(SFX)
+
 ## Super Secret Hat!
 var HatLowwer:bool = false
 
@@ -649,7 +652,6 @@ func PlayerEnteringBossArena():
 	AcceleratingDirection = Vector2.ZERO
 	velocity = Vector2.ZERO
 	AnimationtoPlay = "idle"
-	$Sounds.volume_db = -30
 	emit_signal("BossTalkingInitializer")
 	emit_signal("BossDialogueBoxInitializer", "KloeStart") # Second argument should really be a dict or maybe an array detailing what you have done.
 	%EnterBossArenaArea.queue_free()
@@ -673,6 +675,7 @@ func BossOpener():
 
 ## When Klo hits you, do this
 func _on_klo_hit(Hittype, Damage):
+	IsHurtByKloe()
 	match Hittype:
 		"Normal":
 			if CurrentHP > 0:
@@ -686,7 +689,8 @@ func _on_klo_hit(Hittype, Damage):
 				die()
 
 ## When you are hurt by Klo hitting you
-func IsHurtByKloe(DamageType):
+func IsHurtByKloe():
+	emit_signal("SFX", "hurt")
 	AnimationtoPlay = "hurt"
 	PlayAnimation("hurt")
 	for n in 3:
@@ -707,12 +711,13 @@ func die():
 	%Klo.velocity = Vector2.ZERO
 	
 	velocity = Vector2.ZERO
-	AnimationtoPlay = "idle"
-	PlayAnimation("idle")
+	AnimationtoPlay = "die"
+	PlayAnimation("die")
 	AcceleratingDirection = Vector2.ZERO
 
 ## When you kill Klo, do this
 func _on_player_hp_dummythicc():
+	%Klonim.animation = "die"
 	FreezeEverything = true
 	velocity = Vector2.ZERO
 	AnimationtoPlay = "idle"
@@ -729,3 +734,7 @@ func _on_hat_getter_body_entered(body):
 
 func _on_hat_getter_body_exited(body):
 	HatLowwer = false
+
+
+func _on_klo_winner():
+	_on_player_hp_dummythicc()

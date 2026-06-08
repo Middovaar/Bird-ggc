@@ -15,6 +15,10 @@ var BackgroundPosition = 2510.0
 signal ComicDone()
 signal SkipComic()
 
+## Audio
+signal SoundFX(SFX:String)
+signal MusicFX(Music:String)
+
 func _ready():
 	add_child(ComicPage1.instantiate())
 	get_child(1).connect("HitUpNextPage", _onComicFinishReading)

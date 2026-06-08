@@ -5,7 +5,9 @@ const MinVol:float = 0
 
 @export_enum("sfx", "music") var VolumeEmmiterType:String
 @export var TestDoot:AudioStreamMP3
+@export var HitConf:AudioStreamMP3
 
+@export var MusicPlayed:String = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,10 +24,19 @@ func _on_PlayTestDoot():
 	self.stream = TestDoot
 	play()
 
-
 func _on_finished():
 	match self.stream:
 		TestDoot:
 			self.stream = null
 		_:
-			pass
+			MusicPlayed = MusicPlayed
+		
+	match MusicPlayed:
+		"":
+			return
+		
+		"comic":
+			self.play()
+		
+		_:
+			return

@@ -1,11 +1,11 @@
 {
 	"KloeStart": {
-		"A": ["."],
-		"B": ["I'll "],
-		"C": ["It "],
-		"D": ["Well"],
-		"E": ["You "],
-		"F": ["I shan't "],
+		"A": ["Tres", "pass", "er!"],
+		"B": ["You ", "man", "-", "sla", "ves ", "will ", "go ", "no ", "fur", "ther!"],
+		"C": ["Or, ", "death ", "shall ", "be ", "your ", "fate."],
+		"D": [".", ".", ".", " Much ", "like ", "your ", "owners ", "I ", "per", "sume."],
+		"E": ["The ", "city ", "lies ", "si", "lent ", "now.", ".", ".", "."],
+		"F": ["A ", "fate ", "most ", "pecu", "liar, ", "but ", "non", "the", "less ", "des", "erved."],
 		
 		"Description": "Triggered after getting off the car (At the start of the game)",
 		"Items": 5

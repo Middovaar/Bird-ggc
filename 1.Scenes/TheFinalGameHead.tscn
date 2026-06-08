@@ -78,6 +78,7 @@
 [ext_resource type="Texture2D" uid="uid://b0gbpbx7qvuna" path="res://GFX/Sprites/saffronv2/hurt/AnimSaffronHurt10-11.png" id="45_chjiu"]
 [ext_resource type="Texture2D" uid="uid://c6oqs4cpmsoyo" path="res://GFX/Sprites/saffronv2/walk/AnimSaffronBreakWalk6.png" id="46_7cmxn"]
 [ext_resource type="Texture2D" uid="uid://dno5m8mpj2dj6" path="res://GFX/Sprites/saffronv2/walk/AnimSaffronBreakWalk4.png" id="47_jdph4"]
+[ext_resource type="Texture2D" uid="uid://b31tei5yqrb23" path="res://GFX/Sprites/dead birds/KloDead.png" id="47_wg2ma"]
 [ext_resource type="Texture2D" uid="uid://bknmphnnmxcly" path="res://GFX/Sprites/saffronv2/walk/AnimSaffronBreakWalk5.png" id="48_8iekq"]
 [ext_resource type="Texture2D" uid="uid://lgnkllpbsoax" path="res://GFX/Sprites/saffronv2/jump/AnimSaffronJump8.png" id="49_7mvsa"]
 [ext_resource type="Texture2D" uid="uid://dt5ua1krhs74o" path="res://GFX/Sprites/Kloë/walk/AnimKloWalkStart1-2.png" id="49_wg2ma"]
@@ -88,6 +89,7 @@
 [ext_resource type="Texture2D" uid="uid://cf0alf84bqvsl" path="res://GFX/Sprites/Kloë/walk/AnimKloWalkStart7-8.png" id="52_dhol2"]
 [ext_resource type="Texture2D" uid="uid://dbsb12uycq2qw" path="res://GFX/Sprites/saffronv2/dash/air/AnimSaffronJumpDashLoop2.png" id="52_qtoq7"]
 [ext_resource type="Texture2D" uid="uid://domfcdi3kkpad" path="res://GFX/Sprites/Kloë/walk/AnimKloWalkStart9-10.png" id="53_2t1rd"]
+[ext_resource type="Texture2D" uid="uid://cacvtvtqsvmk6" path="res://GFX/Sprites/Kloë/Fly/AnimKloFlyUp.png" id="53_e5ivo"]
 [ext_resource type="Texture2D" uid="uid://by5ty6760gnbt" path="res://GFX/Sprites/saffronv2/dash/air/AnimSaffronJumpDashLoop3-4.png" id="53_phqkg"]
 [ext_resource type="Texture2D" uid="uid://c6q68yxku5cms" path="res://GFX/Sprites/saffronv2/dash/air/AnimSaffronJumpDashLoop5-6.png" id="54_2gg6q"]
 [ext_resource type="Texture2D" uid="uid://bcy4pmx0xopwo" path="res://GFX/Sprites/saffronv2/light attack/AnimSaffronAtk1.png" id="55_mi3pk"]
@@ -197,6 +199,7 @@
 [ext_resource type="Texture2D" uid="uid://gqgjykm1js1m" path="res://Assets/Environment/Interactables/DB_BRK_ROCK_WALL/Db_brk_rk_6.png" id="151_vcxsx"]
 [ext_resource type="Texture2D" uid="uid://dhf4fucc0chon" path="res://Assets/Environment/Interactables/DB_BRK_ROCK_WALL/Db_brk_rk_7.png" id="152_ducuc"]
 [ext_resource type="Texture2D" uid="uid://csrxragtacu2i" path="res://Assets/Environment/Interactables/DB_BRK_ROCK_WALL/Db_brk_rk_8.png" id="153_a2kyg"]
+[ext_resource type="Texture2D" uid="uid://drcqnqeupbayx" path="res://GFX/Sprites/dead birds/SaffronDead.png" id="154_mw5ni"]
 [ext_resource type="Texture2D" uid="uid://cosujrwvjdtpk" path="res://Assets/Environment/Interactables/DB_BRK_ROCK_WALL/Db_brk_rk_10.png" id="154_p7buf"]
 [ext_resource type="Texture2D" uid="uid://bfoe8ifh0qsct" path="res://Assets/Environment/Interactables/DB_BRK_ROCK_WALL/Db_brk_rk_11.png" id="155_2a8p8"]
 [ext_resource type="Texture2D" uid="uid://bvjr2sd8a6x24" path="res://Assets/Environment/Interactables/DB_BRK_ROCK_WALL/Db_brk_rk_12.png" id="156_cpup8"]
@@ -942,6 +945,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("47_wg2ma")
+}],
+"loop": true,
+"name": &"die",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("107_2mfw0")
 }],
 "loop": true,
@@ -995,11 +1006,8 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("116_0j1sa")
 }, {
-"duration": 2.0,
-"texture": ExtResource("108_7ak6x")
-}, {
-"duration": 4.0,
-"texture": ExtResource("109_x7dja")
+"duration": 1.0,
+"texture": ExtResource("53_e5ivo")
 }],
 "loop": false,
 "name": &"flystart",
@@ -1009,9 +1017,9 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("105_ff4wj")
 }],
-"loop": true,
+"loop": false,
 "name": &"idle",
-"speed": 1.0
+"speed": 24.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1032,7 +1040,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("106_mepfb")
 }],
-"loop": true,
+"loop": false,
 "name": &"speak",
 "speed": 12.0
 }, {
@@ -1182,7 +1190,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"wingflap",
-"speed": 30.0
+"speed": 24.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ff4wj"]
@@ -1194,6 +1202,14 @@ size = Vector2(143, 121)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jp6ja"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("154_mw5ni")
+}],
+"loop": true,
+"name": &"die",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("6_bpgp7")
@@ -1949,16 +1965,17 @@ position = Vector2(4855, -750)
 collision_layer = 16
 collision_mask = 4504
 script = ExtResource("105_mepfb")
+MaxHP = 288
+CurrentHP = 288
 Player = NodePath("../Player")
 Anim = NodePath("Klonim")
+WingSlapDMG = 12
 MayStartThinking = false
 
 [node name="Klonim" type="AnimatedSprite2D" parent="Klo" unique_id=1515502001]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_bpgp7")
-animation = &"walking"
-frame = 4
-frame_progress = 0.3223979
+animation = &"speak"
 offset = Vector2(-130, -65)
 script = ExtResource("121_6xivt")
 metadata/_edit_lock_ = true
@@ -2077,7 +2094,7 @@ process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 0
 z_index = 2
-collision_layer = 135
+collision_layer = 7
 collision_mask = 393
 floor_constant_speed = true
 platform_floor_layers = 15
@@ -2114,7 +2131,7 @@ unique_name_in_owner = true
 position = Vector2(6, 0)
 scale = Vector2(0.6, 0.6)
 sprite_frames = SubResource("SpriteFrames_jp6ja")
-animation = &"walk"
+animation = &"idle"
 
 [node name="Colli" type="CollisionShape2D" parent="Player" unique_id=724284052]
 shape = SubResource("CapsuleShape2D_l704e")
@@ -2500,6 +2517,7 @@ shape = SubResource("RectangleShape2D_mw5ni")
 [connection signal="Hit" from="Klo" to="Player" method="_on_klo_hit"]
 [connection signal="KloeCurrentHP" from="Klo" to="Player/Camera/PlayerHp" method="_on_klo_kloe_current_hp"]
 [connection signal="SuperflyCamera" from="Klo" to="Player/Camera" method="_on_klo_superfly_camera"]
+[connection signal="Winner" from="Klo" to="Player" method="_on_klo_winner"]
 [connection signal="animation_finished" from="Klo/Klonim" to="Klo" method="_on_anim_finished"]
 [connection signal="timeout" from="Klo/ReactionTime" to="Klo" method="KloeReactionTime"]
 [connection signal="timeout" from="Klo/KloeDashTimer" to="Klo" method="_KloeDashTimerFinishes"]
@@ -2520,6 +2538,7 @@ shape = SubResource("RectangleShape2D_mw5ni")
 [connection signal="BossfightisOpen" from="Player" to="Player/Camera/PlayerHp" method="_on_player_bossfightis_open"]
 [connection signal="PlayerDeath" from="Player" to="." method="_on_player_player_death"]
 [connection signal="PlayerWin" from="Player" to="." method="_on_player_player_win"]
+[connection signal="SFX" from="Player" to="." method="_on_player_soundtobeplayed"]
 [connection signal="Soundtobeplayed" from="Player" to="." method="_on_player_soundtobeplayed"]
 [connection signal="animation_finished" from="Player/Anim" to="Player" method="_on_nonloopable_animFinished"]
 [connection signal="area_entered" from="Player/LightAtk" to="Player" method="_on_light_atk_area_entered"]
@@ -2534,6 +2553,7 @@ shape = SubResource("RectangleShape2D_mw5ni")
 [connection signal="DialogueHandover" from="Player/Camera/PlayerHp" to="Player" method="_on_player_hp_dialogue_handover"]
 [connection signal="dummythicc" from="Player/Camera/PlayerHp" to="Player" method="_on_player_hp_dummythicc"]
 [connection signal="body_entered" from="EnterBossArenaArea" to="Player" method="_on_enter_boss_arena"]
+[connection signal="body_entered" from="OutOfBounds" to="Klo" method="_on_out_of_bounds_body_entered"]
 [connection signal="body_entered" from="OutOfBounds" to="Player" method="_on_out_of_bounds"]
 [connection signal="body_entered" from="HatGetter" to="Player" method="_on_hat_getter_body_entered"]
 [connection signal="body_exited" from="HatGetter" to="Player" method="_on_hat_getter_body_exited"]

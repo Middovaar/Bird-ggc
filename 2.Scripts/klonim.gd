@@ -5,12 +5,16 @@ func _on_klo_animation(EmittingAnimation):
 		"idle":
 			play("idle")
 		"walk":
-			play("walk")
+			play("walking")
+		"walking":
+			play("walking")
 		"jump":
 			play("flystart")
 		"dash":
-			play("flystart")
+			play("walking")
 		"dashend":
-			play("dashend")
+			play("walking")
+		"die":
+			play("die")
 		_:
 			pass

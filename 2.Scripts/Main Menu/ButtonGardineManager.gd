@@ -36,6 +36,8 @@ signal SelectHighlighterPos(Type)
 var Active:bool
 signal ButtonPress(Type)
 
+#Audio vidarebefodring
+signal HoverAudio()
 
 func _ready():
 	Active = true
@@ -140,6 +142,7 @@ func _OnButtonHover(ButtonType):
 			CurrentHover = 0
 	
 	emit_signal("SelectHighlighterPos", ButtonType)
+	emit_signal("HoverAudio")
 
 func _OnButtonClick(ButtonType):
 	match ButtonType:
