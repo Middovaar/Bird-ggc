@@ -1969,7 +1969,7 @@ MaxHP = 288
 CurrentHP = 288
 Player = NodePath("../Player")
 Anim = NodePath("Klonim")
-WingSlapDMG = 12
+WingSlapDMG = 10
 MayStartThinking = false
 
 [node name="Klonim" type="AnimatedSprite2D" parent="Klo" unique_id=1515502001]
@@ -2013,7 +2013,7 @@ collision_mask = 4367
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Klo/DiveCollider/AreaDiveCollider" unique_id=422488439]
 position = Vector2(0, 78)
-polygon = PackedVector2Array(265, -6, 393, -8, 382, 1358, -964, 1365)
+polygon = PackedVector2Array(265, -6, 393, -8, 382, 1899, -1467, 1908)
 
 [node name="GroundAttack" type="Area2D" parent="Klo/DiveCollider" unique_id=512232563]
 collision_layer = 224
@@ -2030,7 +2030,7 @@ metadata/_edit_lock_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Klo/DiveCollider/StonetossDive" unique_id=1114440994]
 self_modulate = Color(0, 1, 0, 0.15686275)
-polygon = PackedVector2Array(-2, -36, -1916, -1, -1916, 791, 6, 894, 1114, 775, 1114, -3)
+polygon = PackedVector2Array(-2, -36, -1916, -1, -1916, 1471, 6, 1808, 1114, 1587, 1114, -3)
 metadata/_edit_lock_ = true
 
 [node name="Garbage" type="Area2D" parent="." unique_id=1029781291]
@@ -2162,7 +2162,7 @@ physics_interpolation_mode = 2
 self_modulate = Color(1, 1, 1, 0.101960786)
 position = Vector2(17.26532, 0)
 scale = Vector2(0.7268145, 1)
-polygon = PackedVector2Array(38.159225, 0, -30.634117, -51, -98.0516, -51, -168.2208, -25, -168.2208, 28, -98.0516, 52, -29.25825, 52)
+polygon = PackedVector2Array(38.159225, 0, -30.634117, -51, -100.80333, -141, -168.2208, -25, -168.2208, 28, -98.0516, 52, -29.25825, 52)
 
 [node name="Hat" type="Sprite2D" parent="Player" unique_id=1450382242]
 z_index = 2
@@ -2211,8 +2211,8 @@ texture = ExtResource("104_a4q7r")
 [node name="DbFore1_4" type="Sprite2D" parent="ParallaxForeground" unique_id=2134398116]
 light_mask = 2
 visibility_layer = 2
-position = Vector2(7697, 370.99997)
-scale = Vector2(1, 1.027)
+position = Vector2(8328.5, 370.99997)
+scale = Vector2(1.1731087, 1.027)
 texture = ExtResource("104_a4q7r")
 
 [node name="DbFore1_3" type="Sprite2D" parent="ParallaxForeground" unique_id=303622824]
@@ -2224,9 +2224,9 @@ position = Vector2(-6956, 383)
 texture = ExtResource("104_a4q7r")
 
 [node name="DbFore1_6" type="Sprite2D" parent="ParallaxForeground" unique_id=1992321900]
-position = Vector2(1187.2749, 4798.038)
+position = Vector2(1858.5083, 4798.038)
 rotation = 3.1415927
-scale = Vector2(2.7473342, 9.0050745)
+scale = Vector2(2.9313345, 9.0050745)
 texture = ExtResource("104_a4q7r")
 
 [node name="Wall" type="StaticBody2D" parent="." unique_id=1516860104]

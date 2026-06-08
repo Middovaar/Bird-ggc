@@ -273,7 +273,7 @@ func Dash():
 
 func Jump(mode):
 	if mode != "Superfly":
-		Animationassigner("Jump")
+		Animationassigner("idle")
 		return JumpSpeed * get_parent().DeathSlowdownFactor
 	else:
 		Animationassigner("Jump")
@@ -459,7 +459,7 @@ func _on_ground_attack_body_entered(body): # Controls when Kloe ground-swoops
 		emit_signal("Hit", "Normal", WingSlapDMG)
 
 func _on_super_flytimer_timeout(): #If Kloe has swooped around for too long, Kloe will dive and land
-	if Superfly and IsNotLookingForThrowable:
+	if Superfly:
 		Dive("cancel")
 
 func _on_player_bossfightis_open(): #Controls when Kloe should you know, start actually thinking propperly
