@@ -6,9 +6,11 @@ extends NinePatchRect
 
 var IsHovered:bool = false
 
-signal LetsgoBack
+signal LetsgoBack()
+signal LetsGoBackHover()
 
 func _on_mouse_entered():
+	emit_signal("LetsGoBackHover")
 	IsHovered = true
 	texture = Hover
 

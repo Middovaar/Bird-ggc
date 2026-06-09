@@ -17,6 +17,7 @@ func _ready():
 	set_value_no_signal(50.0)
 
 func _on_value_changed(value):
+	Volume.ChangedVol = true
 	if ReadsVolumeValue:
 		match volumeSliderType:
 			"sfx":

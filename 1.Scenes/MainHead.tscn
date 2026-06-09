@@ -36,8 +36,9 @@ script = ExtResource("3_6q41w")
 VolumeEmmiterType = "music"
 
 [connection signal="PlayTestDoot" from="." to="AudioSFX" method="_on_PlayTestDoot"]
-[connection signal="MusicFX" from="MainMenu" to="." method="_OnSFXCall"]
+[connection signal="MusicFX" from="MainMenu" to="." method="_OnMusicCall"]
 [connection signal="PlayTestDoot" from="MainMenu" to="." method="_on_PlayTestDoot"]
 [connection signal="SoundFX" from="MainMenu" to="." method="_OnSFXCall"]
 [connection signal="StartGame" from="MainMenu" to="." method="_on_main_menu_start_game"]
 [connection signal="finished" from="AudioSFX" to="AudioSFX" method="_on_finished"]
+[connection signal="finished" from="AudioMusic" to="AudioMusic" method="_on_finished"]

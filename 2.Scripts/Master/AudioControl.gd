@@ -9,16 +9,23 @@ const MinVol:float = 0
 
 @export var MusicPlayed:String = ""
 
+
+@onready var comicMusic:AudioStreamMP3 = load("uid://botnqfithkd4b")
+
+var WhereAreWe:String
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	Volume.SFX = 0.5
+	volume_db = -8.5
 
 func _process(delta):
-	match VolumeEmmiterType:
-		"sfx":
-			volume_linear = remap(Volume.SFX, 0.0, 100.0, MinVol, MaxVol)
-		"music":
-			volume_linear = remap(Volume.Music, 0.0, 100.0, MinVol, MaxVol)
+	if Volume.ChangedVol == true:
+		match VolumeEmmiterType:
+			"sfx":
+				volume_linear = remap(Volume.SFX, 0.0, 100.0, MinVol, MaxVol)
+			"music":
+				volume_linear = remap(Volume.Music, 0.0, 100.0, MinVol, MaxVol)
 
 func _on_PlayTestDoot():
 	self.stream = TestDoot
@@ -34,9 +41,14 @@ func _on_finished():
 	match MusicPlayed:
 		"":
 			return
-		
-		"comic":
+		"start":
+			self.stream = comicMusic
 			self.play()
+		"comic":
+			if WhereAreWe == "comic":
+				self.play()
+			else:
+				return
 		
 		_:
 			return

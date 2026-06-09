@@ -22,9 +22,11 @@ signal MusicFX(Music:String)
 func _ready():
 	add_child(ComicPage1.instantiate())
 	get_child(1).connect("HitUpNextPage", _onComicFinishReading)
+	emit_signal("MusicFX", "comic")
 
 func _onComicFinishReading():
 	ScrollBackground()
+	emit_signal("SoundFX", "menuButton")
 	await get_tree().create_timer(0.6).timeout
 	get_child(1).free()
 	OnPage += 1

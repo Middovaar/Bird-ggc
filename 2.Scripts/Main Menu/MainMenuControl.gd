@@ -75,21 +75,24 @@ func MoveToSide(form) -> void:
 func _on_ButtonPress(Type):
 	match Type:
 		"Start":
+			_onMusicRequest("start")
+			_onSoundFX("menuButton")
 			Start = true
-			await get_tree().create_timer(1.0).timeout
+			await get_tree().create_timer(3.7).timeout
 			ShouldAccess = false
 			for children in get_children():
 				children.queue_free()
 			emit_signal("StartGame")
 		"Settings":
+			_onSoundFX("menuButton")
 			MoveToSide(Type)
 		"Credits":
-			
+			_onSoundFX("menuButton")
 			MoveToSide(Type)
 		"Exit":
+			_onSoundFX("menuButton")
 			get_tree().quit(0)
 	
-	_onSoundFX("menuButton")
 
 func reentersScope():
 	Start = false
@@ -98,6 +101,7 @@ func reentersScope():
 	MoveInSettings = false
 
 func _on_button_letsgo_back():
+	_onSoundFX("menuButton")
 	reentersScope()
 
 func _on_sfx_play_test_doot():
@@ -109,6 +113,8 @@ func _onSoundFX(SFX):
 func _onMusicRequest(Music):
 	emit_signal("MusicFX", Music)
 
-
 func _on_button_gardine_hover_audio():
+	_onSoundFX("buttonHover")
+
+func _on_button_lets_go_back_hover():
 	_onSoundFX("buttonHover")
