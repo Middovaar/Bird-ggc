@@ -448,7 +448,7 @@ func _on_anim_finished(): # Kloe's animation controller
 		"airstrike":
 			Animationassigner(null)
 		"wingflap":
-			Animationassigner("idle")
+			Animationassigner("walking")
 		"die":
 			Animationassigner("die")
 	pass
