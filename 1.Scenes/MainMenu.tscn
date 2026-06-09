@@ -437,7 +437,7 @@ vertical_alignment = 1
 script = ExtResource("16_b1nx5")
 NamePlateType = 2
 Person = 1
-UseThisText = "Design Lead"
+UseThisText = "Product Owner"
 AlternateText = "Chui𝕊 un peu keuquir auj."
 
 [node name="WestRole" type="RichTextLabel" parent="CreditsControlPoints" unique_id=645048801]
@@ -458,7 +458,7 @@ vertical_alignment = 1
 script = ExtResource("16_b1nx5")
 NamePlateType = 2
 Person = 2
-UseThisText = "Concept/Level Design"
+UseThisText = "Concept, Design Lead"
 AlternateText = "ᠲᠣᠭᠯᠠᠭᠠᠮᠢᠨ ᠪᠠ ᠯᠡᠸᠡᠯ ᠳᠢᠽᠠᠵᠨ"
 
 [node name="TolzRole" type="RichTextLabel" parent="CreditsControlPoints" unique_id=1736399811]
